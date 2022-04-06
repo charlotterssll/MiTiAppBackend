@@ -3,8 +3,8 @@ package com.example.mitiappbackend.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "EMPLOYEES")
-public class Employees {
+@Table(name = "EMPLOYEE")
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,12 +17,12 @@ public class Employees {
     @Column(name = "LASTNAME")
     private String lastName;
 
-    public Employees(String firstName, String lastName) {
+    public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public Employees() {
+    public Employee() {
     }
 
     public String getFirstName() {
