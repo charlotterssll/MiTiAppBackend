@@ -1,30 +1,21 @@
 package com.example.mitiappbackend.application;
 
 import com.example.mitiappbackend.domain.entities.Employee;
+import com.example.mitiappbackend.domain.entities.MiTi;
+import com.example.mitiappbackend.domain.entities.Place;
 import com.example.mitiappbackend.domain.valueobjects.FirstName;
 import com.example.mitiappbackend.domain.valueobjects.LastName;
-import org.json.JSONObject;
+import com.example.mitiappbackend.domain.valueobjects.Locality;
+import com.example.mitiappbackend.domain.valueobjects.Location;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
+@CrossOrigin(origins = "*")
 public class MiTiController {
 
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/hello")
-    public JSONObject hello() {
-        JSONObject obj = new JSONObject();
-
-        obj.put("name", "foo");
-
-        return obj;
-    }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/test")
-    public List<Employee> getEmployeeList() {
-        return List.of(new Employee(new FirstName("Charlotte"), new LastName("Russell")));
+    @GetMapping(value = "/test", produces = "application/json")
+    public MiTi getEmployeeList() {
+       return new MiTi(new Employee(new FirstName("Charlotte"), new LastName("Russell")),
+                new Place(new Locality("Schlöfe"), new Location("Oldenburg")), "");
     }
 }

@@ -1,11 +1,9 @@
 package com.example.mitiappbackend.domain.entities;
 
-import com.example.mitiappbackend.domain.valueobjects.FirstName;
-import com.example.mitiappbackend.domain.valueobjects.LastName;
-import com.example.mitiappbackend.domain.valueobjects.Locality;
-import com.example.mitiappbackend.domain.valueobjects.Location;
-
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -19,34 +17,28 @@ public class MiTi {
     @Column(name = "MITIID")
     private Long miTiID;
 
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "LOCALITY"))
-    private Locality locality;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "miti_employee_id", referencedColumnName = "employeeid")
+    private Employee employees;
 
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
-    private Location location;
-
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "FIRSTNAME"))
-    private FirstName firstName;
-
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "LASTNAME"))
-    private LastName lastName;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "miti_place_id", referencedColumnName = "placeid")
+    private Place place;
 
     @Column(name = "TIME")
     private String time;
 
-    public MiTi(Locality locality, Location location, FirstName firstName, LastName lastName, String time) {
-        this.locality = notNull(locality);
-        this.location = notNull(location);
-        this.firstName = notNull(firstName);
-        this.lastName = notNull(lastName);
-        this.time = notNull(time);
+    public MiTi(Employee employees, Place place, String time) {
+        this.employees = employees;
+        this.place = place;
+        this.time = time;
     }
 
     protected MiTi() {
+    }
+
+    public void setMiTiID(Long miTiID) {
+        this.miTiID = miTiID;
     }
 
     public Long getMiTiID() {
@@ -61,4 +53,19 @@ public class MiTi {
         this.time = notBlank(time);
     }
 
+    public Employee getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Employee employees) {
+        this.employees = notNull(employees);
+    }
+
+    public Place getPlace() {
+        return place;
+    }
+
+    public void setPlace(Place place) {
+        this.place = notNull(place);
+    }
 }
