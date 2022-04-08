@@ -9,7 +9,10 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 @Entity
 @Table(name = "EMPLOYEE")
+@NamedQuery(name = Employee.FIND_ALL, query = "SELECT c FROM Employee c")
 public class Employee {
+
+    public static final String FIND_ALL = "Employee.findAll";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +20,11 @@ public class Employee {
     private Long employeeID;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "FIRSTNAME"))
     private FirstName firstName;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "LASTNAME"))
     private LastName lastName;
 
     public Employee(FirstName firstName, LastName lastName) {
@@ -30,27 +35,19 @@ public class Employee {
     protected Employee() {
     }
 
-    public Long getEmployeeID() {
-        return employeeID;
-    }
-
-    public void setEmployeeID(Long employeeID) {
-        this.employeeID = notNull(employeeID);
-    }
-
     public FirstName getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(FirstName firstName) {
-        this.firstName = notNull(firstName);
     }
 
     public LastName getLastName() {
         return lastName;
     }
 
+    public void setFirstName(FirstName firstName) {
+        this.firstName = firstName;
+    }
+
     public void setLastName(LastName lastName) {
-        this.lastName = notNull(lastName);
+        this.lastName = lastName;
     }
 }

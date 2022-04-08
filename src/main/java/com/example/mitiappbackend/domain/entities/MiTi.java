@@ -7,6 +7,7 @@ import com.example.mitiappbackend.domain.valueobjects.Location;
 
 import javax.persistence.*;
 
+import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Entity
@@ -19,15 +20,19 @@ public class MiTi {
     private Long miTiID;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "LOCALITY"))
     private Locality locality;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
     private Location location;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "FIRSTNAME"))
     private FirstName firstName;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "LASTNAME"))
     private LastName lastName;
 
     @Column(name = "TIME")
@@ -48,16 +53,12 @@ public class MiTi {
         return miTiID;
     }
 
-    public void setMiTiID(Long miTiID) {
-        this.miTiID = notNull(miTiID);
-    }
-
     public String getTime() {
         return time;
     }
 
     public void setTime(String time) {
-        this.time = notNull(time);
+        this.time = notBlank(time);
     }
 
 }

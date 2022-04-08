@@ -1,21 +1,27 @@
 package com.example.mitiappbackend.domain.valueobjects;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
+import static org.apache.commons.lang3.Validate.notBlank;
+
 @Embeddable
-@AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
 public class Location {
 
     private String location;
 
     public Location(String location) {
-        this.location = location;
+        this.location = notBlank(location);
     }
 
     protected Location() {
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "location='" + location + '\'' +
+                '}';
     }
 
     @Override
@@ -29,12 +35,5 @@ public class Location {
     @Override
     public int hashCode() {
         return Objects.hash(location);
-    }
-
-    @Override
-    public String toString() {
-        return "Location{" +
-                "location='" + location + '\'' +
-                '}';
     }
 }

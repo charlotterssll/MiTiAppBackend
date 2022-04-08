@@ -17,9 +17,11 @@ public class Place {
     private Long placeID;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "LOCALITY"))
     private Locality locality;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
     private Location location;
 
     public Place(Locality locality, Location location) {
@@ -30,27 +32,12 @@ public class Place {
     protected Place() {
     }
 
-    public Long getPlaceID() {
-        return placeID;
-    }
-
-    public void setPlaceID(Long placeID) {
-        this.placeID = notNull(placeID);
-    }
-
     public Locality getLocality() {
         return locality;
-    }
-
-    public void setLocality(Locality locality) {
-        this.locality = notNull(locality);
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
-        this.location = notNull(location);
-    }
 }
