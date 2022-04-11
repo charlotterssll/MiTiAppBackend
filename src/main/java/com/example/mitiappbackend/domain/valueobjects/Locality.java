@@ -17,23 +17,11 @@ public class Locality {
     protected Locality() {
     }
 
-    @Override
-    public String toString() {
-        return "Locality{" +
-                "locality='" + locality + '\'' +
-                '}';
+    public String getLocality() {
+        return locality;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Locality locality1 = (Locality) o;
-        return Objects.equals(locality, locality1.locality);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(locality);
+    public void setLocality(String locality) {
+        this.locality = locality;
     }
 }

@@ -17,23 +17,11 @@ public class FirstName {
 
     protected FirstName() {}
 
-    @Override
-    public String toString() {
-        return "FirstName{" +
-                "firstName='" + firstName + '\'' +
-                '}';
+    public String getFirstName() {
+        return firstName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FirstName firstName1 = (FirstName) o;
-        return Objects.equals(firstName, firstName1.firstName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName);
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 }
