@@ -15,4 +15,7 @@ public class MiTiService {
     public List<MiTi> getMiTis() {
         return miTiRepository.findAll();
     }
+
+    public void createMiti(MiTi miti) {
+    }
 }

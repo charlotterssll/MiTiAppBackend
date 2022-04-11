@@ -1,7 +1,6 @@
 package com.example.mitiappbackend.domain.valueobjects;
 
 import javax.persistence.Embeddable;
-import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 

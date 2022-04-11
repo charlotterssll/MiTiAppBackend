@@ -20,18 +20,21 @@ public class MiTiController {
     @Autowired
     private MiTiService miTiService;
 
-    @Autowired
-    private EmployeeService employeeService;
-
     @GetMapping("/test")
     public List<MiTi> getMitisList() {
-        MiTi miti = new MiTi(1L, new Place(1L, new Locality("Schlöfe"), new Location("Oldenburg")),
-                new Employee(1L, new FirstName("Charlotte"), new LastName("Russell")), "12:00");
+        MiTi miti = new MiTi(
+                new Place(
+                        new Locality("Schlöfe"),
+                        new Location("Oldenburg")),
+                new Employee(
+                        new FirstName("Charlotte"),
+                        new LastName("Russell")),
+                "12:00");
         return List.of(miti);
     }
 
     @PostMapping("/test/addemployee")
-    public void createEmployee(@RequestBody Employee employee){
-        employeeService.createEmployee(employee);
+    public void createEmployee(@RequestBody MiTi miti){
+        miTiService.createMiti(miti);
     }
 }

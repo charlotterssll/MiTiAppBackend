@@ -17,27 +17,18 @@ public class MiTi {
     private Place place;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Employee employees;
+    private Employee employee;
 
     @Column(name = "TIME")
     private String time;
 
-    public MiTi(Long miTiID, Place place, Employee employees, String time) {
-        this.miTiID = miTiID;
+    public MiTi(Place place, Employee employee, String time) {
         this.place = place;
-        this.employees = employees;
+        this.employee = employee;
         this.time = time;
     }
 
     protected MiTi() {
-    }
-
-    public Long getMiTiID() {
-        return miTiID;
-    }
-
-    public void setMiTiID(Long miTiID) {
-        this.miTiID = miTiID;
     }
 
     public String getTime() {
@@ -53,8 +44,8 @@ public class MiTi {
         return place;
     }
 
-    public Employee getEmployees() {
-        return employees;
+    public Employee getEmployee() {
+        return employee;
     }
 
 }

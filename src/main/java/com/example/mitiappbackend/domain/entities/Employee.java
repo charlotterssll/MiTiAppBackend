@@ -24,21 +24,12 @@ public class Employee {
     @AttributeOverride(name = "value", column = @Column(name = "LASTNAME"))
     private LastName lastName;
 
-    public Employee(Long employeeID,FirstName firstName, LastName lastName) {
-        this.employeeID = notNull(employeeID);
+    public Employee(FirstName firstName, LastName lastName) {
         this.firstName = notNull(firstName);
         this.lastName = notNull(lastName);
     }
 
     protected Employee() {
-    }
-
-    public Long getEmployeeID() {
-        return employeeID;
-    }
-
-    public void setEmployeeID(Long employeeID) {
-        this.employeeID = employeeID;
     }
 
     public FirstName getFirstName() {

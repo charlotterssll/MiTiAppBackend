@@ -24,21 +24,12 @@ public class Place {
     @AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
     private Location location;
 
-    public Place(Long placeID,Locality locality, Location location) {
-        this.placeID = notNull(placeID);
+    public Place(Locality locality, Location location) {
         this.locality = notNull(locality);
         this.location = notNull(location);
     }
 
     protected Place() {
-    }
-
-    public Long getPlaceID() {
-        return placeID;
-    }
-
-    public void setPlaceID(Long placeID) {
-        this.placeID = placeID;
     }
 
     public Locality getLocality() {
