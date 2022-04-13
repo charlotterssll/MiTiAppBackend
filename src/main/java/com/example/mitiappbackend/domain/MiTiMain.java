@@ -18,17 +18,9 @@ package com.example.mitiappbackend.domain;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- *
- * @author charlotte.russell
- */
 @SpringBootApplication
 public class MiTiMain {
-    /**
-     * Hauptprogramm.
-     *
-     * @param args Kommandozeilenparameter
-     */
+
     public static void main(String[] args) {
         SpringApplication.run(MiTiMain.class, args);
     }

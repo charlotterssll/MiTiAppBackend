@@ -61,5 +61,4 @@ public class Place {
     public Location getLocation() {
         return location;
     }
-
 }

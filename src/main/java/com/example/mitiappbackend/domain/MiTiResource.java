@@ -16,6 +16,7 @@
 package com.example.mitiappbackend.domain;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,17 +29,22 @@ import com.example.mitiappbackend.domain.entities.MiTiNotNested;
 
 @RestController
 @CrossOrigin
-public class MiTiController {
+public class MiTiResource {
+
+    private final Logger logger = Logger.getLogger(MiTiResource.class.getSimpleName());
 
     @Autowired
     private MiTiNotNestedService miTiNotNestedService;
-    @GetMapping("/mities")
+
+    @GetMapping(value = "/mities", produces = "application/json")
     public List<MiTiNotNested> getMiTisNotNested() {
+        logger.info("RESTful call 'GET mities'");
         return miTiNotNestedService.getMiTisNotNested();
     }
 
-    @PostMapping("/mities/addmiti")
+    @PostMapping(value = "/mities/addmiti", consumes = "application/json")
     public void createMiTiNotNested(@RequestBody MiTiNotNested miTiNotNested) {
+        logger.info("RESTful call 'POST miti'");
         miTiNotNestedService.createMitiNotNested(miTiNotNested);
     }
 }

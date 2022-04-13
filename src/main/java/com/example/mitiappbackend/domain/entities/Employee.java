@@ -61,5 +61,4 @@ public class Employee {
     public LastName getLastName() {
         return lastName;
     }
-
 }

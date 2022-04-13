@@ -61,7 +61,6 @@ public class MiTi {
         this.time = notBlank(time);
     }
 
-
     public Place getPlace() {
         return place;
     }
