@@ -15,6 +15,7 @@
  */
 package com.example.mitiappbackend.domain.entities;
 
+import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 
 import javax.persistence.AttributeOverride;
@@ -28,15 +29,25 @@ import javax.persistence.Table;
 
 import com.example.mitiappbackend.domain.valueobjects.FirstName;
 import com.example.mitiappbackend.domain.valueobjects.LastName;
+import com.example.mitiappbackend.domain.valueobjects.Locality;
+import com.example.mitiappbackend.domain.valueobjects.Location;
 
 @Entity
-@Table(name = "EMPLOYEE")
-public class Employee {
+@Table(name = "MITINOTNESTED")
+public class MiTiNotNested {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EMPLOYEEID")
-    private Long employeeId;
+    @Column(name = "MITINOTNESTEDID")
+    private Long miTiNotNestedId;
+
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "LOCALITY"))
+    private Locality locality;
+
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
+    private Location location;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "FIRSTNAME"))
@@ -46,12 +57,26 @@ public class Employee {
     @AttributeOverride(name = "value", column = @Column(name = "LASTNAME"))
     private LastName lastName;
 
-    public Employee(FirstName firstName, LastName lastName) {
+    @Column(name = "TIME")
+    private String time;
+
+    public MiTiNotNested(Locality locality, Location location, FirstName firstName, LastName lastName, String time) {
+        this.locality = notNull(locality);
+        this.location = notNull(location);
         this.firstName = notNull(firstName);
         this.lastName = notNull(lastName);
+        this.time = notNull(time);
     }
 
-    protected Employee() {
+    protected MiTiNotNested() {
+    }
+
+    public Locality getLocality() {
+        return locality;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public FirstName getFirstName() {
@@ -62,4 +87,11 @@ public class Employee {
         return lastName;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = notBlank(time);
+    }
 }

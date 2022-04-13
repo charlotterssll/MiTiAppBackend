@@ -15,11 +15,24 @@
  */
 package com.example.mitiappbackend.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-import com.example.mitiappbackend.domain.entities.MiTi;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Repository
-public interface MiTiRepository extends JpaRepository<MiTi, Long> {
+import com.example.mitiappbackend.domain.entities.MiTiNotNested;
+
+@Service
+public class MiTiNotNestedService {
+
+    @Autowired
+    private MiTiNotNestedRepository miTiNotNestedRepository;
+
+    public List<MiTiNotNested> getMiTisNotNested() {
+        return miTiNotNestedRepository.findAll();
+    }
+
+    public void createMitiNotNested(MiTiNotNested miTiNotNested) {
+        miTiNotNestedRepository.save(miTiNotNested);
+    }
 }

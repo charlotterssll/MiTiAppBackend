@@ -18,8 +18,8 @@ package com.example.mitiappbackend.domain;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.mitiappbackend.domain.entities.MiTi;
+import com.example.mitiappbackend.domain.entities.MiTiNotNested;
 
 @Repository
-public interface MiTiRepository extends JpaRepository<MiTi, Long> {
+public interface MiTiNotNestedRepository extends JpaRepository<MiTiNotNested, Long> {
 }
