@@ -13,26 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain;
+package com.example.mitiappbackend;
 
-import java.util.List;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+@SpringBootApplication(scanBasePackages = "com.example.mitiappbackend")
+public class MiTiMain {
 
-import com.example.mitiappbackend.domain.entities.MiTiNotNested;
-
-@Service
-public class MiTiNotNestedService {
-
-    @Autowired
-    private MiTiNotNestedRepository miTiNotNestedRepository;
-
-    public List<MiTiNotNested> getMiTisNotNested() {
-        return miTiNotNestedRepository.findAll();
-    }
-
-    public void createMitiNotNested(MiTiNotNested miTiNotNested) {
-        miTiNotNestedRepository.save(miTiNotNested);
+    public static void main(String[] args) {
+        SpringApplication.run(MiTiMain.class, args);
     }
 }
