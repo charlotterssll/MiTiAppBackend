@@ -20,8 +20,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.mitiappbackend.domain.entities.MiTi;
 import com.example.mitiappbackend.domain.MiTiRepository;
+import com.example.mitiappbackend.domain.entities.MiTi;
 
 @Service
 public class MiTiService {
@@ -29,7 +29,7 @@ public class MiTiService {
     @Autowired
     private MiTiRepository miTiRepository;
 
-    public List<MiTi> getMiTis() {
+    public List<MiTi> getMiTies() {
         return miTiRepository.findAll();
     }
 

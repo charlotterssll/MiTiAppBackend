@@ -29,7 +29,7 @@ public class MiTiNotNestedService {
     @Autowired
     private MiTiNotNestedRepository miTiNotNestedRepository;
 
-    public List<MiTiNotNested> getMiTisNotNested() {
+    public List<MiTiNotNested> getMiTiesNotNested() {
         return miTiNotNestedRepository.findAll();
     }
 
