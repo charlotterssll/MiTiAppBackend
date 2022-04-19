@@ -18,6 +18,7 @@ package com.example.mitiappbackend.application;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.example.mitiappbackend.domain.entities.MiTi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class MiTiResource {
 
     private final Logger logger = Logger.getLogger(MiTiResource.class.getSimpleName());
 
-    @Autowired
+    /* @Autowired
     private MiTiNotNestedService miTiNotNestedService;
 
     @GetMapping(value = "/mities", produces = "application/json")
@@ -46,5 +47,20 @@ public class MiTiResource {
     public void createMiTiNotNested(@RequestBody MiTiNotNested miTiNotNested) {
         logger.info("RESTful call 'POST miti'");
         miTiNotNestedService.createMitiNotNested(miTiNotNested);
+    }*/
+
+    @Autowired
+    private MiTiService miTiService;
+
+    @GetMapping(value = "/mities", produces = "application/json")
+    public List<MiTi> getMiTisNotNested() {
+        logger.info("RESTful call 'GET mities'");
+        return miTiService.getMiTis();
+    }
+
+    @PostMapping(value = "/mities/addmiti", consumes = "application/json")
+    public void createMiTiNotNested(@RequestBody MiTi miTi) {
+        logger.info("RESTful call 'POST miti'");
+        miTiService.createMiti(miTi);
     }
 }

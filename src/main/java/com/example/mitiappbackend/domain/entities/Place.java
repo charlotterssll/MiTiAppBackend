@@ -35,7 +35,7 @@ public class Place {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PLACEID")
+    @Column(name = "PLACE_ID")
     private Long placeId;
 
     @Embedded

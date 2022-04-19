@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -32,13 +33,15 @@ public class MiTi {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MITIID")
+    @Column(name = "MITI_ID")
     private Long miTiId;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PLACE_ID")
     private Place place;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
     @Column(name = "TIME")

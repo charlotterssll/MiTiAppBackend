@@ -35,7 +35,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EMPLOYEEID")
+    @Column(name = "EMPLOYEE_ID")
     private Long employeeId;
 
     @Embedded

@@ -42,15 +42,32 @@ public class MiTiNotNestedTest {
     @Autowired
     private MiTiNotNestedRepository miTiNotNestedRepository;
 
+    MiTiNotNested charlotte = new MiTiNotNested(
+        new Locality("Schlöfe"),
+        new Location("Oldenburg"),
+        new FirstName("Charlotte"),
+        new LastName("Russell"),
+        "12:00");
+
+    MiTiNotNested marian = new MiTiNotNested(
+        new Locality("Schlöfe"),
+        new Location("Oldenburg"),
+        new FirstName("Marian"),
+        new LastName("Heck"),
+        "12:00");
+
     @Test
-    public void testCreateMiTiNotNestedObject() {
-        this.entityManager.persist(new MiTiNotNested(
-                new Locality("Schlöfe"),
-                new Location("Oldenburg"),
-                new FirstName("Charlotte"),
-                new LastName("Russell"),
-                "12:00"));
+    public void testMiTiFirstNameCharlotte() {
+        entityManager.persist(charlotte);
         MiTiNotNested miTiNotNested = this.miTiNotNestedRepository.getById(1L);
         assertThat(miTiNotNested.getFirstName().getFirstName()).isEqualTo("Charlotte");
+    }
+
+    @Test
+    public void testMiTiFirstNameMarian() {
+        entityManager.persist(marian);
+        MiTiNotNested miTiNotNested = this.miTiNotNestedRepository.getById(2L);
+        assertThat(miTiNotNested.getFirstName().getFirstName()).isEqualTo("Marian");
+        assertThat(miTiNotNested.getLocation().getLocation()).isEqualTo("Oldenburg");
     }
 }
