@@ -15,16 +15,11 @@
  */
 package com.example.mitiappbackend;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.example.mitiappbackend.application.MiTiNotNestedService;
-import com.example.mitiappbackend.application.MiTiService;
-import com.example.mitiappbackend.domain.entities.MiTi;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,9 +27,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.mitiappbackend.application.MiTiNotNestedService;
+import com.example.mitiappbackend.application.MiTiService;
+
 @AutoConfigureMockMvc
 @SpringBootTest
-public class MiTiIntegrationTest {
+public class MiTiRequestTest {
 
     @Autowired
     protected MiTiService miTiService;
@@ -45,23 +43,29 @@ public class MiTiIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
-    List<MiTi> mitiesList = new ArrayList<>();
-
     @Test
-    void testGetMiTies() throws Exception {
-        mvc.perform(get("/mities")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.valueOf(mitiesList)))
-                .andExpect(status().isOk());
-        assertTrue(miTiService.getMiTies().isEmpty());
+    void testGetMiTiesResponse() throws Exception {
+        mvc.perform(get("/mities")).andExpectAll(
+                status().isOk())
+                .andDo(print());
     }
 
     @Test
-    void testGetMiTiesNotNested() throws Exception {
-        mvc.perform(get("/mities")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.valueOf(mitiesList)))
-                .andExpect(status().isOk());
-        assertTrue(miTiNotNestedService.getMiTiesNotNested().isEmpty());
+    void testPostMiTi() throws Exception {
+
+        String jsonBody =
+                """
+                {"place":{"locality":{"locality":"Schloefe"}},
+                "place":{"location":{"location":"Oldenburg"}},
+                "employee":{"firstName":{"firstName":"Charlotte"}},
+                "employee":{"lastName":{"lastName":"Russell"}},
+                "time":"12:00"}
+                """;
+
+        mvc.perform(post("/mities/addmiti")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }

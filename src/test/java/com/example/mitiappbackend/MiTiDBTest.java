@@ -34,7 +34,7 @@ import com.example.mitiappbackend.domain.valueobjects.Location;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class MiTiNotNestedTest {
+public class MiTiDBTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -59,6 +59,8 @@ public class MiTiNotNestedTest {
     @Test
     public void testMiTiFirstNameCharlotte() {
         entityManager.persist(charlotte);
+        entityManager.flush();
+        entityManager.clear();
         MiTiNotNested miTiNotNested = this.miTiNotNestedRepository.getById(1L);
         assertThat(miTiNotNested.getFirstName().getFirstName()).isEqualTo("Charlotte");
     }
@@ -66,7 +68,9 @@ public class MiTiNotNestedTest {
     @Test
     public void testMiTiFirstNameMarian() {
         entityManager.persist(marian);
-        MiTiNotNested miTiNotNested = this.miTiNotNestedRepository.getById(2L);
+        entityManager.flush();
+        entityManager.clear();
+        MiTiNotNested miTiNotNested = this.miTiNotNestedRepository.getById(1L);
         assertThat(miTiNotNested.getFirstName().getFirstName()).isEqualTo("Marian");
         assertThat(miTiNotNested.getLocation().getLocation()).isEqualTo("Oldenburg");
     }
