@@ -25,12 +25,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.mitiappbackend.domain.MiTiNotNestedRepository;
-import com.example.mitiappbackend.domain.entities.MiTiNotNested;
 import com.example.mitiappbackend.domain.valueobjects.FirstName;
 import com.example.mitiappbackend.domain.valueobjects.LastName;
 import com.example.mitiappbackend.domain.valueobjects.Locality;
 import com.example.mitiappbackend.domain.valueobjects.Location;
+import com.example.mitiappbackend.domain.MiTiNotNestedRepository;
+import com.example.mitiappbackend.domain.entities.MiTiNotNested;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

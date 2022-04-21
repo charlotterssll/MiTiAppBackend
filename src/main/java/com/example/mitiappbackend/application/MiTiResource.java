@@ -25,55 +25,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.mitiappbackend.domain.entities.Employee;
 import com.example.mitiappbackend.domain.entities.MiTi;
-import com.example.mitiappbackend.domain.entities.MiTiNotNested;
-import com.example.mitiappbackend.domain.entities.Place;
-import com.example.mitiappbackend.domain.valueobjects.FirstName;
-import com.example.mitiappbackend.domain.valueobjects.LastName;
-import com.example.mitiappbackend.domain.valueobjects.Locality;
-import com.example.mitiappbackend.domain.valueobjects.Location;
 
 @RestController
 @CrossOrigin
 public class MiTiResource {
 
-    MiTi miTi = new MiTi(
-        new Place(new Locality("Schloefe"), new Location("Oldenburg")),
-        new Employee(new FirstName("Charlotte"), new LastName("Russell")),
-        "12:00"
-    );
-
     private final Logger logger = Logger.getLogger(MiTiResource.class.getSimpleName());
 
     @Autowired
-    private MiTiNotNestedService miTiNotNestedService;
-
-    @GetMapping(value = "/mities", produces = "application/json")
-    public List<MiTiNotNested> getMiTisNotNested() {
-        logger.info("RESTful call 'GET mities'");
-        return miTiNotNestedService.getMiTiesNotNested();
-    }
-
-    @PostMapping(value = "/mities/addmiti", consumes = "application/json")
-    public void createMiTiNotNested(@RequestBody MiTiNotNested miTiNotNested) {
-        logger.info("RESTful call 'POST miti'");
-        miTiNotNestedService.createMitiNotNested(miTiNotNested);
-    }
-
-    /*@Autowired
     private MiTiService miTiService;
 
     @GetMapping(value = "/mities", produces = "application/json")
-    public List<MiTi> getMiTisNotNested() {
+    public List<MiTi> getMiTis() {
         logger.info("RESTful call 'GET mities'");
         return miTiService.getMiTies();
-        //return List.of(miTi);
     }
 
     @PostMapping(value = "/mities/addmiti", consumes = "application/json")
-    public void createMiTiNotNested(@RequestBody MiTi miTi) {
+    public void createMiTi(@RequestBody MiTi miTi) {
         logger.info("RESTful call 'POST miti'");
         miTiService.createMiti(miTi);
-    }*/
+    }
 }

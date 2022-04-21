@@ -15,9 +15,11 @@
  */
 package com.example.mitiappbackend;
 
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +29,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.mitiappbackend.application.MiTiNotNestedService;
 import com.example.mitiappbackend.application.MiTiService;
 
 @AutoConfigureMockMvc
@@ -36,9 +37,6 @@ public class MiTiRequestTest {
 
     @Autowired
     protected MiTiService miTiService;
-
-    @Autowired
-    protected MiTiNotNestedService miTiNotNestedService;
 
     @Autowired
     private MockMvc mvc;
@@ -55,11 +53,31 @@ public class MiTiRequestTest {
 
         String jsonBody =
                 """
-                {"place":{"locality":{"locality":"Schloefe"}},
-                "place":{"location":{"location":"Oldenburg"}},
-                "employee":{"firstName":{"firstName":"Charlotte"}},
-                "employee":{"lastName":{"lastName":"Russell"}},
-                "time":"12:00"}
+                {
+                   "place":
+                       [{
+                           "locality":
+                           {
+                               "locality":"Schloefe"
+                           },
+                           "location":
+                           {
+                               "location":"Oldenburg"
+                           }
+                       }],
+                   "employee":
+                       [{
+                           "firstName":
+                           {
+                               "firstName":"Charlotte"
+                           },
+                           "lastName":
+                           {
+                               "lastName":"Russell"
+                           }
+                       }],
+                   "time":"12:00"
+                }
                 """;
 
         mvc.perform(post("/mities/addmiti")
@@ -67,5 +85,9 @@ public class MiTiRequestTest {
                 .content(jsonBody))
                 .andExpect(status().isOk())
                 .andDo(print());
+
+        mvc.perform(get("/mities"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
     }
 }
