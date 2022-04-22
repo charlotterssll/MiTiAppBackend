@@ -15,8 +15,6 @@
  */
 package com.example.mitiappbackend.domain.entities;
 
-import static org.apache.commons.lang3.Validate.notNull;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -47,8 +45,8 @@ public class Place {
     private Location location;
 
     public Place(Locality locality, Location location) {
-        this.locality = notNull(locality);
-        this.location = notNull(location);
+        this.locality = locality;
+        this.location = location;
     }
 
     protected Place() {

@@ -42,7 +42,7 @@ public class MiTiResource {
         return miTiService.getMiTies();
     }
 
-    @PostMapping(value = "/mities/addmiti", consumes = "application/json")
+    @PostMapping(value = "/mities", consumes = "application/json")
     public void createMiTi(@RequestBody MiTi miTi) {
         logger.info("RESTful call 'POST miti'");
         miTiService.createMiti(miTi);

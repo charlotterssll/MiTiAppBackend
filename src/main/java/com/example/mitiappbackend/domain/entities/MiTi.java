@@ -17,8 +17,6 @@ package com.example.mitiappbackend.domain.entities;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -38,18 +36,18 @@ public class MiTi {
     @Column(name = "MITI_ID")
     private Long miTiId;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PLACE_ID")
-    private List<Place> place;
+    private Place place;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "EMPLOYEE_ID")
-    private List<Employee> employee;
+    private Employee employee;
 
     @Column(name = "TIME")
     private String time;
 
-    public MiTi(List<Place> place, List<Employee> employee, String time) {
+    public MiTi(Place place, Employee employee, String time) {
         this.place = place;
         this.employee = employee;
         this.time = time;
@@ -66,11 +64,11 @@ public class MiTi {
         this.time = notBlank(time);
     }
 
-    public List<Place> getPlace() {
+    public Place getPlace() {
         return place;
     }
 
-    public List<Employee> getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
