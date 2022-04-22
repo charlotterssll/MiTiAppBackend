@@ -38,6 +38,11 @@ public class PostMiTiResource {
     @PostMapping(value = "/mities", consumes = "application/json")
     public void createMiTi(@RequestBody MiTi miTi) {
         logger.info("RESTful call 'POST miti'");
+        /*MiTi miTi = new MiTi(
+                new Place(new Locality(miTiDto.getLocality()), new Location(miTiDto.getLocation())),
+                new Employee(new FirstName(miTiDto.getFirstName()), new LastName(miTiDto.getLastName())),
+                miTiDto.getTime());
+        miTiRepository.save(miTi);*/
         miTiService.createMiti(miTi);
     }
 }
