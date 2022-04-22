@@ -52,10 +52,10 @@ public class MiTiRequestTest {
     void testPostMiTi() throws Exception {
 
         String jsonBody =
-                """
+            """
                 {
                    "place":
-                       [{
+                       {
                            "locality":
                            {
                                "locality":"Schloefe"
@@ -64,9 +64,9 @@ public class MiTiRequestTest {
                            {
                                "location":"Oldenburg"
                            }
-                       }],
+                       },
                    "employee":
-                       [{
+                       {
                            "firstName":
                            {
                                "firstName":"Charlotte"
@@ -75,12 +75,12 @@ public class MiTiRequestTest {
                            {
                                "lastName":"Russell"
                            }
-                       }],
+                       },
                    "time":"12:00"
                 }
-                """;
+            """;
 
-        mvc.perform(post("/mities/addmiti")
+        mvc.perform(post("/mities")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
                 .andExpect(status().isOk())

@@ -19,50 +19,47 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.example.mitiappbackend.domain.MiTiRepository;
+import com.example.mitiappbackend.domain.entities.Employee;
+import com.example.mitiappbackend.domain.entities.MiTi;
+import com.example.mitiappbackend.domain.entities.Place;
 import com.example.mitiappbackend.domain.valueobjects.FirstName;
 import com.example.mitiappbackend.domain.valueobjects.LastName;
 import com.example.mitiappbackend.domain.valueobjects.Locality;
 import com.example.mitiappbackend.domain.valueobjects.Location;
-import com.example.mitiappbackend.domain.MiTiNotNestedRepository;
-import com.example.mitiappbackend.domain.entities.MiTiNotNested;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class MiTiDBTest {
+public class MiTiDbTest {
+
+    MiTi charlotte = new MiTi(
+        new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
+        new Employee(new FirstName("Charlotte"), new LastName("Russell")),
+        "12:00");
+
+    MiTi marian = new MiTi(
+        new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
+        new Employee(new FirstName("Marian"), new LastName("Heck")),
+        "12:00");
+
+    @Autowired
+    private MiTiRepository miTiRepository;
 
     @Autowired
     private TestEntityManager entityManager;
-
-    @Autowired
-    private MiTiNotNestedRepository miTiNotNestedRepository;
-
-    MiTiNotNested charlotte = new MiTiNotNested(
-        new Locality("Schlöfe"),
-        new Location("Oldenburg"),
-        new FirstName("Charlotte"),
-        new LastName("Russell"),
-        "12:00");
-
-    MiTiNotNested marian = new MiTiNotNested(
-        new Locality("Schlöfe"),
-        new Location("Oldenburg"),
-        new FirstName("Marian"),
-        new LastName("Heck"),
-        "12:00");
 
     @Test
     public void testMiTiFirstNameCharlotte() {
         entityManager.persist(charlotte);
         entityManager.flush();
         entityManager.clear();
-        MiTiNotNested miTiNotNested = this.miTiNotNestedRepository.getById(1L);
-        assertThat(miTiNotNested.getFirstName().getFirstName()).isEqualTo("Charlotte");
+        MiTi miTi = this.miTiRepository.getById(1L);
+        assertThat(miTi.getEmployee().getFirstName().getFirstName()).isEqualTo("Charlotte");
     }
 
     @Test
@@ -70,8 +67,8 @@ public class MiTiDBTest {
         entityManager.persist(marian);
         entityManager.flush();
         entityManager.clear();
-        MiTiNotNested miTiNotNested = this.miTiNotNestedRepository.getById(1L);
-        assertThat(miTiNotNested.getFirstName().getFirstName()).isEqualTo("Marian");
-        assertThat(miTiNotNested.getLocation().getLocation()).isEqualTo("Oldenburg");
+        MiTi miTi = this.miTiRepository.getById(2L);
+        assertThat(miTi.getEmployee().getFirstName().getFirstName()).isEqualTo("Marian");
+        assertThat(miTi.getPlace().getLocation().getLocation()).isEqualTo("Oldenburg");
     }
 }
