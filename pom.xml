@@ -15,6 +15,7 @@
     <description>MiTiAppBackend</description>
     <properties>
         <java.version>18</java.version>
+        <checkstyle.header.file>src/main/checkstyle/java.header</checkstyle.header.file>
     </properties>
     <dependencies>
         <dependency>
@@ -51,7 +52,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -59,7 +59,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>0.8.8</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -132,23 +132,16 @@
                         <version>9.0.1</version>
                     </dependency>
                 </dependencies>
-                <configuration>
-                    <consoleOutput>true</consoleOutput>
-                    <encoding>UTF-8</encoding>
-                    <headerLocation>${project.basedir}/src/main/checkstyle/java.header</headerLocation>
-                    <failsOnError>true</failsOnError>
-                    <consoleOutput>true</consoleOutput>
-                </configuration>
                 <executions>
                     <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
+                        <id>checkstyle</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>checkstyle</goal>
+                            <goal>check</goal>
                         </goals>
                         <configuration>
-                            <configLocation>${project.basedir}/src/main/checkstyle/configuration.xml</configLocation>
-                            <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                            <failOnViolation>true</failOnViolation>
+                            <configLocation>src/main/checkstyle/configuration.xml</configLocation>
                         </configuration>
                     </execution>
                     <execution>
@@ -158,11 +151,12 @@
                             <goal>checkstyle</goal>
                         </goals>
                         <configuration>
-                            <configLocation>${project.basedir}/src/main/checkstyle/test-configuration.xml
+                            <configLocation>src/main/checkstyle/test-configuration.xml
                             </configLocation>
                             <failsOnError>true</failsOnError>
                             <consoleOutput>true</consoleOutput>
                             <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                            <linkXRef>false</linkXRef>
                         </configuration>
                     </execution>
                 </executions>
