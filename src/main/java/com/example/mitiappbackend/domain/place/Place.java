@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.entities;
+package com.example.mitiappbackend.domain.place;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -23,9 +23,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.example.mitiappbackend.domain.valueobjects.Locality;
-import com.example.mitiappbackend.domain.valueobjects.Location;
 
 @Entity
 @Table(name = "PLACE")

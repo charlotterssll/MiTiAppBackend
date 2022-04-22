@@ -13,28 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.valueobjects;
+package com.example.mitiappbackend.domain.place;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class FirstName {
+public class Location {
 
-    private String firstName;
+    private String location;
 
-    public FirstName(String firstName) {
-        this.firstName = notBlank(firstName);
+    public Location(String location) {
+        this.location = notBlank(location);
     }
 
-    protected FirstName() { }
-
-    public String getFirstName() {
-        return firstName;
+    protected Location() {
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

@@ -24,14 +24,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.mitiappbackend.domain.MiTiRepository;
-import com.example.mitiappbackend.domain.entities.Employee;
-import com.example.mitiappbackend.domain.entities.MiTi;
-import com.example.mitiappbackend.domain.entities.Place;
-import com.example.mitiappbackend.domain.valueobjects.FirstName;
-import com.example.mitiappbackend.domain.valueobjects.LastName;
-import com.example.mitiappbackend.domain.valueobjects.Locality;
-import com.example.mitiappbackend.domain.valueobjects.Location;
+import com.example.mitiappbackend.domain.employee.Employee;
+import com.example.mitiappbackend.domain.employee.FirstName;
+import com.example.mitiappbackend.domain.employee.LastName;
+import com.example.mitiappbackend.domain.miti.MiTi;
+import com.example.mitiappbackend.domain.miti.MiTiRepository;
+import com.example.mitiappbackend.domain.place.Locality;
+import com.example.mitiappbackend.domain.place.Location;
+import com.example.mitiappbackend.domain.place.Place;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

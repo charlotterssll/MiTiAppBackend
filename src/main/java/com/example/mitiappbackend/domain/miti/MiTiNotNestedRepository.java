@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain;
+package com.example.mitiappbackend.domain.miti;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.example.mitiappbackend.domain.entities.MiTiNotNested;
 
 @Repository
 public interface MiTiNotNestedRepository extends JpaRepository<MiTiNotNested, Long> {

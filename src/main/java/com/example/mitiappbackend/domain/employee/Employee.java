@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.entities;
+package com.example.mitiappbackend.domain.employee;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -25,9 +25,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.example.mitiappbackend.domain.valueobjects.FirstName;
-import com.example.mitiappbackend.domain.valueobjects.LastName;
 
 @Entity
 @Table(name = "EMPLOYEE")

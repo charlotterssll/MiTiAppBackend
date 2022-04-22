@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.application;
+package com.example.mitiappbackend.domain.miti;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.mitiappbackend.domain.MiTiRepository;
-import com.example.mitiappbackend.domain.entities.MiTi;
 
 @Service
 public class MiTiService {

@@ -29,7 +29,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.mitiappbackend.application.MiTiService;
+import com.example.mitiappbackend.domain.miti.MiTiService;
 
 @AutoConfigureMockMvc
 @SpringBootTest

@@ -21,17 +21,16 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.mitiappbackend.domain.entities.MiTi;
+import com.example.mitiappbackend.domain.miti.MiTi;
+import com.example.mitiappbackend.domain.miti.MiTiService;
 
 @RestController
 @CrossOrigin
-public class MiTiResource {
+public class GetMiTiesResource {
 
-    private final Logger logger = Logger.getLogger(MiTiResource.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(PostMiTiResource.class.getSimpleName());
 
     @Autowired
     private MiTiService miTiService;
@@ -40,11 +39,5 @@ public class MiTiResource {
     public List<MiTi> getMiTis() {
         logger.info("RESTful call 'GET mities'");
         return miTiService.getMiTies();
-    }
-
-    @PostMapping(value = "/mities", consumes = "application/json")
-    public void createMiTi(@RequestBody MiTi miTi) {
-        logger.info("RESTful call 'POST miti'");
-        miTiService.createMiti(miTi);
     }
 }

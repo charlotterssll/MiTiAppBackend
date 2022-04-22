@@ -13,29 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.valueobjects;
+package com.example.mitiappbackend.domain.miti;
 
-import static org.apache.commons.lang3.Validate.notBlank;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
-public class Location {
-
-    private String location;
-
-    public Location(String location) {
-        this.location = notBlank(location);
-    }
-
-    protected Location() {
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
+@Repository
+public interface MiTiRepository extends JpaRepository<MiTi, Long> {
 }

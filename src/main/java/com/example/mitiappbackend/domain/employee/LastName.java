@@ -13,13 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain;
+package com.example.mitiappbackend.domain.employee;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import static org.apache.commons.lang3.Validate.notBlank;
 
-import com.example.mitiappbackend.domain.entities.MiTi;
+import javax.persistence.Embeddable;
 
-@Repository
-public interface MiTiRepository extends JpaRepository<MiTi, Long> {
+@Embeddable
+public class LastName {
+
+    private String lastName;
+
+    public LastName(String lastName) {
+        this.lastName = notBlank(lastName);
+    }
+
+    protected LastName() { }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }
