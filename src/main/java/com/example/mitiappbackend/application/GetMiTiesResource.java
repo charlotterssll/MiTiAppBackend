@@ -39,5 +39,6 @@ public class GetMiTiesResource {
     public List<MiTi> getMiTis() {
         logger.info("RESTful call 'GET mities'");
         return miTiService.getMiTies();
+        fehler
     }
 }
