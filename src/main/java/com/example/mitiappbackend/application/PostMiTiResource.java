@@ -17,8 +17,6 @@ package com.example.mitiappbackend.application;
 
 import java.util.logging.Logger;
 
-import com.example.mitiappbackend.domain.employee.EmployeeService;
-import com.example.mitiappbackend.domain.place.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,14 +35,7 @@ public class PostMiTiResource {
     @Autowired
     private MiTiService miTiService;
 
-    @Autowired
-    private PlaceService placeService;
-
-    @Autowired
-    private EmployeeService employeeService;
-
     @PostMapping(value = "/mities", consumes = "application/json")
-    // public ResponseEntity<MiTiDto> createMiTi(@RequestBody MiTiDto miTiDto) {
     public void createMiTi(@RequestBody MiTi miTi) {
         logger.info("RESTful call 'POST miti'");
         /*MiTi miTi = new MiTi(
@@ -52,6 +43,5 @@ public class PostMiTiResource {
                 new Employee(new FirstName(miTiDto.getFirstName()), new LastName(miTiDto.getLastName())),
                 miTiDto.getTime());*/
         miTiService.createMiti(miTi);
-        // return ResponseEntity.ok().body(miTiDto);
     }
 }
