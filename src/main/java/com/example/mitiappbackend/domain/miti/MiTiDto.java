@@ -17,29 +17,57 @@ package com.example.mitiappbackend.domain.miti;
 
 public class MiTiDto {
 
-    private String place;
+    private String locality;
 
-    private String employee;
+    private String location;
+
+    private String firstName;
+
+    private String lastName;
 
     private String time;
 
-    public MiTiDto() {
+    public MiTiDto(String locality, String location, String firstName, String lastName, String time) {
+        this.locality = locality;
+        this.location = location;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.time = time;
     }
 
-    public String getPlace() {
-        return place;
+    protected MiTiDto() {
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public String getLocality() {
+        return locality;
     }
 
-    public String getEmployee() {
-        return employee;
+    public void setLocality(String locality) {
+        this.locality = locality;
     }
 
-    public void setEmployee(String employee) {
-        this.employee = employee;
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getTime() {
