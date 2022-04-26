@@ -15,6 +15,8 @@
  */
 package com.example.mitiappbackend.domain.employee;
 
+import org.apache.commons.lang3.Validate;
+
 import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
@@ -26,6 +28,7 @@ public class LastName {
 
     public LastName(String lastName) {
         this.lastName = notBlank(lastName);
+        Validate.notNull(lastName, "null in lastName is disallowed");
     }
 
     protected LastName() { }

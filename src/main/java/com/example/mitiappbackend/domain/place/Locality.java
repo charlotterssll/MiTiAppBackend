@@ -15,6 +15,8 @@
  */
 package com.example.mitiappbackend.domain.place;
 
+import org.apache.commons.lang3.Validate;
+
 import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
@@ -26,6 +28,7 @@ public class Locality {
 
     public Locality(String locality) {
         this.locality = notBlank(locality);
+        Validate.notNull(locality, "null in locality is disallowed");
     }
 
     protected Locality() {

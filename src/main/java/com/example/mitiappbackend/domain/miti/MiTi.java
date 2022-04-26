@@ -30,6 +30,7 @@ import javax.persistence.Table;
 
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.place.Place;
+import org.apache.commons.lang3.Validate;
 
 @Entity
 @Table(name = "MITI")
@@ -55,6 +56,9 @@ public class MiTi {
         this.place = notNull(place);
         this.employee = notNull(employee);
         this.time = notBlank(time);
+        Validate.notNull(place, "null in place is disallowed");
+        Validate.notNull(employee, "null in employee is disallowed");
+        Validate.notNull(time, "null in time is disallowed");
     }
 
     protected MiTi() {

@@ -15,6 +15,8 @@
  */
 package com.example.mitiappbackend.domain.place;
 
+import org.apache.commons.lang3.Validate;
+
 import static org.apache.commons.lang3.Validate.notNull;
 
 import javax.persistence.AttributeOverride;
@@ -46,6 +48,8 @@ public class Place {
     public Place(Locality locality, Location location) {
         this.locality = notNull(locality);
         this.location = notNull(location);
+        Validate.notNull(locality, "null in locality is disallowed");
+        Validate.notNull(location, "null in location is disallowed");
     }
 
     protected Place() {

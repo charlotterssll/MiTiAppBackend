@@ -15,6 +15,8 @@
  */
 package com.example.mitiappbackend.domain.employee;
 
+import org.apache.commons.lang3.Validate;
+
 import static org.apache.commons.lang3.Validate.notNull;
 
 import javax.persistence.AttributeOverride;
@@ -46,6 +48,8 @@ public class Employee {
     public Employee(FirstName firstName, LastName lastName) {
         this.firstName = notNull(firstName);
         this.lastName = notNull(lastName);
+        Validate.notNull(firstName, "null in firstName is disallowed");
+        Validate.notNull(lastName, "null in lastName is disallowed");
     }
 
     protected Employee() {
