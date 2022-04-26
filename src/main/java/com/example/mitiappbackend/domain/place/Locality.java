@@ -15,11 +15,11 @@
  */
 package com.example.mitiappbackend.domain.place;
 
-import org.apache.commons.lang3.Validate;
-
 import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
+
+import org.apache.commons.lang3.Validate;
 
 @Embeddable
 public class Locality {

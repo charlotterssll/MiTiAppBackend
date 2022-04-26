@@ -15,8 +15,6 @@
  */
 package com.example.mitiappbackend.domain.employee;
 
-import org.apache.commons.lang3.Validate;
-
 import static org.apache.commons.lang3.Validate.notNull;
 
 import javax.persistence.AttributeOverride;
@@ -27,6 +25,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.Validate;
 
 @Entity
 @Table(name = "EMPLOYEE")
