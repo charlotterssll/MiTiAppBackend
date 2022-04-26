@@ -16,6 +16,7 @@
 package com.example.mitiappbackend.domain.miti;
 
 import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,21 +40,21 @@ public class MiTi {
     @Column(name = "MITI_ID")
     private Long miTiId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PLACE_ID")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "MITI_PLACE_ID", referencedColumnName = "PLACE_ID")
     private Place place;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "EMPLOYEE_ID")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "MITI_EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
     private Employee employee;
 
     @Column(name = "TIME")
     private String time;
 
     public MiTi(Place place, Employee employee, String time) {
-        this.place = place;
-        this.employee = employee;
-        this.time = time;
+        this.place = notNull(place);
+        this.employee = notNull(employee);
+        this.time = notBlank(time);
     }
 
     protected MiTi() {
