@@ -19,25 +19,28 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
 
+import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
 import org.apache.commons.lang3.Validate;
 
 @Embeddable
-public class FirstName {
+public class FirstName extends AbstractSimpleValueObject<String> {
 
     private String firstName;
 
     public FirstName(String firstName) {
-        this.firstName = notBlank(firstName);
-        Validate.notNull(firstName, "null in firstName is disallowed");
+        this.firstName = firstName;
     }
 
-    protected FirstName() { }
+    protected FirstName() {
+        // for JPA
+    }
+
+    @Override
+    protected String validateAndNormalize(String name) {
+        return notBlank(name);
+    }
 
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 }

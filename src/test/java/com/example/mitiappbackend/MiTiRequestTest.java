@@ -81,13 +81,52 @@ public class MiTiRequestTest {
             """;
 
         mvc.perform(post("/mities")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonBody))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonBody))
                 .andExpect(status().isOk())
                 .andDo(print());
 
         mvc.perform(get("/mities"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    void testPostMiTiEmptyFirstName() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":
+                           {
+                               "locality":"Schloefe"
+                           },
+                           "location":
+                           {
+                               "location":"Oldenburg"
+                           }
+                       },
+                   "employee":
+                       {
+                           "firstName":
+                           {
+                               "firstName":""
+                           },
+                           "lastName":
+                           {
+                               "lastName":"Russell"
+                           }
+                       },
+                   "time":"12:00"
+                }
+            """;
+
+        mvc.perform(post("/mities")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonBody))
+                .andExpect(status().is(400))
+                .andDo(print());
     }
 }
