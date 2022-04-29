@@ -46,7 +46,6 @@ import javax.persistence.MappedSuperclass;
  * }
  * </pre>
  */
-
 @MappedSuperclass
 @Access(FIELD)
 public abstract class AbstractSimpleValueObject<V extends Comparable<? super V>>
@@ -54,7 +53,7 @@ public abstract class AbstractSimpleValueObject<V extends Comparable<? super V>>
     public static final String VALUE = "value";
 
     @Column(name = VALUE)
-    private V value;
+    protected V value;
 
     protected AbstractSimpleValueObject() {
         // required for proxying
@@ -69,11 +68,11 @@ public abstract class AbstractSimpleValueObject<V extends Comparable<? super V>>
      * This implementation checks the value to be non-null.
      * Subclasses may override this method to alter validation and normalization.
      *
-     * @param value The constructor value.
+     * @param initialValue The constructor value.
      * @return The validated and normalized value.
      */
-    protected V validateAndNormalize(final V value) {
-        return notNull(value, "value must not be null");
+    protected V validateAndNormalize(final V initialValue) {
+        return notNull(initialValue, "value must not be null");
     }
 
     /**

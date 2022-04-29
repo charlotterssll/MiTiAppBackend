@@ -20,15 +20,12 @@ import static org.apache.commons.lang3.Validate.notBlank;
 import javax.persistence.Embeddable;
 
 import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
-import org.apache.commons.lang3.Validate;
 
 @Embeddable
 public class FirstName extends AbstractSimpleValueObject<String> {
 
-    private String firstName;
-
     public FirstName(String firstName) {
-        this.firstName = firstName;
+        super(firstName);
     }
 
     protected FirstName() {
@@ -36,11 +33,7 @@ public class FirstName extends AbstractSimpleValueObject<String> {
     }
 
     @Override
-    protected String validateAndNormalize(String name) {
-        return notBlank(name);
-    }
-
-    public String getFirstName() {
-        return firstName;
+    protected String validateAndNormalize(String firstName) {
+        return notBlank(firstName);
     }
 }

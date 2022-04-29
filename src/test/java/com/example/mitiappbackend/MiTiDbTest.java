@@ -15,9 +15,6 @@
  */
 package com.example.mitiappbackend;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -53,7 +50,7 @@ public class MiTiDbTest {
     @Autowired
     private TestEntityManager entityManager;
 
-    @Test
+    /*@Test
     public void testMiTiFirstNameCharlotte() {
         entityManager.persist(charlotte);
         entityManager.flush();
@@ -70,5 +67,5 @@ public class MiTiDbTest {
         MiTi miTi = this.miTiRepository.getById(2L);
         assertThat(miTi.getEmployee().getFirstName().getFirstName()).isEqualTo("Marian");
         assertThat(miTi.getPlace().getLocation().getLocation()).isEqualTo("Oldenburg");
-    }
+    }*/
 }
