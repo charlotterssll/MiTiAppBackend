@@ -17,11 +17,15 @@ package com.example.mitiappbackend.domain.employee;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 
+import javax.json.bind.adapter.JsonbAdapter;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Embeddable;
 
+import com.example.mitiappbackend.domain.employee.FirstName.Adapter;
 import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
 
 @Embeddable
+@JsonbTypeAdapter(Adapter.class)
 public class FirstName extends AbstractSimpleValueObject<String> {
 
     public FirstName(String firstName) {
@@ -36,4 +40,19 @@ public class FirstName extends AbstractSimpleValueObject<String> {
     protected String validateAndNormalize(String firstName) {
         return notBlank(firstName);
     }
+
+    public static class Adapter implements JsonbAdapter<FirstName, String> {
+
+        @Override
+        public FirstName adaptFromJson(String firstName) throws Exception {
+            return new FirstName(firstName);
+        }
+
+        @Override
+        public String adaptToJson(FirstName firstName) throws Exception {
+            return firstName.toString();
+        }
+    }
+
+    //public static class TypeAdapter extends AbstractSimpleValueObjectTypeAdapter<FirstName, String> {}
 }

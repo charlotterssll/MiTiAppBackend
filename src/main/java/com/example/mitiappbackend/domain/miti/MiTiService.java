@@ -17,6 +17,9 @@ package com.example.mitiappbackend.domain.miti;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +29,23 @@ public class MiTiService {
     @Autowired
     private MiTiRepository miTiRepository;
 
-    public List<MiTi> getMiTies() {
+    @Autowired
+    private EntityManager entityManager;
+
+    /*public List<MiTi> getMiTies() {
         return miTiRepository.findAll();
     }
 
     public void createMiti(MiTi miti) {
         miTiRepository.save(miti);
+    }*/
+
+    public List<MiTi> getMiTies() {
+        return entityManager.createQuery("SELECT M FROM MiTi M", MiTi.class).getResultList();
+    }
+
+    @Transactional
+    public void saveMiTi(MiTi miTi) {
+        entityManager.persist(miTi);
     }
 }
