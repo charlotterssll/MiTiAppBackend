@@ -19,19 +19,17 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
 
-import org.apache.commons.lang3.Validate;
-
 @Embeddable
 public class LastName {
 
     private String lastName;
 
     public LastName(String lastName) {
-        this.lastName = notBlank(lastName);
-        Validate.notNull(lastName, "null in lastName is disallowed");
+        this.lastName = notBlank(lastName, "null in lastName is disallowed");
     }
 
-    protected LastName() { }
+    protected LastName() {
+    }
 
     public String getLastName() {
         return lastName;

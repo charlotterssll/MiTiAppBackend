@@ -19,16 +19,13 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
 
-import org.apache.commons.lang3.Validate;
-
 @Embeddable
 public class Location {
 
     private String location;
 
     public Location(String location) {
-        this.location = notBlank(location);
-        Validate.notNull(location, "null in location is disallowed");
+        this.location = notBlank(location, "null in location is disallowed");
     }
 
     protected Location() {

@@ -19,16 +19,13 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
 
-import org.apache.commons.lang3.Validate;
-
 @Embeddable
 public class Locality {
 
     private String locality;
 
     public Locality(String locality) {
-        this.locality = notBlank(locality);
-        Validate.notNull(locality, "null in locality is disallowed");
+        this.locality = notBlank(locality, "null in locality is disallowed");
     }
 
     protected Locality() {

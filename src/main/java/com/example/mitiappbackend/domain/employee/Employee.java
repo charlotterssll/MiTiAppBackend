@@ -26,8 +26,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.Validate;
-
 @Entity
 @Table(name = "EMPLOYEE")
 public class Employee {
@@ -46,10 +44,8 @@ public class Employee {
     private LastName lastName;
 
     public Employee(FirstName firstName, LastName lastName) {
-        this.firstName = notNull(firstName);
-        this.lastName = notNull(lastName);
-        Validate.notNull(firstName, "null in firstName is disallowed");
-        Validate.notNull(lastName, "null in lastName is disallowed");
+        this.firstName = notNull(firstName, "null in firstName is disallowed");
+        this.lastName = notNull(lastName, "null in lastName is disallowed");
     }
 
     protected Employee() {

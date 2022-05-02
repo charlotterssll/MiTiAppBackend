@@ -26,8 +26,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.Validate;
-
 @Entity
 @Table(name = "PLACE")
 public class Place {
@@ -46,10 +44,8 @@ public class Place {
     private Location location;
 
     public Place(Locality locality, Location location) {
-        this.locality = notNull(locality);
-        this.location = notNull(location);
-        Validate.notNull(locality, "null in locality is disallowed");
-        Validate.notNull(location, "null in location is disallowed");
+        this.locality = notNull(locality, "null in locality is disallowed");
+        this.location = notNull(location, "null in location is disallowed");
     }
 
     protected Place() {

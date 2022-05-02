@@ -16,45 +16,26 @@
 package com.example.mitiappbackend.domain.employee;
 
 import static org.apache.commons.lang3.Validate.notBlank;
-import static org.apache.commons.lang3.Validate.notNull;
 
-import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Embeddable;
 
-import com.example.mitiappbackend.domain.employee.FirstName.Adapter;
-import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
-import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObjectTypeAdapter;
-
 @Embeddable
-@JsonbTypeAdapter(Adapter.class)
-public class FirstName extends AbstractSimpleValueObject<String> {
+public class FirstName {
+
+    private String firstName;
 
     public FirstName(String firstName) {
-        super(notNull(firstName));
+        this.firstName = notBlank(firstName, "null in firstName is disallowed");
     }
 
     protected FirstName() {
-        super();
     }
 
-    @Override
-    protected String validateAndNormalize(String firstName) {
-        return notBlank(firstName);
+    public String getFirstName() {
+        return firstName;
     }
 
-    /*public static class Adapter implements JsonbAdapter<FirstName, String> {
-
-        @Override
-        public FirstName adaptFromJson(String firstName) throws Exception {
-            return new FirstName(firstName);
-        }
-
-        @Override
-        public String adaptToJson(FirstName firstName) throws Exception {
-            return firstName.toString();
-        }
-    }*/
-
-    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<FirstName, String> {
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 }

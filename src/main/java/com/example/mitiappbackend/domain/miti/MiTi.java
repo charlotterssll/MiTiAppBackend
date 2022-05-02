@@ -28,8 +28,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.Validate;
-
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.place.Place;
 
@@ -55,12 +53,9 @@ public class MiTi {
     private String time;
 
     public MiTi(Place place, Employee employee, String time) {
-        this.place = notNull(place);
-        this.employee = notNull(employee);
-        this.time = notBlank(time);
-        Validate.notNull(place, "null in place is disallowed");
-        Validate.notNull(employee, "null in employee is disallowed");
-        Validate.notNull(time, "null in time is disallowed");
+        this.place = notNull(place, "null in place is disallowed");
+        this.employee = notNull(employee, "null in employee is disallowed");
+        this.time = notBlank(time, "null in time is disallowed");
     }
 
     protected MiTi() {
