@@ -45,7 +45,7 @@ public class MiTiService {
     }
 
     @Transactional
-    public void saveMiTi(MiTi miTi) {
+    public void createMiTi(MiTi miTi) {
         entityManager.persist(miTi);
     }
 }

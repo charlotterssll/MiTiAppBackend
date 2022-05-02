@@ -16,24 +16,25 @@
 package com.example.mitiappbackend.domain.employee;
 
 import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
-import javax.json.bind.adapter.JsonbAdapter;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Embeddable;
 
 import com.example.mitiappbackend.domain.employee.FirstName.Adapter;
 import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
+import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObjectTypeAdapter;
 
 @Embeddable
 @JsonbTypeAdapter(Adapter.class)
 public class FirstName extends AbstractSimpleValueObject<String> {
 
     public FirstName(String firstName) {
-        super(firstName);
+        super(notNull(firstName));
     }
 
     protected FirstName() {
-        // for JPA
+        super();
     }
 
     @Override
@@ -41,7 +42,7 @@ public class FirstName extends AbstractSimpleValueObject<String> {
         return notBlank(firstName);
     }
 
-    public static class Adapter implements JsonbAdapter<FirstName, String> {
+    /*public static class Adapter implements JsonbAdapter<FirstName, String> {
 
         @Override
         public FirstName adaptFromJson(String firstName) throws Exception {
@@ -52,7 +53,8 @@ public class FirstName extends AbstractSimpleValueObject<String> {
         public String adaptToJson(FirstName firstName) throws Exception {
             return firstName.toString();
         }
-    }
+    }*/
 
-    //public static class TypeAdapter extends AbstractSimpleValueObjectTypeAdapter<FirstName, String> {}
+    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<FirstName, String> {
+    }
 }
