@@ -61,6 +61,10 @@ public class MiTi {
     protected MiTi() {
     }
 
+    public Long getMiTiId() {
+        return miTiId;
+    }
+
     public String getTime() {
         return time;
     }

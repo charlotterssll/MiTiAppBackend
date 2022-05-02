@@ -48,4 +48,10 @@ public class MiTiService {
     public void createMiTi(MiTi miTi) {
         entityManager.persist(miTi);
     }
+
+    @Transactional
+    public void deleteMiTi(Long miTiId) {
+        MiTi miTi = entityManager.find(MiTi.class, miTiId);
+        entityManager.remove(miTi);
+    }
 }
