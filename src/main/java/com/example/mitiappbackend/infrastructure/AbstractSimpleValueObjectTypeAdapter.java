@@ -15,7 +15,7 @@
  */
 package com.example.mitiappbackend.infrastructure;
 
-/*import javax.json.bind.adapter.JsonbAdapter;
+import javax.json.bind.adapter.JsonbAdapter;
 
 public class AbstractSimpleValueObjectTypeAdapter<V, P> implements JsonbAdapter<V, P> {
 
@@ -36,4 +36,4 @@ public class AbstractSimpleValueObjectTypeAdapter<V, P> implements JsonbAdapter<
     public V adaptFromJson(P jsonValue) throws Exception {
         return valueObjectBuilder.withValue(jsonValue).build();
     }
-}*/
+}

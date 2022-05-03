@@ -19,23 +19,24 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
 
-@Embeddable
-public class Location {
+import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
+import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObjectTypeAdapter;
 
-    private String location;
+@Embeddable
+public class Location extends AbstractSimpleValueObject<String> {
 
     public Location(String location) {
-        this.location = notBlank(location, "null in location is disallowed");
+        super(location);
     }
 
     protected Location() {
     }
 
-    public String getLocation() {
-        return location;
+    @Override
+    protected String validateAndNormalize(String location) {
+        return notBlank(location);
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<Location, String> {
     }
 }

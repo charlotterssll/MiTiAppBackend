@@ -19,23 +19,24 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
 
-@Embeddable
-public class LastName {
+import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
+import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObjectTypeAdapter;
 
-    private String lastName;
+@Embeddable
+public class LastName extends AbstractSimpleValueObject<String> {
 
     public LastName(String lastName) {
-        this.lastName = notBlank(lastName, "null in lastName is disallowed");
+        super(lastName);
     }
 
     protected LastName() {
     }
 
-    public String getLastName() {
-        return lastName;
+    @Override
+    protected String validateAndNormalize(String lastName) {
+        return notBlank(lastName);
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<LastName, String> {
     }
 }

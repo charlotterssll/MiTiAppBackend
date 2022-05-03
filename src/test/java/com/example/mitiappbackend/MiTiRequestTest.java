@@ -15,9 +15,11 @@
  */
 package com.example.mitiappbackend;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -46,6 +48,8 @@ public class MiTiRequestTest {
                 .andDo(print());
     }
 
+
+
     @Test
     void testPostMiTi() throws Exception {
 
@@ -54,28 +58,16 @@ public class MiTiRequestTest {
                 {
                    "place":
                        {
-                           "locality":
-                           {
-                               "locality":"Schloefe"
-                           },
-                           "location":
-                           {
-                               "location":"Oldenburg"
-                           }
+                           "locality":"Schloefe",
+                           "location":"Oldenburg"
                        },
                    "employee":
                        {
-                           "firstName":
-                           {
-                               "firstName":"Charlotte"
-                           },
-                           "lastName":
-                           {
-                               "lastName":"Russell"
-                           }
+                           "firstName":"Charlotte",
+                           "lastName":"Russell"
                        },
                    "time":"12:00"
-                }
+                },
             """;
 
         mvc.perform(post("/mities")
@@ -85,46 +77,34 @@ public class MiTiRequestTest {
                 .andDo(print());
 
         mvc.perform(get("/mities"))
-                .andExpect(status().isOk());
-                //.andExpect(jsonPath("$", hasSize(1)));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
     }
 
     @Test
-    void testPostMiTiEmptyFirstName() throws Exception {
+    void testPostEmptyMiTi() throws Exception {
 
         String jsonBody =
             """
                 {
                    "place":
                        {
-                           "locality":
-                           {
-                               "locality":"Schloefe"
-                           },
-                           "location":
-                           {
-                               "location":"Oldenburg"
-                           }
+                           "locality":"",
+                           "location":""
                        },
                    "employee":
                        {
-                           "firstName":
-                           {
-                               "firstName":""
-                           },
-                           "lastName":
-                           {
-                               "lastName":"Russell"
-                           }
+                           "firstName":"",
+                           "lastName":""
                        },
-                   "time":"12:00"
-                }
+                   "time":""
+                },
             """;
 
         mvc.perform(post("/mities")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
-                .andExpect(status().is(200))
+                .andExpect(status().is(400))
                 .andDo(print());
     }
 }
