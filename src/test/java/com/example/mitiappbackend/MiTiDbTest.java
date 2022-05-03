@@ -14,39 +14,36 @@
  * limitations under the License\.
  */
 package com.example.mitiappbackend;
-/*
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.FirstName;
 import com.example.mitiappbackend.domain.employee.LastName;
 import com.example.mitiappbackend.domain.miti.MiTi;
 import com.example.mitiappbackend.domain.miti.MiTiRepository;
+import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@RunWith(SpringRunner.class)
 @DataJpaTest
 public class MiTiDbTest {
 
     MiTi charlotte = new MiTi(
         new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
         new Employee(new FirstName("Charlotte"), new LastName("Russell")),
-        "12:00");
+        new Time("12:00"));
 
     MiTi marian = new MiTi(
         new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
         new Employee(new FirstName("Marian"), new LastName("Heck")),
-        "12:00");
+        new Time("12:00"));
 
     @Autowired
     private MiTiRepository miTiRepository;
@@ -72,4 +69,4 @@ public class MiTiDbTest {
         assertThat(miTi.getEmployee().getFirstName().getValue()).isEqualTo("Marian");
         assertThat(miTi.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
     }
-}*/
+}

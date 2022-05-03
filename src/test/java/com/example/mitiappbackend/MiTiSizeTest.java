@@ -15,11 +15,14 @@
  */
 package com.example.mitiappbackend;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,9 +32,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.mitiappbackend.domain.miti.MiTiService;
 
+@Disabled
 @AutoConfigureMockMvc
 @SpringBootTest
-public class MiTiRequestTest {
+public class MiTiSizeTest {
+
 
     @Autowired
     protected MiTiService miTiService;
@@ -40,36 +45,33 @@ public class MiTiRequestTest {
     private MockMvc mvc;
 
     @Test
-    void testGetMiTiesResponse() throws Exception {
-        mvc.perform(get("/mities")).andExpectAll(
-                status().isOk())
-                .andDo(print());
-    }
-
-    @Test
-    void testPostEmptyMiTi() throws Exception {
+    void testPostMiTi() throws Exception {
 
         String jsonBody =
             """
                 {
                    "place":
                        {
-                           "locality":"",
-                           "location":""
+                           "locality":"Schloefe",
+                           "location":"Oldenburg"
                        },
                    "employee":
                        {
-                           "firstName":"",
-                           "lastName":""
+                           "firstName":"Charlotte",
+                           "lastName":"Russell"
                        },
-                   "time":""
+                   "time":"12:00"
                 },
             """;
 
         mvc.perform(post("/mities")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
-                .andExpect(status().is(400))
+                .andExpect(status().isOk())
                 .andDo(print());
+
+        mvc.perform(get("/mities"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
     }
 }

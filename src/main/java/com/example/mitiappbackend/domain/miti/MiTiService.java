@@ -36,8 +36,8 @@ public class MiTiService {
         return miTiRepository.findAll();
     }
 
-    public void createMiti(MiTi miti) {
-        miTiRepository.save(miti);
+    public void createMiTi(MiTi miTi) {
+        miTiRepository.save(miTi);
     }*/
 
     public List<MiTi> getMiTies() {
