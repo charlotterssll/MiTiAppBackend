@@ -27,6 +27,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.example.mitiappbackend.domain.employee.Employee;
@@ -35,8 +37,15 @@ import com.example.mitiappbackend.domain.place.Place;
 
 @Entity
 @Table(name = "MITI")
+@NamedQueries({
+    @NamedQuery(name = MiTi.FIND_ALL, query = "SELECT m FROM MiTi m"),
+    @NamedQuery(name = MiTi.FIND_BY_NUMBER, query = "SELECT m FROM MiTi m WHERE m.miTiId = :number")
+})
 public class MiTi {
 
+    public static final String FIND_ALL = "MiTi.findAll";
+
+    public static final String FIND_BY_NUMBER = "MiTi.findByNumber";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MITI_ID")

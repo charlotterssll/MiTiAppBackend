@@ -31,7 +31,7 @@ public class DeleteMiTiResource {
 
     private final Logger logger = Logger.getLogger(PostMiTiResource.class.getSimpleName());
 
-    @Autowired
+    @Autowired(required = true)
     private MiTiService miTiService;
 
     @DeleteMapping(value = "/mities/{miTiId}")

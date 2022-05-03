@@ -15,25 +15,24 @@
  */
 package com.example.mitiappbackend;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.FirstName;
 import com.example.mitiappbackend.domain.employee.LastName;
 import com.example.mitiappbackend.domain.miti.MiTi;
-import com.example.mitiappbackend.domain.miti.MiTiRepository;
 import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
 
-@DataJpaTest
-public class MiTiDbTest {
+public class MiTiDbTest extends AbstractPersistenceTest {
 
     MiTi charlotte = new MiTi(
         new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
@@ -45,28 +44,21 @@ public class MiTiDbTest {
         new Employee(new FirstName("Marian"), new LastName("Heck")),
         new Time("12:00"));
 
-    @Autowired
-    private MiTiRepository miTiRepository;
-
-    @Autowired
-    private TestEntityManager entityManager;
-
     @Test
-    public void testMiTiFirstNameCharlotte() {
+    public void testMiTiCharlotteNotNull() {
+        entityManager.getTransaction().begin();
         entityManager.persist(charlotte);
-        entityManager.flush();
+        entityManager.getTransaction().commit();
         entityManager.clear();
-        MiTi miTi = this.miTiRepository.getById(1L);
-        assertThat(miTi.getEmployee().getFirstName().getValue()).isEqualTo("Charlotte");
+        assertThat(charlotte.getMiTiId(), is(not(nullValue())));
     }
 
     @Test
-    public void testMiTiFirstNameMarian() {
-        entityManager.persist(marian);
-        entityManager.flush();
+    public void testMiTiFirstNameCharlotteIsCharlotte() {
+        entityManager.getTransaction().begin();
+        entityManager.persist(charlotte);
+        entityManager.getTransaction().commit();
         entityManager.clear();
-        MiTi miTi = this.miTiRepository.getById(2L);
-        assertThat(miTi.getEmployee().getFirstName().getValue()).isEqualTo("Marian");
-        assertThat(miTi.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
+        assertThat(charlotte.getEmployee().getFirstName().getValue()).isEqualTo("Charlotte");
     }
 }
