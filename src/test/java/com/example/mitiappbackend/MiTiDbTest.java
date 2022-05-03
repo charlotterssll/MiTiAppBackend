@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.example.mitiappbackend.domain.employee.Employee;
@@ -31,34 +32,54 @@ import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
-
 public class MiTiDbTest extends AbstractPersistenceTest {
 
-    MiTi charlotte = new MiTi(
-        new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
-        new Employee(new FirstName("Charlotte"), new LastName("Russell")),
-        new Time("12:00"));
+    private MiTi miTi;
 
-    MiTi marian = new MiTi(
-        new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
-        new Employee(new FirstName("Marian"), new LastName("Heck")),
-        new Time("12:00"));
-
-    @Test
-    public void testMiTiCharlotteNotNull() {
+    @BeforeEach
+    public void insertMiTiTestdata() {
         entityManager.getTransaction().begin();
-        entityManager.persist(charlotte);
+        miTi = new MiTi(
+            new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
+            new Employee(new FirstName("Charlotte"), new LastName("Russell")),
+            new Time("12:00"));
+        entityManager.persist(miTi);
         entityManager.getTransaction().commit();
         entityManager.clear();
-        assertThat(charlotte.getMiTiId(), is(not(nullValue())));
     }
 
     @Test
-    public void testMiTiFirstNameCharlotteIsCharlotte() {
+    public void testMiTiNotNull() {
         entityManager.getTransaction().begin();
-        entityManager.persist(charlotte);
+        MiTi newMiTi = new MiTi(
+            new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
+            new Employee(new FirstName("Marian"), new LastName("Heck")),
+            new Time("12:00"));
+        entityManager.persist(newMiTi);
+        entityManager.getTransaction().commit();
+
+        assertThat(newMiTi.getMiTiId(), is(not(nullValue())));
+    }
+
+    @Test
+    public void testFirstNameMarianIsMarian() {
+        entityManager.getTransaction().begin();
+        MiTi marian = new MiTi(
+            new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
+            new Employee(new FirstName("Marian"), new LastName("Heck")),
+            new Time("12:00"));
+        entityManager.getTransaction().commit();
+
+        assertThat(marian.getEmployee().getFirstName().getValue()).isEqualTo("Marian");
+    }
+
+    @Test
+    public void testRemoveMiTi() {
+        entityManager.getTransaction().begin();
+        entityManager.remove(entityManager.merge(miTi));
         entityManager.getTransaction().commit();
         entityManager.clear();
-        assertThat(charlotte.getEmployee().getFirstName().getValue()).isEqualTo("Charlotte");
+
+        assertThat(entityManager.find(MiTi.class, miTi.getMiTiId()), is(nullValue()));
     }
 }
