@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.employee;
+package com.example.mitiappbackend.domain.miti;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 
@@ -22,21 +22,22 @@ import javax.persistence.Embeddable;
 import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
 import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObjectTypeAdapter;
 
-@Embeddable
-public class FirstName extends AbstractSimpleValueObject<String> {
 
-    public FirstName(String firstName) {
-        super(firstName);
+@Embeddable
+public class Time extends AbstractSimpleValueObject<String> {
+
+    public Time(String time) {
+        super(time);
     }
 
-    protected FirstName() {
+    protected Time() {
     }
 
     @Override
-    protected String validateAndNormalize(String firstName) {
-        return notBlank(firstName);
+    protected String validateAndNormalize(String time) {
+        return notBlank(time);
     }
 
-    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<FirstName, String> {
+    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<Time, String> {
     }
 }

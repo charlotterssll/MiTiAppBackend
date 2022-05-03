@@ -60,7 +60,7 @@ public class MiTiDbTest {
         entityManager.flush();
         entityManager.clear();
         MiTi miTi = this.miTiRepository.getById(1L);
-        assertThat(miTi.getEmployee().getFirstName().getFirstName()).isEqualTo("Charlotte");
+        assertThat(miTi.getEmployee().getFirstName().getValue()).isEqualTo("Charlotte");
     }
 
     @Test
@@ -69,7 +69,7 @@ public class MiTiDbTest {
         entityManager.flush();
         entityManager.clear();
         MiTi miTi = this.miTiRepository.getById(2L);
-        assertThat(miTi.getEmployee().getFirstName().getFirstName()).isEqualTo("Marian");
-        assertThat(miTi.getPlace().getLocation().getLocation()).isEqualTo("Oldenburg");
+        assertThat(miTi.getEmployee().getFirstName().getValue()).isEqualTo("Marian");
+        assertThat(miTi.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
     }
 }*/

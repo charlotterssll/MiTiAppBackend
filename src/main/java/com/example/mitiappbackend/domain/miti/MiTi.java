@@ -15,11 +15,12 @@
  */
 package com.example.mitiappbackend.domain.miti;
 
-import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,13 +50,14 @@ public class MiTi {
     @JoinColumn(name = "MITI_EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
     private Employee employee;
 
-    @Column(name = "TIME")
-    private String time;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "TIME"))
+    private Time time;
 
-    public MiTi(Place place, Employee employee, String time) {
+    public MiTi(Place place, Employee employee, Time time) {
         this.place = notNull(place, "null in place is disallowed");
         this.employee = notNull(employee, "null in employee is disallowed");
-        this.time = notBlank(time, "null in time is disallowed");
+        this.time = notNull(time, "null in time is disallowed");
     }
 
     protected MiTi() {
@@ -63,14 +65,6 @@ public class MiTi {
 
     public Long getMiTiId() {
         return miTiId;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = notBlank(time);
     }
 
     public Place getPlace() {
@@ -81,4 +75,7 @@ public class MiTi {
         return employee;
     }
 
+    public Time getTime() {
+        return time;
+    }
 }
