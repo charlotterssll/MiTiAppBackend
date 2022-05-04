@@ -30,6 +30,9 @@ public class MiTiService {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private MiTiRepository miTiRepository;
+
     public List<MiTi> getMiTies() {
         return entityManager.createQuery("SELECT M FROM MiTi M", MiTi.class).getResultList();
     }
@@ -50,5 +53,10 @@ public class MiTiService {
     public void deleteMiTi(Long miTiId) {
         MiTi miTi = entityManager.find(MiTi.class, miTiId);
         entityManager.remove(miTi);
+    }
+
+    @Transactional
+    public void editMiTi(MiTi miTi, Long miTiId) {
+        Optional<MiTi> miTiToEdit = miTiRepository.findById(miTiId);
     }
 }

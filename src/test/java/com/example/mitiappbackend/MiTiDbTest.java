@@ -82,4 +82,15 @@ public class MiTiDbTest extends AbstractPersistenceTest {
 
         assertThat(entityManager.find(MiTi.class, miTi.getMiTiId()), is(nullValue()));
     }
+
+    @Test
+    public void testEditMiTiLocationIsBaecker() {
+        entityManager.getTransaction().begin();
+        MiTi foundMiTi = entityManager.find(MiTi.class, miTi.getMiTiId());
+        foundMiTi.setPlace(new Place(new Locality("Baecker"), new Location("Oldenburg")));
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        assertThat(entityManager.find(MiTi.class, miTi.getMiTiId()).getPlace().getLocality().getValue(), is("Baecker"));
+    }
 }
