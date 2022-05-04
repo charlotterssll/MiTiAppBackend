@@ -16,6 +16,7 @@
 package com.example.mitiappbackend.domain.miti;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -27,20 +28,17 @@ import org.springframework.stereotype.Service;
 public class MiTiService {
 
     @Autowired
-    private MiTiRepository miTiRepository;
-
-    @Autowired
     private EntityManager entityManager;
-
-    /*public List<MiTi> getMiTies() {
-        return miTiRepository.findAll();
-    }
-    public void createMiTi(MiTi miTi) {
-        miTiRepository.save(miTi);
-    }*/
 
     public List<MiTi> getMiTies() {
         return entityManager.createQuery("SELECT M FROM MiTi M", MiTi.class).getResultList();
+    }
+
+    @Transactional
+    public Optional<MiTi> findByMiTiId(Long miTiId) {
+        return entityManager.createNamedQuery(MiTi.FIND_BY_NUMBER, MiTi.class)
+                .setParameter("number", miTiId.toString())
+                .getResultList().stream().findAny();
     }
 
     @Transactional

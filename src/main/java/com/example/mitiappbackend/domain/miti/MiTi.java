@@ -87,4 +87,16 @@ public class MiTi {
     public Time getTime() {
         return time;
     }
+
+    public void setPlace(Place place) {
+        this.place = place;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
 }

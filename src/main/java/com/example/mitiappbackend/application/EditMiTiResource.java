@@ -19,24 +19,32 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.mitiappbackend.domain.miti.MiTi;
 import com.example.mitiappbackend.domain.miti.MiTiService;
 
 @RestController
 @CrossOrigin
-public class DeleteMiTiResource {
+public class EditMiTiResource {
 
     private final Logger logger = Logger.getLogger(PostMiTiResource.class.getSimpleName());
 
     @Autowired
     private MiTiService miTiService;
 
-    @DeleteMapping(value = "/mities/{miTiId}")
-    public void deleteMiTi(@PathVariable Long miTiId) {
-        logger.info("RESTful call 'DELETE miti'");
-        miTiService.deleteMiTi(miTiId);
+    @PutMapping(value = "/mities/{miTiId}")
+    public void editMiTi(@RequestBody MiTi miTi, @PathVariable Long miTiId) {
+        logger.info("RESTful call 'EDIT miti'");
+        /*MiTi miTiToEdit = miTiService.findByMiTiId(miTiId);
+        miTiToEdit.setPlace(miTi.getPlace().getLocality().getValue());
+        miTiToEdit.setPlace(miTi.getPlace().getLocation().getValue());
+        miTiToEdit.setEmployee(miTi.getEmployee().getFirstName().getValue());
+        miTiToEdit.setEmployee(miTi.getEmployee().getLastName().getValue());
+        miTiToEdit.setTime(miTi.getTime());
+        miTiService.createMiTi(miTiToEdit);*/
     }
 }

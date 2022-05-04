@@ -20,9 +20,11 @@ import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -142,5 +144,49 @@ public class MiTiRequestTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
 
+    }
+
+    @Disabled
+    @Test
+    void testEditMiTi() throws Exception {
+
+        String jsonBody =
+            """
+                {"place":
+                       {"locality":"Schloefe",
+                           "location":"Oldenburg"},
+               "employee":
+                   {"firstName":"Charlotte",
+                       "lastName":"Russell"},
+               "time":"12:00"},
+            """;
+
+        mvc.perform(post("/mities")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+            .andExpect(status().isOk());
+
+        mvc.perform(put("/mities/{miTiId}", 1)
+            .content("""
+                {"place":
+                       {"locality":"Schloefe",
+                           "location":"Oldenburg"},
+               "employee":
+                    {"firstName":"Marian,
+                       "lastName":"Heck"},
+               "time":"12:00"},
+            """)
+
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.[0].employee.firstName.value", is("Marian")))
+            .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heck")));
+
+        mvc.perform(get("/mities")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
     }
 }
