@@ -15,9 +15,12 @@
  */
 package com.example.mitiappbackend;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -27,23 +30,53 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.mitiappbackend.domain.miti.MiTiService;
-
 @AutoConfigureMockMvc
 @SpringBootTest
 public class MiTiRequestTest {
 
     @Autowired
-    protected MiTiService miTiService;
-
-    @Autowired
     private MockMvc mvc;
 
     @Test
-    void testGetMiTiesResponse() throws Exception {
-        mvc.perform(get("/mities")).andExpectAll(
-                status().isOk())
-                .andDo(print());
+    void testGetMiTies() throws Exception {
+        mvc.perform(get("/mities")
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void testPostMiTi() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Schloefe",
+                           "location":"Oldenburg"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Charlotte",
+                           "lastName":"Russell"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        mvc.perform(post("/mities")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/mities")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Schloefe")));
     }
 
     @Test
@@ -67,9 +100,47 @@ public class MiTiRequestTest {
             """;
 
         mvc.perform(post("/mities")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400))
-                .andDo(print());
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    void testDeleteMiTi() throws Exception {
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Schloefe",
+                           "location":"Oldenburg"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Charlotte",
+                           "lastName":"Russell"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        mvc.perform(post("/mities")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isOk());
+
+        mvc.perform(delete("/mities/{miTiId}", "1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/mities")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+
     }
 }
