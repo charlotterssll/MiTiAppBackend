@@ -89,14 +89,15 @@ public class MiTi {
     }
 
     public void setPlace(Place place) {
-        this.place = place;
+        this.place = notNull(place);
     }
 
     public void setEmployee(Employee employee) {
-        this.employee = employee;
+        this.employee = notNull(employee);
     }
 
     public void setTime(Time time) {
-        this.time = time;
+        this.time = notNull(time);
     }
+
 }

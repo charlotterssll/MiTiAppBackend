@@ -15,6 +15,7 @@
  */
 package com.example.mitiappbackend.domain.employee;
 
+import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
@@ -34,6 +35,7 @@ public class FirstName extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String firstName) {
+        isTrue(firstName.matches("[A-ZÄÖU][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"), "firstName must only contain letters");
         return notBlank(firstName);
     }
 
