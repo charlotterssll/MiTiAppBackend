@@ -37,11 +37,16 @@ public class MiTiService {
         return entityManager.createQuery("SELECT M FROM MiTi M", MiTi.class).getResultList();
     }
 
-    @Transactional
+    /*@Transactional
     public Optional<MiTi> findByMiTiId(Long miTiId) {
         return entityManager.createNamedQuery(MiTi.FIND_BY_NUMBER, MiTi.class)
                 .setParameter("number", miTiId.toString())
                 .getResultList().stream().findAny();
+    }*/
+
+    @Transactional
+    public Optional<MiTi> getMiTiByMiTiId(Long miTiId) {
+        return miTiRepository.findById(miTiId);
     }
 
     @Transactional
