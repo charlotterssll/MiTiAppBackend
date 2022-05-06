@@ -26,6 +26,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "PLACE")
 public class Place {
@@ -43,7 +46,8 @@ public class Place {
     @AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
     private Location location;
 
-    public Place(Locality locality, Location location) {
+    @JsonCreator
+    public Place(@JsonProperty("locality") Locality locality, @JsonProperty("location") Location location) {
         this.locality = notNull(locality, "null in locality is disallowed");
         this.location = notNull(location, "null in location is disallowed");
     }

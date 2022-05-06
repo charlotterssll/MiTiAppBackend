@@ -33,7 +33,8 @@ import javax.persistence.Table;
 
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.place.Place;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "MITI")
@@ -63,7 +64,8 @@ public class MiTi {
     @AttributeOverride(name = "value", column = @Column(name = "TIME"))
     private Time time;
 
-    public MiTi(Place place, Employee employee, Time time) {
+    @JsonCreator
+    public MiTi(@JsonProperty("place") Place place, @JsonProperty("employee") Employee employee, @JsonProperty("time") Time time) {
         this.place = notNull(place, "null in place is disallowed");
         this.employee = notNull(employee, "null in employee is disallowed");
         this.time = notNull(time, "null in time is disallowed");

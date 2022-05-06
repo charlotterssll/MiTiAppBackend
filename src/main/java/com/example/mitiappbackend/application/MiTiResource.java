@@ -15,11 +15,16 @@
  */
 package com.example.mitiappbackend.application;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,12 +34,36 @@ import com.example.mitiappbackend.domain.miti.MiTiService;
 
 @RestController
 @CrossOrigin
-public class EditMiTiResource {
+public class MiTiResource {
 
-    private final Logger logger = Logger.getLogger(PostMiTiResource.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(MiTiResource.class.getSimpleName());
 
     @Autowired
     private MiTiService miTiService;
+
+    @GetMapping(value = "/mities", produces = "application/json")
+    public List<MiTi> getMiTis() {
+        logger.info("RESTful call 'GET mities'");
+        return miTiService.getMiTies();
+    }
+
+    @GetMapping(value = "/mities/{miTiId}", produces = "application/json")
+    public Optional<MiTi> getMiTiByMiTiId(@PathVariable Long miTiId) {
+        logger.info("RESTful call 'GET miti by mitiid'");
+        return miTiService.getMiTiByMiTiId(miTiId);
+    }
+
+    @PostMapping(value = "/mities", consumes = "application/json")
+    public void createMiTi(@RequestBody MiTi miTi) {
+        logger.info("RESTful call 'POST miti'");
+        miTiService.createMiTi(miTi);
+    }
+
+    @DeleteMapping(value = "/mities/{miTiId}")
+    public void deleteMiTi(@PathVariable Long miTiId) {
+        logger.info("RESTful call 'DELETE miti'");
+        miTiService.deleteMiTi(miTiId);
+    }
 
     @PutMapping(value = "/mities/{miTiId}")
     public void editMiTi(@RequestBody MiTi miTi, @PathVariable Long miTiId) {
