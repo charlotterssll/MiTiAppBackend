@@ -25,43 +25,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MiTiService {
+public class MitiService {
 
     @Autowired
     private EntityManager entityManager;
 
     @Autowired
-    private MiTiRepository miTiRepository;
+    private MitiRepository mitiRepository;
 
-    public List<MiTi> getMiTies() {
-        return entityManager.createQuery("SELECT M FROM MiTi M", MiTi.class).getResultList();
+    public List<Miti> getMiti() {
+        return entityManager.createQuery("SELECT M FROM Miti M", Miti.class).getResultList();
     }
 
     /*@Transactional
-    public Optional<MiTi> findByMiTiId(Long miTiId) {
-        return entityManager.createNamedQuery(MiTi.FIND_BY_NUMBER, MiTi.class)
-                .setParameter("number", miTiId.toString())
+    public Optional<Miti> findByMitiId(Long mitiId) {
+        return entityManager.createNamedQuery(Miti.FIND_BY_NUMBER, Miti.class)
+                .setParameter("number", mitiId.toString())
                 .getResultList().stream().findAny();
     }*/
 
     @Transactional
-    public Optional<MiTi> getMiTiByMiTiId(Long miTiId) {
-        return miTiRepository.findById(miTiId);
+    public Optional<Miti> getMitiByMitiId(Long mitiId) {
+        return mitiRepository.findById(mitiId);
     }
 
     @Transactional
-    public void createMiTi(MiTi miTi) {
-        entityManager.persist(miTi);
+    public void createMiti(Miti miti) {
+        entityManager.persist(miti);
     }
 
     @Transactional
-    public void deleteMiTi(Long miTiId) {
-        MiTi miTi = entityManager.find(MiTi.class, miTiId);
-        entityManager.remove(miTi);
+    public void deleteMiti(Long mitiId) {
+        Miti miti = entityManager.find(Miti.class, mitiId);
+        entityManager.remove(miti);
     }
 
     @Transactional
-    public void editMiTi(MiTi miTi, Long miTiId) {
-        Optional<MiTi> miTiToEdit = miTiRepository.findById(miTiId);
+    public void editMiti(Miti miti, Long mitiId) {
+        Optional<Miti> mitiToEdit = mitiRepository.findById(mitiId);
     }
 }

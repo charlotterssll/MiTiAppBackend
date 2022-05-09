@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,13 +31,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class PostMiTiTest {
+public class PostMitiTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Test
-    void testPostMiTiProperly() throws Exception {
+    void testPostMitiProperly() throws Exception {
 
         String jsonBody =
             """
@@ -55,21 +56,22 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/mities")
+        mvc.perform(get("/miti")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")));
     }
 
+    @Disabled
     @Test
-    void testPostMiTiProperlyTwoTimes() throws Exception {
+    void testPostMitiProperlyTwoTimes() throws Exception {
 
         String jsonBody =
             """
@@ -93,7 +95,7 @@ public class PostMiTiTest {
                 {
                    "place":
                        {
-                           "locality":"Immer Grün",
+                           "locality":"Immergrün",
                            "location":"Oldenburg"
                        },
                    "employee":
@@ -101,23 +103,23 @@ public class PostMiTiTest {
                            "firstName":"Hannelore",
                            "lastName":"Kranz"
                        },
-                   "time":"12:00"
+                   "time":"14:30"
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
                 .andExpect(status().isOk());
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBodySecond))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/mities")
+        mvc.perform(get("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -125,13 +127,13 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithEmptyString() throws Exception {
+    void testPostMitiWithEmptyString() throws Exception {
 
         String jsonBody =
             """
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -139,7 +141,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithoutEntityLocalityAndWithEmptyValues() throws Exception {
+    void testPostMitiWithoutEntityLocalityAndWithEmptyValues() throws Exception {
 
         String jsonBody =
             """
@@ -157,7 +159,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -165,7 +167,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithoutEntityLocality() throws Exception {
+    void testPostMitiWithoutEntityLocality() throws Exception {
 
         String jsonBody =
             """
@@ -183,7 +185,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -191,7 +193,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithEmptyValues() throws Exception {
+    void testPostMitiWithEmptyValues() throws Exception {
 
         String jsonBody =
             """
@@ -210,7 +212,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -218,7 +220,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithEmptyLocalityValue() throws Exception {
+    void testPostMitiWithEmptyLocalityValue() throws Exception {
 
         String jsonBody =
             """
@@ -237,7 +239,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -245,7 +247,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithNullLocalityValue() throws Exception {
+    void testPostMitiWithNullLocalityValue() throws Exception {
 
         String jsonBody =
             """
@@ -264,7 +266,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -272,7 +274,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithLowerCaseValues() throws Exception {
+    void testPostMitiWithLowerCaseValues() throws Exception {
 
         String jsonBody =
             """
@@ -291,7 +293,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -299,7 +301,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithUpperCaseValues() throws Exception {
+    void testPostMitiWithUpperCaseValues() throws Exception {
 
         String jsonBody =
             """
@@ -318,7 +320,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -326,7 +328,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithNumberValues() throws Exception {
+    void testPostMitiWithNumberValues() throws Exception {
 
         String jsonBody =
             """
@@ -345,7 +347,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -353,7 +355,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithSignValues() throws Exception {
+    void testPostMitiWithSignValues() throws Exception {
 
         String jsonBody =
             """
@@ -372,7 +374,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -380,7 +382,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithLettersInTimeValue() throws Exception {
+    void testPostMitiWithLettersInTimeValue() throws Exception {
 
         String jsonBody =
             """
@@ -399,7 +401,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
@@ -407,7 +409,7 @@ public class PostMiTiTest {
     }
 
     @Test
-    void testPostMiTiWithSignsInTimeValue() throws Exception {
+    void testPostMitiWithSignsInTimeValue() throws Exception {
 
         String jsonBody =
             """
@@ -426,7 +428,7 @@ public class PostMiTiTest {
                 },
             """;
 
-        mvc.perform(post("/mities")
+        mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBody))

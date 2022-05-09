@@ -17,5 +17,5 @@ package com.example.mitiappbackend.domain.miti;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MiTiRepository extends JpaRepository<MiTi, Long> {
+public interface MitiRepository extends JpaRepository<Miti, Long> {
 }

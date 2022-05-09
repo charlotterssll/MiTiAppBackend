@@ -27,70 +27,70 @@ import org.junit.jupiter.api.Test;
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.FirstName;
 import com.example.mitiappbackend.domain.employee.LastName;
-import com.example.mitiappbackend.domain.miti.MiTi;
+import com.example.mitiappbackend.domain.miti.Miti;
 import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
-public class MiTiDbTest extends AbstractPersistenceTest {
+public class MitiDbTest extends AbstractPersistenceTest {
 
-    private MiTi miTi;
+    private Miti miti;
 
     @BeforeEach
-    public void insertMiTiTestdata() {
+    public void insertMitiTestdata() {
         entityManager.getTransaction().begin();
-        miTi = new MiTi(
-            new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
-            new Employee(new FirstName("Charlotte"), new LastName("Russell")),
-            new Time("12:00"));
-        entityManager.persist(miTi);
+        miti = new Miti(
+            new Place(new Locality("Immergrün"), new Location("Oldenburg")),
+            new Employee(new FirstName("Hannelore"), new LastName("Kranz")),
+            new Time("14:30"));
+        entityManager.persist(miti);
         entityManager.getTransaction().commit();
         entityManager.clear();
     }
 
     @Test
-    public void testMiTiNotNull() {
+    public void testMitiNotNull() {
         entityManager.getTransaction().begin();
-        MiTi newMiTi = new MiTi(
-            new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
+        Miti newMiti = new Miti(
+            new Place(new Locality("Metzger"), new Location("Hannover")),
             new Employee(new FirstName("Marian"), new LastName("Heck")),
             new Time("12:00"));
-        entityManager.persist(newMiTi);
+        entityManager.persist(newMiti);
         entityManager.getTransaction().commit();
 
-        assertThat(newMiTi.getMiTiId(), is(not(nullValue())));
+        assertThat(newMiti.getMitiId(), is(not(nullValue())));
     }
 
     @Test
     public void testFirstNameMarianIsMarian() {
         entityManager.getTransaction().begin();
-        MiTi miTiMarian = new MiTi(
-            new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
-            new Employee(new FirstName("Marian"), new LastName("Heck")),
+        Miti mitiNew = new Miti(
+            new Place(new Locality("Metzger"), new Location("Hannover")),
+            new Employee(new FirstName("Karl"), new LastName("Heinz")),
             new Time("12:00"));
         entityManager.getTransaction().commit();
 
-        assertThat(miTiMarian.getEmployee().getFirstName().getValue()).isEqualTo("Marian");
+        assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Karl");
     }
 
     @Test
-    public void testRemoveMiTi() {
+    public void testRemoveMiti() {
         entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.merge(miTi));
+        entityManager.remove(entityManager.merge(miti));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        assertThat(entityManager.find(MiTi.class, miTi.getMiTiId()), is(nullValue()));
+        assertThat(entityManager.find(Miti.class, miti.getMitiId()), is(nullValue()));
     }
 
     @Test
-    public void testEditMiTiLocationIsBaecker() {
+    public void testEditMitiLocationIsBaecker() {
         entityManager.getTransaction().begin();
-        MiTi foundMiTi = entityManager.find(MiTi.class, miTi.getMiTiId());
-        foundMiTi.setPlace(new Place(new Locality("Baecker"), new Location("Oldenburg")));
+        Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
+        foundMiti.setPlace(new Place(new Locality("Baecker"), new Location("Oldenburg")));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        assertThat(entityManager.find(MiTi.class, miTi.getMiTiId()).getPlace().getLocality().getValue(), is("Baecker"));
+        assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Baecker"));
     }
 }

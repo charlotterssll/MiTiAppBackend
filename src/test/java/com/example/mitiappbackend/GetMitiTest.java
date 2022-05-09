@@ -15,11 +15,7 @@
  */
 package com.example.mitiappbackend;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -31,45 +27,48 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class DeleteMiTiTest {
+public class GetMitiTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Test
-    void testDeleteMiTi() throws Exception {
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Schloefe",
-                           "location":"Oldenburg"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Charlotte",
-                           "lastName":"Russell"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        mvc.perform(post("/mities")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().isOk());
-
-        mvc.perform(delete("/mities/{miTiId}", "1")
+    void testGetMitiProperly() throws Exception {
+        mvc.perform(get("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
 
-        mvc.perform(get("/mities")
+    @Test
+    void testGetMitiWithUpperCaseURL() throws Exception {
+        mvc.perform(get("/MITI")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(0)));
+                .andExpect(status().is(404));
+    }
+
+    @Test
+    void testGetMitiWithIncorrectURLPathBefore() throws Exception {
+        mvc.perform(get("/abc/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(404));
+    }
+
+    @Test
+    void testGetMitiWithIncorrectURLPathAfter() throws Exception {
+        mvc.perform(get("/miti/abc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    void testGetMitiWithIncorrectSpelling() throws Exception {
+        mvc.perform(get("/mydys")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(404));
     }
 }

@@ -39,18 +39,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "MITI")
 @NamedQueries({
-    @NamedQuery(name = MiTi.FIND_ALL, query = "SELECT m FROM MiTi m"),
-    @NamedQuery(name = MiTi.FIND_BY_NUMBER, query = "SELECT m FROM MiTi m WHERE m.miTiId = :number")
+    @NamedQuery(name = Miti.FIND_ALL, query = "SELECT m FROM Miti m"),
+    @NamedQuery(name = Miti.FIND_BY_NUMBER, query = "SELECT m FROM Miti m WHERE m.mitiId = :number")
 })
-public class MiTi {
+public class Miti {
 
-    public static final String FIND_ALL = "MiTi.findAll";
+    public static final String FIND_ALL = "Miti.findAll";
 
-    public static final String FIND_BY_NUMBER = "MiTi.findByNumber";
+    public static final String FIND_BY_NUMBER = "Miti.findByNumber";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MITI_ID")
-    private Long miTiId;
+    private Long mitiId;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MITI_PLACE_ID", referencedColumnName = "PLACE_ID")
@@ -65,17 +65,17 @@ public class MiTi {
     private Time time;
 
     @JsonCreator
-    public MiTi(@JsonProperty("place") Place place, @JsonProperty("employee") Employee employee, @JsonProperty("time") Time time) {
+    public Miti(@JsonProperty("place") Place place, @JsonProperty("employee") Employee employee, @JsonProperty("time") Time time) {
         this.place = notNull(place, "null in place is disallowed");
         this.employee = notNull(employee, "null in employee is disallowed");
         this.time = notNull(time, "null in time is disallowed");
     }
 
-    protected MiTi() {
+    protected Miti() {
     }
 
-    public Long getMiTiId() {
-        return miTiId;
+    public Long getMitiId() {
+        return mitiId;
     }
 
     public Place getPlace() {

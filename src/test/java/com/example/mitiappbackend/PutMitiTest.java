@@ -30,32 +30,32 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class PutMiTiTest {
+public class PutMitiTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Disabled
     @Test
-    void testEditMiTi() throws Exception {
+    void testEditMiti() throws Exception {
 
-        mvc.perform(put("/mities/{miTiId}", 1)
-                        .content(
-                            """
-                                {
-                                   "place":
-                                       {
-                                            "locality":"Schloefe",
-                                            "location":"Oldenburg"
-                                        },
-                                    "employee":
-                                        {
-                                            "firstName":"Marian,
-                                            "lastName":"Heck"
-                                        },
-                                    "time":"12:00"
-                                },
-                            """)
+        mvc.perform(put("/miti/{mitiId}", 1)
+            .content(
+                """
+                    {
+                       "place":
+                           {
+                                "locality":"Metzger",
+                                "location":"Hannover"
+                            },
+                        "employee":
+                            {
+                                "firstName":"Karl,
+                                "lastName":"Heinz"
+                            },
+                        "time":"12:00"
+                    },
+                """)
 
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
