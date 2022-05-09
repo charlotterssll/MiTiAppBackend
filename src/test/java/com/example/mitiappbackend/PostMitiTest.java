@@ -30,6 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
 public class PostMitiTest {
@@ -71,7 +72,6 @@ public class PostMitiTest {
                 .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")));
     }
 
-    @Test
     void testPostMitiProperlyTwoTimes() throws Exception {
 
         String jsonBody =
