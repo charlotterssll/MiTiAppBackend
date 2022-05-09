@@ -69,6 +69,8 @@ public class PostMitiTest {
                 .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")));
     }
 
+    //TODO
+    //Arne und Melanie fragen warum dieser Test failed wenn die gesamte Suit laufen gelassen wrid
     @Disabled
     @Test
     void testPostMitiProperlyTwoTimes() throws Exception {
@@ -123,6 +125,7 @@ public class PostMitiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
                 .andExpect(jsonPath("$.[1].place.location.value", is("Oldenburg")));
     }
 
