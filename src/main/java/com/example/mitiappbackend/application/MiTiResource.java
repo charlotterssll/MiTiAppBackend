@@ -42,38 +42,63 @@ public class MiTiResource {
     private MiTiService miTiService;
 
     @GetMapping(value = "/mities", produces = "application/json")
-    public List<MiTi> getMiTis() {
-        logger.info("RESTful call 'GET mities'");
-        return miTiService.getMiTies();
+    public List<MiTi> getMiTis() throws Exception {
+        try {
+            logger.info("RESTful call 'GET mities'");
+            return miTiService.getMiTies();
+        } catch (Exception e) {
+            logger.info("Error in RESTful call 'GET mities'");
+            throw new Exception(e);
+        }
     }
 
     @GetMapping(value = "/mities/{miTiId}", produces = "application/json")
-    public Optional<MiTi> getMiTiByMiTiId(@PathVariable Long miTiId) {
-        logger.info("RESTful call 'GET miti by mitiid'");
-        return miTiService.getMiTiByMiTiId(miTiId);
+    public Optional<MiTi> getMiTiByMiTiId(@PathVariable Long miTiId) throws Exception {
+        try {
+            logger.info("RESTful call 'GET miti by mitiid'");
+            return miTiService.getMiTiByMiTiId(miTiId);
+        } catch (Exception e) {
+            logger.info("Error in RESTful call 'GET miti by mitiid'");
+            throw new Exception(e);
+        }
     }
 
     @PostMapping(value = "/mities", consumes = "application/json")
-    public void createMiTi(@RequestBody MiTi miTi) {
-        logger.info("RESTful call 'POST miti'");
-        miTiService.createMiTi(miTi);
+    public void createMiTi(@RequestBody MiTi miTi) throws Exception {
+        try {
+            logger.info("RESTful call 'POST miti'");
+            miTiService.createMiTi(miTi);
+        } catch (Exception e) {
+            logger.info("Error in RESTful call 'POST miti'");
+            throw new Exception(e);
+        }
     }
 
     @DeleteMapping(value = "/mities/{miTiId}")
-    public void deleteMiTi(@PathVariable Long miTiId) {
-        logger.info("RESTful call 'DELETE miti'");
-        miTiService.deleteMiTi(miTiId);
+    public void deleteMiTi(@PathVariable Long miTiId) throws Exception {
+        try {
+            logger.info("RESTful call 'DELETE miti'");
+            miTiService.deleteMiTi(miTiId);
+        } catch (Exception e) {
+            logger.info("Error in RESTful call 'DELETE miti'");
+            throw new Exception(e);
+        }
     }
 
     @PutMapping(value = "/mities/{miTiId}")
-    public void editMiTi(@RequestBody MiTi miTi, @PathVariable Long miTiId) {
-        logger.info("RESTful call 'EDIT miti'");
-        /*MiTi miTiToEdit = miTiService.findByMiTiId(miTiId);
-        miTiToEdit.setPlace(miTi.getPlace().getLocality().getValue());
-        miTiToEdit.setPlace(miTi.getPlace().getLocation().getValue());
-        miTiToEdit.setEmployee(miTi.getEmployee().getFirstName().getValue());
-        miTiToEdit.setEmployee(miTi.getEmployee().getLastName().getValue());
-        miTiToEdit.setTime(miTi.getTime());
-        miTiService.createMiTi(miTiToEdit);*/
+    public void editMiTi(@RequestBody MiTi miTi, @PathVariable Long miTiId) throws Exception {
+        try {
+            logger.info("RESTful call 'PUT miti'");
+            /*MiTi miTiToEdit = miTiService.findByMiTiId(miTiId);
+            miTiToEdit.setPlace(miTi.getPlace().getLocality().getValue());
+            miTiToEdit.setPlace(miTi.getPlace().getLocation().getValue());
+            miTiToEdit.setEmployee(miTi.getEmployee().getFirstName().getValue());
+            miTiToEdit.setEmployee(miTi.getEmployee().getLastName().getValue());
+            miTiToEdit.setTime(miTi.getTime());
+            miTiService.createMiTi(miTiToEdit);*/
+        } catch (Exception e) {
+            logger.info("Error in RESTful call 'PUT miti'");
+            throw new Exception(e);
+        }
     }
 }

@@ -35,7 +35,8 @@ public class Locality extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String locality) {
-        isTrue(locality.matches("[A-ZÄÖU][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"), "locality must only contain letters");
+        isTrue(locality.matches("[A-ZÄÖU][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"),
+            "locality must only contain letters and begin with upper case");
         return notBlank(locality);
     }
 

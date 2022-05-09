@@ -64,13 +64,13 @@ public class MiTiDbTest extends AbstractPersistenceTest {
     @Test
     public void testFirstNameMarianIsMarian() {
         entityManager.getTransaction().begin();
-        MiTi marian = new MiTi(
+        MiTi miTiMarian = new MiTi(
             new Place(new Locality("Schlöfe"), new Location("Oldenburg")),
             new Employee(new FirstName("Marian"), new LastName("Heck")),
             new Time("12:00"));
         entityManager.getTransaction().commit();
 
-        assertThat(marian.getEmployee().getFirstName().getValue()).isEqualTo("Marian");
+        assertThat(miTiMarian.getEmployee().getFirstName().getValue()).isEqualTo("Marian");
     }
 
     @Test

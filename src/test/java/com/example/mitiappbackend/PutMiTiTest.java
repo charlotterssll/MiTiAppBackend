@@ -41,20 +41,20 @@ public class PutMiTiTest {
 
         mvc.perform(put("/mities/{miTiId}", 1)
                         .content(
-                                """
-                                    {
-                                       "place":
-                                           {
-                                                "locality":"Schloefe",
-                                                "location":"Oldenburg"
-                                            },
-                                        "employee":
-                                            {
-                                                "firstName":"Marian,
-                                                "lastName":"Heck"
-                                            },
-                                        "time":"12:00"
-                                    },
+                            """
+                                {
+                                   "place":
+                                       {
+                                            "locality":"Schloefe",
+                                            "location":"Oldenburg"
+                                        },
+                                    "employee":
+                                        {
+                                            "firstName":"Marian,
+                                            "lastName":"Heck"
+                                        },
+                                    "time":"12:00"
+                                },
                             """)
 
                         .contentType(MediaType.APPLICATION_JSON)

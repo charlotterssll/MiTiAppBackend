@@ -35,7 +35,8 @@ public class FirstName extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String firstName) {
-        isTrue(firstName.matches("[A-ZÄÖU][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"), "firstName must only contain letters");
+        isTrue(firstName.matches("[A-ZÄÖU][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"),
+            "firstName must only contain letters and begin with upper case");
         return notBlank(firstName);
     }
 

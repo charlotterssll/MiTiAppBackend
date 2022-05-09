@@ -71,6 +71,5 @@ public class DeleteMiTiTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
-
     }
 }

@@ -33,10 +33,42 @@ public class GetMiTiTest {
     private MockMvc mvc;
 
     @Test
-    void testGetMiTies() throws Exception {
+    void testGetMiTiProperly() throws Exception {
         mvc.perform(get("/mities")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetMiTiWithUpperCaseURL() throws Exception {
+        mvc.perform(get("/MITIES")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(404));
+    }
+
+    @Test
+    void testGetMiTiWithIncorrectURLPathBefore() throws Exception {
+        mvc.perform(get("/abc/mities")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(404));
+    }
+
+    @Test
+    void testGetMiTiWithIncorrectURLPathAfter() throws Exception {
+        mvc.perform(get("/mities/abc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    void testGetMiTiWithIncorrectSpelling() throws Exception {
+        mvc.perform(get("/mitis")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(404));
     }
 }
