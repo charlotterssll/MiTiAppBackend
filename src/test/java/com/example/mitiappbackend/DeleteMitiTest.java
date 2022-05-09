@@ -37,7 +37,7 @@ public class DeleteMitiTest {
     private MockMvc mvc;
 
     @Test
-    void testDeleteMiTi() throws Exception {
+    void testDeleteMiti() throws Exception {
         String jsonBody =
             """
                 {
