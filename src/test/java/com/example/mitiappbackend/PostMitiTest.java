@@ -15,18 +15,19 @@
  */
 package com.example.mitiappbackend;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
@@ -36,6 +37,7 @@ public class PostMitiTest {
     @Autowired
     private MockMvc mvc;
 
+    @DirtiesContext
     @Test
     void testPostMitiProperly() throws Exception {
 
@@ -69,9 +71,6 @@ public class PostMitiTest {
                 .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")));
     }
 
-    //TODO
-    //Arne und Melanie fragen warum dieser Test failed wenn die gesamte Suit laufen gelassen wrid
-    @Disabled
     @Test
     void testPostMitiProperlyTwoTimes() throws Exception {
 
@@ -126,7 +125,8 @@ public class PostMitiTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
-                .andExpect(jsonPath("$.[1].place.location.value", is("Oldenburg")));
+                .andExpect(jsonPath("$.[1].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test

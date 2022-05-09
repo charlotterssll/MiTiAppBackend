@@ -21,7 +21,6 @@ import static org.apache.commons.lang3.Validate.notBlank;
 import javax.persistence.Embeddable;
 
 import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
-import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObjectTypeAdapter;
 
 @Embeddable
 public class LastName extends AbstractSimpleValueObject<String> {
@@ -38,8 +37,5 @@ public class LastName extends AbstractSimpleValueObject<String> {
         isTrue(lastName.matches("[A-ZÄÖU][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"),
             "lastName must only contain letters and begin with upper case");
         return notBlank(lastName);
-    }
-
-    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<LastName, String> {
     }
 }

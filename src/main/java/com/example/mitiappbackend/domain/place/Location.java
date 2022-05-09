@@ -21,7 +21,6 @@ import static org.apache.commons.lang3.Validate.notBlank;
 import javax.persistence.Embeddable;
 
 import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
-import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObjectTypeAdapter;
 
 @Embeddable
 public class Location extends AbstractSimpleValueObject<String> {
@@ -38,8 +37,5 @@ public class Location extends AbstractSimpleValueObject<String> {
         isTrue(location.matches("[A-ZÄÖU][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"),
             "location must only contain letters and begin with upper case");
         return notBlank(location);
-    }
-
-    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<Location, String> {
     }
 }

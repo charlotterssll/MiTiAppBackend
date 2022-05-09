@@ -21,8 +21,6 @@ import static org.apache.commons.lang3.Validate.notBlank;
 import javax.persistence.Embeddable;
 
 import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
-import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObjectTypeAdapter;
-
 
 @Embeddable
 public class Time extends AbstractSimpleValueObject<String> {
@@ -38,8 +36,5 @@ public class Time extends AbstractSimpleValueObject<String> {
     protected String validateAndNormalize(String time) {
         isTrue(time.matches("^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$"), "time must only contain numbers in 24h time format");
         return notBlank(time);
-    }
-
-    public static class Adapter extends AbstractSimpleValueObjectTypeAdapter<Time, String> {
     }
 }
