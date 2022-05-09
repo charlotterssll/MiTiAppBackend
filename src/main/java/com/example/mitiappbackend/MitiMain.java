@@ -19,9 +19,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "com.example.mitiappbackend")
-public class MiTiMain {
+public class MitiMain {
 
     public static void main(String[] args) {
-        SpringApplication.run(MiTiMain.class, args);
+        SpringApplication.run(MitiMain.class, args);
     }
 }
