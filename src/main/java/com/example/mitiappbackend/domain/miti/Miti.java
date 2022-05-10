@@ -101,5 +101,4 @@ public class Miti {
     public void setTime(Time time) {
         this.time = notNull(time);
     }
-
 }

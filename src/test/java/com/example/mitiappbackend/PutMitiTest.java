@@ -39,7 +39,7 @@ public class PutMitiTest {
     private MockMvc mvc;
 
     @Test
-    void testEditMiti() throws Exception {
+    void testEditMitiProperly() throws Exception {
 
         String jsonBody =
             """
@@ -93,5 +93,62 @@ public class PutMitiTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")));
+    }
+
+    @Test
+    void testEditMiti() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                            "locality":"Immergrün",
+                            "location":"Oldenburg"
+                        },
+                    "employee":
+                        {
+                            "firstName":"Hannelore",
+                            "lastName":"Kranz"
+                        },
+                    "time":"14:30"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                .content(jsonBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                .content(jsonBodySecond)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
+            .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")));
     }
 }
