@@ -30,7 +30,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
 public class DeleteMitiTest {
@@ -38,6 +37,7 @@ public class DeleteMitiTest {
     @Autowired
     private MockMvc mvc;
 
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     @Test
     void testDeleteMiti() throws Exception {
         String jsonBody =
