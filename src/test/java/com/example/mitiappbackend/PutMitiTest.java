@@ -16,11 +16,12 @@
 package com.example.mitiappbackend;
 
 import static org.hamcrest.core.Is.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,32 +38,60 @@ public class PutMitiTest {
     @Autowired
     private MockMvc mvc;
 
-    @Disabled
     @Test
     void testEditMiti() throws Exception {
 
-        mvc.perform(put("/miti/{mitiId}", 1)
-            .content(
-                """
-                    {
-                       "place":
-                           {
-                                "locality":"Metzger",
-                                "location":"Hannover"
-                            },
-                        "employee":
-                            {
-                                "firstName":"Karl,
-                                "lastName":"Heinz"
-                            },
-                        "time":"12:00"
-                    },
-                """)
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
 
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Marian")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heck")));
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                            "locality":"Immergrün",
+                            "location":"Oldenburg"
+                        },
+                    "employee":
+                        {
+                            "firstName":"Hannelore",
+                            "lastName":"Kranz"
+                        },
+                    "time":"14:30"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                .content(jsonBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                .content(jsonBodySecond)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")));
     }
 }

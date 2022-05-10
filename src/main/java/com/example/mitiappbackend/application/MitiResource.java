@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.miti.Miti;
+import com.example.mitiappbackend.domain.miti.MitiRepository;
 import com.example.mitiappbackend.domain.miti.MitiService;
 
 @RestController
@@ -40,6 +41,9 @@ public class MitiResource {
 
     @Autowired
     private MitiService mitiService;
+
+    @Autowired
+    private MitiRepository mitiRepository;
 
     @GetMapping(value = "/miti", produces = "application/json")
     public List<Miti> getMiti() throws Exception {
@@ -74,6 +78,23 @@ public class MitiResource {
         }
     }
 
+    @PutMapping(value = "/miti/{mitiId}")
+    public void editMiti(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws Exception {
+        try {
+            logger.info("RESTful call 'PUT miti'");
+            Miti mitiToEdit = mitiRepository
+                .findById(mitiId)
+                .orElseThrow(() -> new Exception("Miti not found on : " + mitiId));
+            mitiToEdit.setPlace(miti.getPlace());
+            mitiToEdit.setEmployee(miti.getEmployee());
+            mitiToEdit.setTime(miti.getTime());
+            mitiService.createMiti(mitiToEdit);
+        } catch (Exception e) {
+            logger.info("Error in RESTful call 'PUT miti'");
+            throw new Exception(e);
+        }
+    }
+
     @DeleteMapping(value = "/miti/{mitiId}")
     public void deleteMiti(@PathVariable Long mitiId) throws Exception {
         try {
@@ -81,23 +102,6 @@ public class MitiResource {
             mitiService.deleteMiti(mitiId);
         } catch (Exception e) {
             logger.info("Error in RESTful call 'DELETE miti'");
-            throw new Exception(e);
-        }
-    }
-
-    @PutMapping(value = "/miti/{mitiId}")
-    public void editMiti(@RequestBody Miti miti, @PathVariable Long mitiId) throws Exception {
-        try {
-            logger.info("RESTful call 'PUT miti'");
-            /*Miti mitiToEdit = mitiService.findByMitiId(mitiId);
-            mitiToEdit.setPlace(miti.getPlace().getLocality().getValue());
-            mitiToEdit.setPlace(miti.getPlace().getLocation().getValue());
-            mitiToEdit.setEmployee(miti.getEmployee().getFirstName().getValue());
-            mitiToEdit.setEmployee(miti.getEmployee().getLastName().getValue());
-            mitiToEdit.setTime(miti.getTime());
-            mitiService.createMiti(mitiToEdit);*/
-        } catch (Exception e) {
-            logger.info("Error in RESTful call 'PUT miti'");
             throw new Exception(e);
         }
     }

@@ -30,30 +30,32 @@ import javax.persistence.MappedSuperclass;
  * <pre>
  * public class EmailAddress extends AbstractSimpleValueObject&lt;String> {
  *
- *     private static final String PATTERN = ...
+ *   private static final String PATTERN = ...
  *
- *     protected EmailAddress() {
- *         // required for proxying
- *     }
+ *   protected EmailAddress() {
+ *     // required for proxying
+ *   }
  *
- *     public EmailAddress(String emailAddress) {
- *         super(emailAddress);
- *     }
+ *   public EmailAddress(String emailAddress) {
+ *     super(emailAddress);
+ *   }
  *
- *     protected String validateAndNormalize(String value) {
- *         matchesPattern(value, PATTERN, "%1 is not a valid email address", value);
- *     }
+ *   protected String validateAndNormalize(String value) {
+ *     matchesPattern(value, PATTERN, "%1 is not a valid email address", value);
+ *   }
  * }
  * </pre>
  */
+
 @MappedSuperclass
 @Access(FIELD)
 public abstract class AbstractSimpleValueObject<V extends Comparable<? super V>>
     implements Comparable<AbstractSimpleValueObject<V>>, Serializable {
+
     public static final String VALUE = "value";
 
     @Column(name = VALUE)
-    protected V value;
+    private V value;
 
     protected AbstractSimpleValueObject() {
         // required for proxying
@@ -68,11 +70,11 @@ public abstract class AbstractSimpleValueObject<V extends Comparable<? super V>>
      * This implementation checks the value to be non-null.
      * Subclasses may override this method to alter validation and normalization.
      *
-     * @param initialValue The constructor value.
+     * @param normalizedValue The constructor value.
      * @return The validated and normalized value.
      */
-    protected V validateAndNormalize(final V initialValue) {
-        return notNull(initialValue, "value must not be null");
+    protected V validateAndNormalize(final V normalizedValue) {
+        return notNull(value, "value must not be null");
     }
 
     /**

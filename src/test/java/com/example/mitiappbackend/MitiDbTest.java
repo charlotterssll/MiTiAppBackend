@@ -53,7 +53,7 @@ public class MitiDbTest extends AbstractPersistenceTest {
         entityManager.getTransaction().begin();
         Miti newMiti = new Miti(
             new Place(new Locality("Metzger"), new Location("Hannover")),
-            new Employee(new FirstName("Marian"), new LastName("Heck")),
+            new Employee(new FirstName("Karl"), new LastName("Heinz")),
             new Time("12:00"));
         entityManager.persist(newMiti);
         entityManager.getTransaction().commit();
@@ -62,7 +62,7 @@ public class MitiDbTest extends AbstractPersistenceTest {
     }
 
     @Test
-    public void testFirstNameMarianIsMarian() {
+    public void testFirstNameKarlIsKarl() {
         entityManager.getTransaction().begin();
         Miti mitiNew = new Miti(
             new Place(new Locality("Metzger"), new Location("Hannover")),
