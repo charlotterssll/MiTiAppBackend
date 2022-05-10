@@ -96,7 +96,7 @@ public class PutMitiTest {
     }
 
     @Test
-    void testEditMiti() throws Exception {
+    void testEditMitiEmptyValueDoesNotOverwriteOriginalValue() throws Exception {
 
         String jsonBody =
             """
@@ -120,15 +120,15 @@ public class PutMitiTest {
                 {
                    "place":
                        {
-                            "locality":"Immergrün",
-                            "location":"Oldenburg"
+                            "locality":"",
+                            "location":"Hannover"
                         },
                     "employee":
                         {
-                            "firstName":"Hannelore",
-                            "lastName":"Kranz"
+                            "firstName":"Karl",
+                            "lastName":"Heinz"
                         },
-                    "time":"14:30"
+                    "time":"12:00"
                 },
             """;
 
@@ -142,13 +142,72 @@ public class PutMitiTest {
                 .content(jsonBodySecond)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+                .andExpect(status().is(400));
 
         mvc.perform(get("/miti")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
-            .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")));
+            .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")));
+    }
+
+    @Test
+    void testEditMitiEmptyValuesDontOverwriteOriginalValues() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                            "locality":"",
+                            "location":""
+                        },
+                    "employee":
+                        {
+                            "firstName":"",
+                            "lastName":""
+                        },
+                    "time":""
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                        .content(jsonBodySecond)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400));
+
+        mvc.perform(get("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")));
     }
 }
