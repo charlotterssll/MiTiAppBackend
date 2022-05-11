@@ -15,7 +15,42 @@
  */
 package com.example.mitiappbackend.domain.miti;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface MitiRepository extends JpaRepository<Miti, Long> {
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class MitiRepository {
+
+    @Autowired
+    private EntityManager entityManager;
+
+    public List<Miti> getMiti() {
+        return entityManager.createQuery("SELECT M FROM Miti M", Miti.class).getResultList();
+    }
+
+    @Transactional
+    public Miti findByMitiId(Long mitiId) {
+        return entityManager.find(Miti.class, mitiId);
+    }
+
+    @Transactional
+    public void createMiti(Miti miti) {
+        entityManager.persist(miti);
+    }
+
+    @Transactional
+    public void deleteMiti(Long mitiId) {
+        Miti miti = entityManager.find(Miti.class, mitiId);
+        entityManager.remove(miti);
+    }
+
+    @Transactional
+    public void editMiti(Miti miti, Long mitiId) {
+        Miti mitiToEdit = entityManager.find(Miti.class, mitiId);
+    }
 }

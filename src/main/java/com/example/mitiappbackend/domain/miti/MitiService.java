@@ -15,53 +15,8 @@
  */
 package com.example.mitiappbackend.domain.miti;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MitiService {
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
-    private MitiRepository mitiRepository;
-
-    public List<Miti> getMiti() {
-        return entityManager.createQuery("SELECT M FROM Miti M", Miti.class).getResultList();
-    }
-
-    /*@Transactional
-    public Optional<Miti> findByMitiId(Long mitiId) {
-        return entityManager.createNamedQuery(Miti.FIND_BY_NUMBER, Miti.class)
-                .setParameter("number", mitiId.toString())
-                .getResultList().stream().findAny();
-    }*/
-
-    @Transactional
-    public Optional<Miti> getMitiByMitiId(Long mitiId) {
-        return mitiRepository.findById(mitiId);
-    }
-
-    @Transactional
-    public void createMiti(Miti miti) {
-        entityManager.persist(miti);
-    }
-
-    @Transactional
-    public void deleteMiti(Long mitiId) {
-        Miti miti = entityManager.find(Miti.class, mitiId);
-        entityManager.remove(miti);
-    }
-
-    @Transactional
-    public void editMiti(Miti miti, Long mitiId) {
-        Optional<Miti> mitiToEdit = mitiRepository.findById(mitiId);
-    }
+public class MitiService extends MitiRepository {
 }

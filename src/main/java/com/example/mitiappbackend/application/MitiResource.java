@@ -16,7 +16,6 @@
 package com.example.mitiappbackend.application;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.miti.Miti;
-import com.example.mitiappbackend.domain.miti.MitiRepository;
 import com.example.mitiappbackend.domain.miti.MitiService;
 
 @RestController
@@ -41,9 +39,6 @@ public class MitiResource {
 
     @Autowired
     private MitiService mitiService;
-
-    @Autowired
-    private MitiRepository mitiRepository;
 
     @GetMapping(value = "/miti", produces = "application/json")
     public List<Miti> getMiti() throws Exception {
@@ -57,10 +52,10 @@ public class MitiResource {
     }
 
     @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
-    public Optional<Miti> getMitiByMitiId(@PathVariable Long mitiId) throws Exception {
+    public Miti getMitiByMitiId(@PathVariable Long mitiId) throws Exception {
         try {
             logger.info("RESTful call 'GET miti by mitiId'");
-            return mitiService.getMitiByMitiId(mitiId);
+            return mitiService.findByMitiId(mitiId);
         } catch (Exception e) {
             logger.info("Error in RESTful call 'GET miti by mitiId'");
             throw new Exception(e);
@@ -82,9 +77,8 @@ public class MitiResource {
     public void editMiti(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws Exception {
         try {
             logger.info("RESTful call 'PUT miti'");
-            Miti mitiToEdit = mitiRepository
-                .findById(mitiId)
-                .orElseThrow(() -> new Exception("Miti not found on : " + mitiId));
+            Miti mitiToEdit = mitiService
+                .findByMitiId(mitiId);
             mitiToEdit.setPlace(miti.getPlace());
             mitiToEdit.setEmployee(miti.getEmployee());
             mitiToEdit.setTime(miti.getTime());

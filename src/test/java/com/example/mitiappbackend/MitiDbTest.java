@@ -32,6 +32,7 @@ import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
+
 public class MitiDbTest extends AbstractPersistenceTest {
 
     private Miti miti;
@@ -72,6 +73,25 @@ public class MitiDbTest extends AbstractPersistenceTest {
 
         assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Karl");
     }
+
+    /*
+    @Test
+    public void testMitiNotSign() {
+        entityManager.getTransaction().begin();
+        Miti newMiti = new Miti(
+                new Place(new Locality("_"), new Location("Hannover")),
+                new Employee(new FirstName("Karl"), new LastName("Heinz")),
+                new Time("12:00"));
+        entityManager.persist(newMiti);
+        entityManager.getTransaction().commit();
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> { throw new IllegalArgumentException("locality must only contain letters and begin with upper case"); }
+        );
+
+        assertEquals("locality must only contain letters and begin with upper case", exception.getMessage());
+    }*/
 
     @Test
     public void testRemoveMiti() {
