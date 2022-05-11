@@ -77,12 +77,7 @@ public class MitiResource {
     public void editMiti(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws Exception {
         try {
             logger.info("RESTful call 'PUT miti'");
-            Miti mitiToEdit = mitiService
-                .findByMitiId(mitiId);
-            mitiToEdit.setPlace(miti.getPlace());
-            mitiToEdit.setEmployee(miti.getEmployee());
-            mitiToEdit.setTime(miti.getTime());
-            mitiService.createMiti(mitiToEdit);
+            mitiService.editMiti(mitiId, miti);
         } catch (Exception e) {
             logger.info("Error in RESTful call 'PUT miti'");
             throw new Exception(e);

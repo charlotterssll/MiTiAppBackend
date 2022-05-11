@@ -44,13 +44,17 @@ public class MitiRepository {
     }
 
     @Transactional
-    public void deleteMiti(Long mitiId) {
-        Miti miti = entityManager.find(Miti.class, mitiId);
-        entityManager.remove(miti);
+    public void editMiti(Long mitiId, Miti miti) {
+        Miti mitiToEdit = entityManager.find(Miti.class, mitiId);
+        mitiToEdit.setPlace(miti.getPlace());
+        mitiToEdit.setEmployee(miti.getEmployee());
+        mitiToEdit.setTime(miti.getTime());
+        entityManager.persist(mitiToEdit);
     }
 
     @Transactional
-    public void editMiti(Miti miti, Long mitiId) {
-        Miti mitiToEdit = entityManager.find(Miti.class, mitiId);
+    public void deleteMiti(Long mitiId) {
+        Miti miti = entityManager.find(Miti.class, mitiId);
+        entityManager.remove(miti);
     }
 }
