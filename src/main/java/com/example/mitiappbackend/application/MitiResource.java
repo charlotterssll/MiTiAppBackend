@@ -58,7 +58,7 @@ public class MitiResource {
             return mitiService.findByMitiId(mitiId);
         } catch (Exception e) {
             logger.info("Error in RESTful call 'GET miti by mitiId'");
-            throw new Exception(e);
+            throw new Exception("Error in RESTful call 'GET miti by mitiId': " + mitiId + " does not exist");
         }
     }
 

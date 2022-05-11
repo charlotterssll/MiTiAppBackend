@@ -18,6 +18,7 @@ package com.example.mitiappbackend.domain.miti;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,11 @@ public class MitiRepository {
 
     @Transactional
     public Miti findByMitiId(Long mitiId) {
-        return entityManager.find(Miti.class, mitiId);
+        Miti miti = entityManager.find(Miti.class, mitiId);
+        if (miti == null) {
+            throw new EntityNotFoundException();
+        }
+        return miti;
     }
 
     @Transactional

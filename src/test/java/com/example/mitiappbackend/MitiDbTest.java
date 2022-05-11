@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -74,24 +75,21 @@ public class MitiDbTest extends AbstractPersistenceTest {
         assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Karl");
     }
 
-    /*
     @Test
-    public void testMitiNotSign() {
-        entityManager.getTransaction().begin();
-        Miti newMiti = new Miti(
+    public void testMitiThrowExceptionWhenSignInput() {
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            entityManager.getTransaction().begin();
+            Miti newMiti = new Miti(
                 new Place(new Locality("_"), new Location("Hannover")),
                 new Employee(new FirstName("Karl"), new LastName("Heinz")),
                 new Time("12:00"));
-        entityManager.persist(newMiti);
-        entityManager.getTransaction().commit();
-
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> { throw new IllegalArgumentException("locality must only contain letters and begin with upper case"); }
-        );
-
-        assertEquals("locality must only contain letters and begin with upper case", exception.getMessage());
-    }*/
+            entityManager.persist(newMiti);
+            entityManager.getTransaction().commit();
+        });
+        Assertions.assertEquals(
+            "locality must only contain letters and begin with upper case",
+            thrown.getMessage());
+    }
 
     @Test
     public void testRemoveMiti() {

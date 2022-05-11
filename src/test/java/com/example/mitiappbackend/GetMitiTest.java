@@ -16,8 +16,10 @@
 package com.example.mitiappbackend;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,6 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.NestedServletException;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
@@ -40,6 +43,51 @@ public class GetMitiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetMitiByIdProperly() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(jsonBody))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetMitiByFalseIdThrowException() throws Exception {
+        NestedServletException thrown = Assertions.assertThrows(NestedServletException.class, () -> {
+            mvc.perform(get("/miti/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+        });
+        Assertions.assertEquals(
+            "Request processing failed; nested exception is java.lang.Exception: "
+            + "Error in RESTful call 'GET miti by mitiId': 1 does not exist",
+            thrown.getMessage());
     }
 
     @Test
