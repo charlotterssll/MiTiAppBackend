@@ -73,14 +73,15 @@ public class MitiResource {
         }
     }
 
+    //TODO
     @PutMapping(value = "/miti/{mitiId}")
-    public void editMiti(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws Exception {
+    public void editMiti(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) {
         try {
             logger.info("RESTful call 'PUT miti'");
             mitiService.editMiti(mitiId, miti);
-        } catch (Exception e) {
+        } catch (Exception bauCustomExceptionUndGibBesserName) {
             logger.info("Error in RESTful call 'PUT miti'");
-            throw new Exception(e);
+            throw bauCustomExceptionUndGibBesserName;
         }
     }
 

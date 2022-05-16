@@ -74,7 +74,7 @@ public abstract class AbstractSimpleValueObject<V extends Comparable<? super V>>
      * @return The validated and normalized value.
      */
     protected V validateAndNormalize(final V normalizedValue) {
-        return notNull(value, "value must not be null");
+        return notNull(normalizedValue, "value must not be null");
     }
 
     /**
