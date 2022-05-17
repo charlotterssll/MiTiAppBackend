@@ -15,7 +15,6 @@
  */
 package com.example.mitiappbackend;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,10 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
 public class PostMitiTest {
@@ -39,8 +36,9 @@ public class PostMitiTest {
     @Autowired
     private MockMvc mvc;
 
+    @DisplayName("Employee wants to create a lunch table")
     @Test
-    void testPostMitiProperly() throws Exception {
+    void testPostMiti() throws Exception {
 
         String jsonBody =
             """
@@ -69,138 +67,46 @@ public class PostMitiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")));
-    }
-
-    @Test
-    void testPostMitiProperlyTwoTimes() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Metzger",
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        String jsonBodySecond =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Hannelore",
-                           "lastName":"Kranz"
-                       },
-                   "time":"14:30"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().isOk());
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBodySecond))
-                .andExpect(status().isOk());
-
-        mvc.perform(get("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
-                .andExpect(jsonPath("$.[1].place.location.value", is("Oldenburg")))
-                .andExpect(jsonPath("$", hasSize(2)));
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")));
     }
 
+    @DisplayName("Employee does not want to create an incomplete lunch table")
     @Test
-    void testPostMitiWithEmptyString() throws Exception {
+    void testPostMitiIncomplete() throws Exception {
 
-        String jsonBody =
+        String jsonBodyEmptyMiti =
             """
             """;
 
         mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
+                        .content(jsonBodyEmptyMiti))
                 .andExpect(status().is(400));
-    }
 
-    @DisplayName("Post a miti without the entity locality and empty values")
-    @Test
-    void testPostMitiWithoutEntityLocalityAndWithEmptyValues() throws Exception {
-
-        String jsonBody =
+        String jsonBodyMissingValueObjects =
             """
                 {
                    "place":
                        {
-                           "location":""
                        },
                    "employee":
                        {
-                           "firstName":"",
-                           "lastName":""
                        },
-                   "time":""
                 },
             """;
 
         mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
+                        .content(jsonBodyMissingValueObjects))
                 .andExpect(status().is(400));
-    }
 
-    @Test
-    void testPostMitiWithoutEntityLocality() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testPostMitiWithEmptyValues() throws Exception {
-
-        String jsonBody =
+        String jsonBodyEmptyValueObjects =
             """
                 {
                    "place":
@@ -220,223 +126,30 @@ public class PostMitiTest {
         mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
+                        .content(jsonBodyEmptyValueObjects))
                 .andExpect(status().is(400));
-    }
 
-    @Test
-    void testPostMitiWithEmptyLocalityValue() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"",
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testPostMitiWithNullLocalityValue() throws Exception {
-
-        String jsonBody =
+        String jsonBodyNullValueObjects =
             """
                 {
                    "place":
                        {
                            "locality":"null",
-                           "location":"Hannover"
+                           "location":"null"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"null",
+                           "lastName":"null"
                        },
-                   "time":"12:00"
+                   "time":"null"
                 },
             """;
 
         mvc.perform(post("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testPostMitiWithLowerCaseValues() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"metzger",
-                           "location":"hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"karl",
-                           "lastName":"heinz"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testPostMitiWithUpperCaseValues() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"METZGER",
-                           "location":"HANNOVER"
-                       },
-                   "employee":
-                       {
-                           "firstName":"KARL",
-                           "lastName":"HEINZ"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testPostMitiWithNumberValues() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"1",
-                           "location":"2"
-                       },
-                   "employee":
-                       {
-                           "firstName":"3",
-                           "lastName":"4"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testPostMitiWithSignValues() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"_",
-                           "location":"_"
-                       },
-                   "employee":
-                       {
-                           "firstName":"_",
-                           "lastName":"_"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testPostMitiWithLettersInTimeValue() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Metzger",
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
-                       },
-                   "time":"aa:bb"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testPostMitiWithSignsInTimeValue() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Metzger",
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
-                       },
-                   "time":"__:__"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
+                        .content(jsonBodyNullValueObjects))
                 .andExpect(status().is(400));
     }
 }

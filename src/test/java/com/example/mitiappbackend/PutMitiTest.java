@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,7 +31,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+//TODO
+//change ID to UUID for persistent db testing
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
 public class PutMitiTest {
@@ -38,8 +41,9 @@ public class PutMitiTest {
     @Autowired
     private MockMvc mvc;
 
+    @DisplayName("Employee wants to update all information on an existing lunch table")
     @Test
-    void testEditMitiProperly() throws Exception {
+    void testPutMitiValueObjectsAll() throws Exception {
 
         String jsonBody =
             """
@@ -91,12 +95,16 @@ public class PutMitiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")));
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].time.value", is("14:30")));
     }
 
+    @DisplayName("Employee wants to update the locality on an existing lunch table")
     @Test
-    void testEditMitiEmptyValueDoesNotOverwriteOriginalValue() throws Exception {
+    void testPutMitiValueObjectLocality() throws Exception {
 
         String jsonBody =
             """
@@ -120,7 +128,7 @@ public class PutMitiTest {
                 {
                    "place":
                        {
-                            "locality":"",
+                            "locality":"Immergrün",
                             "location":"Hannover"
                         },
                     "employee":
@@ -129,62 +137,6 @@ public class PutMitiTest {
                             "lastName":"Heinz"
                         },
                     "time":"12:00"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                .content(jsonBody)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-
-        mvc.perform(put("/miti/{mitiId}", 1)
-                .content(jsonBodySecond)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-
-        mvc.perform(get("/miti")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")));
-    }
-
-    @Test
-    void testEditMitiEmptyValuesDontOverwriteOriginalValues() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Metzger",
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
-                       },
-                   "time":"12:00"
-                },
-            """;
-
-        String jsonBodySecond =
-            """
-                {
-                   "place":
-                       {
-                            "locality":"",
-                            "location":""
-                        },
-                    "employee":
-                        {
-                            "firstName":"",
-                            "lastName":""
-                        },
-                    "time":""
                 },
             """;
 
@@ -198,7 +150,251 @@ public class PutMitiTest {
                         .content(jsonBodySecond)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")));
+    }
+
+    @DisplayName("Employee wants to update the location on an existing lunch table")
+    @Test
+    void testPutMitiValueObjectLocation() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                            "locality":"Metzger",
+                            "location":"Oldenburg"
+                        },
+                    "employee":
+                        {
+                            "firstName":"Karl",
+                            "lastName":"Heinz"
+                        },
+                    "time":"12:00"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                        .content(jsonBodySecond)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")));
+    }
+
+    @DisplayName("Employee wants to update thier first name on an existing lunch table")
+    @Test
+    void testPutMitiValueObjectFirstName() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                        .content(jsonBodySecond)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")));
+    }
+
+    @DisplayName("Employee wants to update their last name on an existing lunch table")
+    @Test
+    void testPutMitiValueObjectLastName() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                            "locality":"Metzger",
+                            "location":"Hannover"
+                        },
+                    "employee":
+                        {
+                            "firstName":"Karl",
+                            "lastName":"Kranz"
+                        },
+                    "time":"12:00"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                        .content(jsonBodySecond)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")));
+    }
+
+    @DisplayName("Employee wants to update the time on an existing lunch table")
+    @Test
+    void testPutMitiValueObjectTime() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                            "locality":"Metzger",
+                            "location":"Hannover"
+                        },
+                    "employee":
+                        {
+                            "firstName":"Karl",
+                            "lastName":"Heinz"
+                        },
+                    "time":"14:30"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                        .content(jsonBodySecond)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
 
         mvc.perform(get("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -208,6 +404,6 @@ public class PutMitiTest {
                 .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].time.value", is("12:00")));
+                .andExpect(jsonPath("$.[0].time.value", is("14:30")));
     }
 }
