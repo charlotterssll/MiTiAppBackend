@@ -31,7 +31,7 @@ public class MitiRepository {
     private EntityManager entityManager;
 
     public List<Miti> getMiti() {
-        return entityManager.createQuery("SELECT M FROM Miti M", Miti.class).getResultList();
+        return entityManager.createQuery("SELECT M FROM Miti M ORDER BY M.mitiId", Miti.class).getResultList();
     }
 
     @Transactional

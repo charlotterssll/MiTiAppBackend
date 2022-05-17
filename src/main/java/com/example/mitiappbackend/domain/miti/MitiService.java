@@ -15,8 +15,34 @@
  */
 package com.example.mitiappbackend.domain.miti;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MitiService extends MitiRepository {
+public class MitiService {
+
+    @Autowired
+    private MitiRepository mitiRepository;
+
+    public List<Miti> getMiti() {
+        return mitiRepository.getMiti();
+    }
+
+    public Miti findByMitiId(Long mitiId) {
+        return mitiRepository.findByMitiId(mitiId);
+    }
+
+    public void createMiti(Miti miti) {
+        mitiRepository.createMiti(miti);
+    }
+
+    public void editMiti(Long mitiId, Miti miti) {
+        mitiRepository.editMiti(mitiId, miti);
+    }
+
+    public void deleteMiti(Long mitiId) {
+        mitiRepository.deleteMiti(mitiId);
+    }
 }
