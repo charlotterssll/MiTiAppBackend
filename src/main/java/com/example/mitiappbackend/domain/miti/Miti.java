@@ -27,7 +27,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -38,19 +37,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "MITI")
-@NamedQueries({
-    @NamedQuery(name = Miti.FIND_ALL, query = "SELECT m FROM Miti m"),
-    @NamedQuery(name = Miti.FIND_BY_NUMBER, query = "SELECT m FROM Miti m WHERE m.mitiId = :number")
-})
+@NamedQuery(name = Miti.READ_ALL, query = "SELECT m FROM Miti m")
 public class Miti {
 
-    public static final String FIND_ALL = "Miti.findAll";
+    public static final String READ_ALL = "Miti.readAll";
 
-    public static final String FIND_BY_NUMBER = "Miti.findByNumber";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MITI_ID")
     private Long mitiId;
+
+    /*@Column(name = "MITI_UUID")
+    private UUID uuid;*/
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MITI_PLACE_ID", referencedColumnName = "PLACE_ID")
@@ -66,6 +64,7 @@ public class Miti {
 
     @JsonCreator
     public Miti(@JsonProperty("place") Place place, @JsonProperty("employee") Employee employee, @JsonProperty("time") Time time) {
+        //this.uuid = UUID.randomUUID();
         this.place = notNull(place, "null in place is disallowed");
         this.employee = notNull(employee, "null in employee is disallowed");
         this.time = notNull(time, "null in time is disallowed");
@@ -77,6 +76,10 @@ public class Miti {
     public Long getMitiId() {
         return mitiId;
     }
+
+    /*public UUID getUuid() {
+        return uuid;
+    }*/
 
     public Place getPlace() {
         return place;

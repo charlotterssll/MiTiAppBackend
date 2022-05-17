@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend;
+package com.example.mitiappbackend.infrastructuretest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

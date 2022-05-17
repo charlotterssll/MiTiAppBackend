@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend;
+package com.example.mitiappbackend.apitest;
 
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,14 +36,14 @@ import org.springframework.test.web.servlet.MockMvc;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class PutMitiTest {
+public class UpdateMitiApiTest {
 
     @Autowired
     private MockMvc mvc;
 
     @DisplayName("Employee wants to update all information on an existing lunch table")
     @Test
-    void testPutMitiValueObjectsAll() throws Exception {
+    void testUpdateMitiValueObjectsAll() throws Exception {
 
         String jsonBody =
             """
@@ -104,7 +104,7 @@ public class PutMitiTest {
 
     @DisplayName("Employee wants to update the locality on an existing lunch table")
     @Test
-    void testPutMitiValueObjectLocality() throws Exception {
+    void testUpdateMitiValueObjectLocality() throws Exception {
 
         String jsonBody =
             """
@@ -165,7 +165,7 @@ public class PutMitiTest {
 
     @DisplayName("Employee wants to update the location on an existing lunch table")
     @Test
-    void testPutMitiValueObjectLocation() throws Exception {
+    void testUpdateMitiValueObjectLocation() throws Exception {
 
         String jsonBody =
             """
@@ -226,7 +226,7 @@ public class PutMitiTest {
 
     @DisplayName("Employee wants to update thier first name on an existing lunch table")
     @Test
-    void testPutMitiValueObjectFirstName() throws Exception {
+    void testUpdateMitiValueObjectFirstName() throws Exception {
 
         String jsonBody =
             """
@@ -287,7 +287,7 @@ public class PutMitiTest {
 
     @DisplayName("Employee wants to update their last name on an existing lunch table")
     @Test
-    void testPutMitiValueObjectLastName() throws Exception {
+    void testUpdateMitiValueObjectLastName() throws Exception {
 
         String jsonBody =
             """
@@ -348,7 +348,7 @@ public class PutMitiTest {
 
     @DisplayName("Employee wants to update the time on an existing lunch table")
     @Test
-    void testPutMitiValueObjectTime() throws Exception {
+    void testUpdateMitiValueObjectTime() throws Exception {
 
         String jsonBody =
             """

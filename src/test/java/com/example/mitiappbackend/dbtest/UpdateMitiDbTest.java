@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend;
+package com.example.mitiappbackend.dbtest;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,8 +30,9 @@ import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
+import com.example.mitiappbackend.infrastructuretest.AbstractPersistenceTest;
 
-public class MitiDbTest extends AbstractPersistenceTest {
+public class UpdateMitiDbTest extends AbstractPersistenceTest {
 
     private Miti miti;
 
@@ -50,121 +48,9 @@ public class MitiDbTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("Employee wants to create a lunch table")
-    @Test
-    public void testDbCreateMiti() {
-        entityManager.getTransaction().begin();
-        Miti mitiNew = new Miti(
-            new Place(new Locality("Metzger"), new Location("Hannover")),
-            new Employee(new FirstName("Karl"), new LastName("Heinz")),
-            new Time("12:00"));
-        entityManager.getTransaction().commit();
-
-        assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Metzger");
-        assertThat(mitiNew.getPlace().getLocation().getValue()).isEqualTo("Hannover");
-        assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Karl");
-        assertThat(mitiNew.getEmployee().getLastName().getValue()).isEqualTo("Heinz");
-        assertThat(mitiNew.getTime().getValue()).isEqualTo("12:00");
-    }
-
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty locality")
-    @Test
-    public void testDbCreateMitiIncompleteEmptyLocality() {
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            entityManager.getTransaction().begin();
-            Miti newMiti = new Miti(
-                new Place(new Locality(""), new Location("Hannover")),
-                new Employee(new FirstName("Karl"), new LastName("Heinz")),
-                new Time("12:00"));
-            entityManager.persist(newMiti);
-            entityManager.getTransaction().commit();
-        });
-        Assertions.assertEquals(
-            "locality must only contain letters and begin with upper case",
-            thrown.getMessage());
-    }
-
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty location")
-    @Test
-    public void testDbCreateMitiIncompleteEmptyLocation() {
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            entityManager.getTransaction().begin();
-            Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("")),
-                new Employee(new FirstName("Karl"), new LastName("Heinz")),
-                new Time("12:00"));
-            entityManager.persist(newMiti);
-            entityManager.getTransaction().commit();
-        });
-        Assertions.assertEquals(
-            "location must only contain letters and begin with upper case",
-            thrown.getMessage());
-    }
-
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty first name")
-    @Test
-    public void testDbCreateMitiIncompleteEmptyFirstName() {
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            entityManager.getTransaction().begin();
-            Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("Hannover")),
-                new Employee(new FirstName(""), new LastName("Heinz")),
-                new Time("12:00"));
-            entityManager.persist(newMiti);
-            entityManager.getTransaction().commit();
-        });
-        Assertions.assertEquals(
-            "firstName must only contain letters and begin with upper case",
-            thrown.getMessage());
-    }
-
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty last name")
-    @Test
-    public void testDbCreateMitiIncompleteEmptyLastName() {
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            entityManager.getTransaction().begin();
-            Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("Hannover")),
-                new Employee(new FirstName("Karl"), new LastName("")),
-                new Time("12:00"));
-            entityManager.persist(newMiti);
-            entityManager.getTransaction().commit();
-        });
-        Assertions.assertEquals(
-            "lastName must only contain letters and begin with upper case",
-            thrown.getMessage());
-    }
-
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty time")
-    @Test
-    public void testDbCreateMitiIncompleteEmptyTime() {
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            entityManager.getTransaction().begin();
-            Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("Hannover")),
-                new Employee(new FirstName("Karl"), new LastName("Heinz")),
-                new Time(""));
-            entityManager.persist(newMiti);
-            entityManager.getTransaction().commit();
-        });
-        Assertions.assertEquals(
-            "time must only contain numbers in 24h time format",
-            thrown.getMessage());
-    }
-
-    @DisplayName("Employee wants to read information about already existing lunch tables")
-    @Test
-    public void testDbGetMiti() {
-        assertThat(miti.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
-        assertThat(miti.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
-        assertThat(miti.getEmployee().getFirstName().getValue()).isEqualTo("Hannelore");
-        assertThat(miti.getEmployee().getLastName().getValue()).isEqualTo("Kranz");
-        assertThat(miti.getTime().getValue()).isEqualTo("14:30");
-    }
-
     @DisplayName("Employee wants to update the locality on an existing lunch table")
     @Test
-    public void testDbPutMitiLocality() {
+    public void testDbUpdateMitiLocality() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
         foundMiti.setPlace(new Place(new Locality("Metzger"), new Location("Oldenburg")));
@@ -182,7 +68,7 @@ public class MitiDbTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee wants to update the location on an existing lunch table")
     @Test
-    public void testDbPutMitiLocation() {
+    public void testDbUpdateMitiLocation() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
         foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Hannover")));
@@ -200,7 +86,7 @@ public class MitiDbTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee wants to update the first name on an existing lunch table")
     @Test
-    public void testDbPutMitiFirstName() {
+    public void testDbUpdateMitiFirstName() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
         foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Oldenburg")));
@@ -218,7 +104,7 @@ public class MitiDbTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee wants to update the last name on an existing lunch table")
     @Test
-    public void testDbPutMitiLastName() {
+    public void testDbUpdateMitiLastName() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
         foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Oldenburg")));
@@ -236,7 +122,7 @@ public class MitiDbTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee wants to update the time on an existing lunch table")
     @Test
-    public void testDbPutMitiTime() {
+    public void testDbUpdateMitiTime() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
         foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Oldenburg")));
@@ -254,7 +140,7 @@ public class MitiDbTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee wants to update all information on an existing lunch table")
     @Test
-    public void testDbPutMitiAll() {
+    public void testDbUpdateMitiAll() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
         foundMiti.setPlace(new Place(new Locality("Metzger"), new Location("Hannover")));
@@ -268,16 +154,5 @@ public class MitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Karl"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Heinz"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("12:00"));
-    }
-
-    @DisplayName("Employee wants to delete an existing lunch table")
-    @Test
-    public void testDbDeleteMiti() {
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.merge(miti));
-        entityManager.getTransaction().commit();
-        entityManager.clear();
-
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()), is(nullValue()));
     }
 }

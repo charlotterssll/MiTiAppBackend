@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend;
+package com.example.mitiappbackend.apitest;
 
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,14 +31,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class PostMitiTest {
+public class CreateMitiApiTest {
 
     @Autowired
     private MockMvc mvc;
 
     @DisplayName("Employee wants to create a lunch table")
     @Test
-    void testPostMiti() throws Exception {
+    void testCreateMiti() throws Exception {
 
         String jsonBody =
             """
@@ -76,7 +76,7 @@ public class PostMitiTest {
 
     @DisplayName("Employee does not want to create an incomplete lunch table")
     @Test
-    void testPostMitiIncomplete() throws Exception {
+    void testCreateMitiIncomplete() throws Exception {
 
         String jsonBodyEmptyMiti =
             """

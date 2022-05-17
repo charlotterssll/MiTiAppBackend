@@ -30,12 +30,16 @@ public class MitiRepository {
     @Autowired
     private EntityManager entityManager;
 
-    public List<Miti> getMiti() {
-        return entityManager.createQuery("SELECT M FROM Miti M ORDER BY M.mitiId", Miti.class).getResultList();
+    @Transactional
+    public void createMiti(Miti miti) {
+        entityManager.persist(miti);
+    }
+    public List<Miti> readMiti() {
+        return entityManager.createNamedQuery(Miti.READ_ALL, Miti.class).getResultList();
     }
 
     @Transactional
-    public Miti findByMitiId(Long mitiId) {
+    public Miti readMitiByUuid(Long mitiId) {
         Miti miti = entityManager.find(Miti.class, mitiId);
         if (miti == null) {
             throw new EntityNotFoundException();
@@ -44,21 +48,16 @@ public class MitiRepository {
     }
 
     @Transactional
-    public void createMiti(Miti miti) {
-        entityManager.persist(miti);
+    public void updateMitiByUuid(Long mitiId, Miti miti) {
+        Miti mitiToUpdate = entityManager.find(Miti.class, mitiId);
+        mitiToUpdate.setPlace(miti.getPlace());
+        mitiToUpdate.setEmployee(miti.getEmployee());
+        mitiToUpdate.setTime(miti.getTime());
+        entityManager.persist(mitiToUpdate);
     }
 
     @Transactional
-    public void editMiti(Long mitiId, Miti miti) {
-        Miti mitiToEdit = entityManager.find(Miti.class, mitiId);
-        mitiToEdit.setPlace(miti.getPlace());
-        mitiToEdit.setEmployee(miti.getEmployee());
-        mitiToEdit.setTime(miti.getTime());
-        entityManager.persist(mitiToEdit);
-    }
-
-    @Transactional
-    public void deleteMiti(Long mitiId) {
+    public void deleteMitiByUuid(Long mitiId) {
         Miti miti = entityManager.find(Miti.class, mitiId);
         entityManager.remove(miti);
     }

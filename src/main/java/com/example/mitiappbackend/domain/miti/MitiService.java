@@ -26,23 +26,22 @@ public class MitiService {
     @Autowired
     private MitiRepository mitiRepository;
 
-    public List<Miti> getMiti() {
-        return mitiRepository.getMiti();
-    }
-
-    public Miti findByMitiId(Long mitiId) {
-        return mitiRepository.findByMitiId(mitiId);
-    }
-
     public void createMiti(Miti miti) {
         mitiRepository.createMiti(miti);
     }
-
-    public void editMiti(Long mitiId, Miti miti) {
-        mitiRepository.editMiti(mitiId, miti);
+    public List<Miti> readMiti() {
+        return mitiRepository.readMiti();
     }
 
-    public void deleteMiti(Long mitiId) {
-        mitiRepository.deleteMiti(mitiId);
+    public Miti readMitiByUuid(Long mitiId) {
+        return mitiRepository.readMitiByUuid(mitiId);
+    }
+
+    public void updateMitiByUuid(Long mitiId, Miti miti) {
+        mitiRepository.updateMitiByUuid(mitiId, miti);
+    }
+
+    public void deleteMitiByUuid(Long mitiId) {
+        mitiRepository.deleteMitiByUuid(mitiId);
     }
 }

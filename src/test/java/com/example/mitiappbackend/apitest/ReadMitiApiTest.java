@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend;
+package com.example.mitiappbackend.apitest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,14 +28,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class GetMitiTest {
+public class ReadMitiApiTest {
 
     @Autowired
     private MockMvc mvc;
 
     @DisplayName("Employee wants to read information about already existing lunch tables")
     @Test
-    void testGetMiti() throws Exception {
+    void testReadMiti() throws Exception {
         mvc.perform(get("/miti")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

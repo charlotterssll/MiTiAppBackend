@@ -40,28 +40,6 @@ public class MitiResource {
     @Autowired
     private MitiService mitiService;
 
-    @GetMapping(value = "/miti", produces = "application/json")
-    public List<Miti> getMiti() throws Exception {
-        try {
-            logger.info("RESTful call 'GET miti'");
-            return mitiService.getMiti();
-        } catch (Exception e) {
-            logger.info("Error in RESTful call 'GET miti'");
-            throw new Exception(e);
-        }
-    }
-
-    @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
-    public Miti getMitiByMitiId(@PathVariable Long mitiId) throws Exception {
-        try {
-            logger.info("RESTful call 'GET miti by mitiId'");
-            return mitiService.findByMitiId(mitiId);
-        } catch (Exception e) {
-            logger.info("Error in RESTful call 'GET miti by mitiId'");
-            throw new Exception("Error in RESTful call 'GET miti by mitiId': " + mitiId + " does not exist");
-        }
-    }
-
     @PostMapping(value = "/miti", consumes = "application/json")
     public void createMiti(@RequestBody Miti miti) throws Exception {
         try {
@@ -73,12 +51,34 @@ public class MitiResource {
         }
     }
 
+    @GetMapping(value = "/miti", produces = "application/json")
+    public List<Miti> readMiti() throws Exception {
+        try {
+            logger.info("RESTful call 'GET miti'");
+            return mitiService.readMiti();
+        } catch (Exception e) {
+            logger.info("Error in RESTful call 'GET miti'");
+            throw new Exception(e);
+        }
+    }
+
+    @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
+    public Miti readMitiByUuid(@PathVariable Long mitiId) throws Exception {
+        try {
+            logger.info("RESTful call 'GET miti by mitiId'");
+            return mitiService.readMitiByUuid(mitiId);
+        } catch (Exception e) {
+            logger.info("Error in RESTful call 'GET miti by mitiId'");
+            throw new Exception("Error in RESTful call 'GET miti by mitiId': " + mitiId + " does not exist");
+        }
+    }
+
     //TODO
     @PutMapping(value = "/miti/{mitiId}")
-    public void editMiti(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) {
+    public void updateMitiByUuid(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) {
         try {
             logger.info("RESTful call 'PUT miti'");
-            mitiService.editMiti(mitiId, miti);
+            mitiService.updateMitiByUuid(mitiId, miti);
         } catch (Exception bauCustomExceptionUndGibBesserName) {
             logger.info("Error in RESTful call 'PUT miti'");
             throw bauCustomExceptionUndGibBesserName;
@@ -86,10 +86,10 @@ public class MitiResource {
     }
 
     @DeleteMapping(value = "/miti/{mitiId}")
-    public void deleteMiti(@PathVariable Long mitiId) throws Exception {
+    public void deleteMitiByUuid(@PathVariable Long mitiId) throws Exception {
         try {
             logger.info("RESTful call 'DELETE miti'");
-            mitiService.deleteMiti(mitiId);
+            mitiService.deleteMitiByUuid(mitiId);
         } catch (Exception e) {
             logger.info("Error in RESTful call 'DELETE miti'");
             throw new Exception(e);
