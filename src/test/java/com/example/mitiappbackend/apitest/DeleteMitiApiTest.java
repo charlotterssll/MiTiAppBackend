@@ -57,7 +57,8 @@ public class DeleteMitiApiTest {
                            "firstName":"Hannelore",
                            "lastName":"Kranz"
                        },
-                   "time":"14:30"
+                   "time":"14:30",
+                   "date":"01.04.2022"
                 },
             """;
 

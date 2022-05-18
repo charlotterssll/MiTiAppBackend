@@ -57,7 +57,8 @@ public class CreateMitiApiTest {
                            "firstName":"Karl",
                            "lastName":"Heinz"
                        },
-                   "time":"12:00"
+                   "time":"12:00",
+                   "date":"01.04.2022"
                 },
             """;
 
@@ -75,7 +76,8 @@ public class CreateMitiApiTest {
                 .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].time.value", is("12:00")));
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
+                .andExpect(jsonPath("$.[0].date.value", is("01.04.2022")));
     }
 
     @DisplayName("Employee does not want to create an incomplete lunch table")
@@ -123,7 +125,8 @@ public class CreateMitiApiTest {
                            "firstName":"",
                            "lastName":""
                        },
-                   "time":""
+                   "time":"",
+                   "date":""
                 },
             """;
 
@@ -146,7 +149,8 @@ public class CreateMitiApiTest {
                            "firstName":"null",
                            "lastName":"null"
                        },
-                   "time":"null"
+                   "time":"null",
+                   "date":"null"
                 },
             """;
 

@@ -50,6 +50,7 @@ public class MitiRepository {
         mitiToUpdate.setPlace(miti.getPlace());
         mitiToUpdate.setEmployee(miti.getEmployee());
         mitiToUpdate.setTime(miti.getTime());
+        mitiToUpdate.setDate(miti.getDate());
         entityManager.persist(mitiToUpdate);
     }
 

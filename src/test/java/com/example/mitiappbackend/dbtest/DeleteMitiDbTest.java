@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.FirstName;
 import com.example.mitiappbackend.domain.employee.LastName;
+import com.example.mitiappbackend.domain.miti.Date;
 import com.example.mitiappbackend.domain.miti.Miti;
 import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
@@ -43,7 +44,8 @@ public class DeleteMitiDbTest extends AbstractPersistenceTest {
         miti = new Miti(
             new Place(new Locality("Immergrün"), new Location("Oldenburg")),
             new Employee(new FirstName("Hannelore"), new LastName("Kranz")),
-            new Time("14:30"));
+            new Time("14:30"),
+            new Date("01.04.2022"));
         entityManager.persist(miti);
         entityManager.getTransaction().commit();
         entityManager.clear();

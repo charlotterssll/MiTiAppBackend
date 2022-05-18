@@ -60,15 +60,21 @@ public class Miti {
     private Employee employee;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "TIME"))
+    @AttributeOverride(name = "value", column = @Column(name = "MITI_TIME"))
     private Time time;
 
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "MITI_DATE"))
+    private Date date;
+
     @JsonCreator
-    public Miti(@JsonProperty("place") Place place, @JsonProperty("employee") Employee employee, @JsonProperty("time") Time time) {
+    public Miti(@JsonProperty("place") Place place, @JsonProperty("employee") Employee employee, @JsonProperty("time") Time time,
+        @JsonProperty("date") Date date) {
         //this.uuid = UUID.randomUUID();
         this.place = notNull(place, "null in place is disallowed");
         this.employee = notNull(employee, "null in employee is disallowed");
         this.time = notNull(time, "null in time is disallowed");
+        this.date = notNull(date, "null in date is disallowed");
     }
 
     protected Miti() {
@@ -94,6 +100,10 @@ public class Miti {
         return time;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
     public void setPlace(Place place) {
         this.place = notNull(place);
     }
@@ -104,5 +114,9 @@ public class Miti {
 
     public void setTime(Time time) {
         this.time = notNull(time);
+    }
+
+    public void setDate(Date date) {
+        this.date = notNull(date);
     }
 }

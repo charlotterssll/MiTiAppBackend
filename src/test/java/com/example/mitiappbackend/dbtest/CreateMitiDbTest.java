@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.FirstName;
 import com.example.mitiappbackend.domain.employee.LastName;
+import com.example.mitiappbackend.domain.miti.Date;
 import com.example.mitiappbackend.domain.miti.Miti;
 import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
@@ -34,17 +35,8 @@ import com.example.mitiappbackend.infrastructuretest.AbstractPersistenceTest;
 
 public class CreateMitiDbTest extends AbstractPersistenceTest {
 
-    private Miti miti;
-
     @BeforeEach
     public void beforeDbTestInsertMitiTestDataIntoDb() {
-        entityManager.getTransaction().begin();
-        miti = new Miti(
-            new Place(new Locality("Immergrün"), new Location("Oldenburg")),
-            new Employee(new FirstName("Hannelore"), new LastName("Kranz")),
-            new Time("14:30"));
-        entityManager.persist(miti);
-        entityManager.getTransaction().commit();
         entityManager.clear();
     }
 
@@ -55,7 +47,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         Miti mitiNew = new Miti(
             new Place(new Locality("Metzger"), new Location("Hannover")),
             new Employee(new FirstName("Karl"), new LastName("Heinz")),
-            new Time("12:00"));
+            new Time("12:00"),
+            new Date("01.04.2022"));
         entityManager.getTransaction().commit();
 
         assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Metzger");
@@ -63,6 +56,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Karl");
         assertThat(mitiNew.getEmployee().getLastName().getValue()).isEqualTo("Heinz");
         assertThat(mitiNew.getTime().getValue()).isEqualTo("12:00");
+        assertThat(mitiNew.getDate().getValue()).isEqualTo("01.04.2022");
     }
 
     @DisplayName("Employee does not want to create an incomplete lunch table with empty locality")
@@ -73,7 +67,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             Miti newMiti = new Miti(
                 new Place(new Locality(""), new Location("Hannover")),
                 new Employee(new FirstName("Karl"), new LastName("Heinz")),
-                new Time("12:00"));
+                new Time("12:00"),
+                new Date("01.04.2022"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -90,7 +85,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             Miti newMiti = new Miti(
                 new Place(new Locality("Metzger"), new Location("")),
                 new Employee(new FirstName("Karl"), new LastName("Heinz")),
-                new Time("12:00"));
+                new Time("12:00"),
+                new Date("01.04.2022"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -107,7 +103,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             Miti newMiti = new Miti(
                 new Place(new Locality("Metzger"), new Location("Hannover")),
                 new Employee(new FirstName(""), new LastName("Heinz")),
-                new Time("12:00"));
+                new Time("12:00"),
+                new Date("01.04.2022"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -124,7 +121,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             Miti newMiti = new Miti(
                 new Place(new Locality("Metzger"), new Location("Hannover")),
                 new Employee(new FirstName("Karl"), new LastName("")),
-                new Time("12:00"));
+                new Time("12:00"),
+                new Date("01.04.2022"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -141,7 +139,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             Miti newMiti = new Miti(
                 new Place(new Locality("Metzger"), new Location("Hannover")),
                 new Employee(new FirstName("Karl"), new LastName("Heinz")),
-                new Time(""));
+                new Time(""),
+                new Date("01.04.2022"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -149,4 +148,23 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             "time must only contain numbers in 24h time format",
             thrown.getMessage());
     }
+
+    //TODO
+    /*@DisplayName("Employee does not want to create an incomplete lunch table with empty date")
+    @Test
+    public void testDbCreateMitiIncompleteEmptyDate() {
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            entityManager.getTransaction().begin();
+            Miti newMiti = new Miti(
+                    new Place(new Locality("Metzger"), new Location("Hannover")),
+                    new Employee(new FirstName("Karl"), new LastName("Heinz")),
+                    new Time(""),
+                    new Date("01.04.2022"));
+            entityManager.persist(newMiti);
+            entityManager.getTransaction().commit();
+        });
+        Assertions.assertEquals(
+                "date must only contain numbers in 24h time format",
+                thrown.getMessage());
+    }*/
 }
