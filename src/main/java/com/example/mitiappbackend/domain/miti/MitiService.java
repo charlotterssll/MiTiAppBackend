@@ -17,6 +17,8 @@ package com.example.mitiappbackend.domain.miti;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,21 +28,27 @@ public class MitiService {
     @Autowired
     private MitiRepository mitiRepository;
 
+    @Transactional
     public void createMiti(Miti miti) {
         mitiRepository.createMiti(miti);
     }
+
+    @Transactional
     public List<Miti> readMiti() {
         return mitiRepository.readMiti();
     }
 
+    @Transactional
     public Miti readMitiByUuid(Long mitiId) {
         return mitiRepository.readMitiByUuid(mitiId);
     }
 
+    @Transactional
     public void updateMitiByUuid(Long mitiId, Miti miti) {
         mitiRepository.updateMitiByUuid(mitiId, miti);
     }
 
+    @Transactional
     public void deleteMitiByUuid(Long mitiId) {
         mitiRepository.deleteMitiByUuid(mitiId);
     }

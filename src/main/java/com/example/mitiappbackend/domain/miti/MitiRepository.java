@@ -33,6 +33,8 @@ public class MitiRepository {
     public void createMiti(Miti miti) {
         entityManager.persist(miti);
     }
+
+    @Transactional
     public List<Miti> readMiti() {
         return entityManager.createNamedQuery(Miti.READ_ALL, Miti.class).getResultList();
     }

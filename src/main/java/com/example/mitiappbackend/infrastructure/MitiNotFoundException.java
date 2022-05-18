@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.miti;
+package com.example.mitiappbackend.infrastructure;
 
 public class MitiNotFoundException extends Exception {
 
     public MitiNotFoundException(Long mitiId) {
-        super(String.format("Miti with mitiId could not be found", mitiId));
+        super(String.format("Miti with mitiId: " + mitiId + " could not be found"));
     }
 }

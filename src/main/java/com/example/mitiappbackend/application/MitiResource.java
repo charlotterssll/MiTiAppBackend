@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.miti.Miti;
-import com.example.mitiappbackend.domain.miti.MitiNotFoundException;
 import com.example.mitiappbackend.domain.miti.MitiService;
+import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 
 @RestController
 @CrossOrigin
@@ -41,59 +41,53 @@ public class MitiResource {
     @Autowired
     private MitiService mitiService;
 
+    //TODO
+    //Überprüfung der ID-Generierung und Hochzählung nach Migration zur persistenten DB
     @PostMapping(value = "/miti", consumes = "application/json")
-    public void createMiti(@RequestBody Miti miti) throws Exception {
-        try {
-            logger.info("RESTful call 'POST miti'");
-            mitiService.createMiti(miti);
-        } catch (Exception e) {
-            logger.info("Error in RESTful call 'POST miti'");
-            throw new Exception(e);
-        }
+    public void createMiti(@RequestBody Miti miti) {
+        logger.info("RESTful call 'POST miti'");
+        mitiService.createMiti(miti);
     }
 
     @GetMapping(value = "/miti", produces = "application/json")
-    public List<Miti> readMiti() throws Exception {
-        try {
-            logger.info("RESTful call 'GET miti'");
-            return mitiService.readMiti();
-        } catch (Exception e) {
-            logger.info("Error in RESTful call 'GET miti'");
-            throw new Exception(e);
-        }
+    public List<Miti> readMiti() {
+        logger.info("RESTful call 'GET miti'");
+        return mitiService.readMiti();
     }
 
     @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
     public Miti readMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
-        try {
-            logger.info("RESTful call 'GET miti by mitiId'");
-            return mitiService.readMitiByUuid(mitiId);
-        } catch (Exception e) {
-            logger.info("Error in RESTful call 'GET miti by mitiId'");
+        Miti mitiRead = mitiService.readMitiByUuid(mitiId);
+
+        if (mitiRead == null) {
             throw new MitiNotFoundException(mitiId);
         }
+
+        logger.info("RESTful call 'GET miti by mitiId'");
+        return mitiService.readMitiByUuid(mitiId);
     }
 
-    //TODO
     @PutMapping(value = "/miti/{mitiId}")
-    public void updateMitiByUuid(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) {
-        try {
-            logger.info("RESTful call 'PUT miti'");
-            mitiService.updateMitiByUuid(mitiId, miti);
-        } catch (Exception bauCustomExceptionUndGibBesserName) {
-            logger.info("Error in RESTful call 'PUT miti'");
-            throw bauCustomExceptionUndGibBesserName;
+    public void updateMitiByUuid(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws MitiNotFoundException {
+        Miti mitiUpdate = mitiService.readMitiByUuid(mitiId);
+
+        if (mitiUpdate == null) {
+            throw new MitiNotFoundException(mitiId);
         }
+
+        logger.info("RESTful call 'PUT miti'");
+        mitiService.updateMitiByUuid(mitiId, miti);
     }
 
     @DeleteMapping(value = "/miti/{mitiId}")
-    public void deleteMitiByUuid(@PathVariable Long mitiId) throws Exception {
-        try {
-            logger.info("RESTful call 'DELETE miti'");
-            mitiService.deleteMitiByUuid(mitiId);
-        } catch (Exception e) {
-            logger.info("Error in RESTful call 'DELETE miti'");
-            throw new Exception(e);
+    public void deleteMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
+        Miti mitiDelete = mitiService.readMitiByUuid(mitiId);
+
+        if (mitiDelete == null) {
+            throw new MitiNotFoundException(mitiId);
         }
+
+        logger.info("RESTful call 'DELETE miti'");
+        mitiService.deleteMitiByUuid(mitiId);
     }
 }
