@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.miti.Miti;
+import com.example.mitiappbackend.domain.miti.MitiNotFoundException;
 import com.example.mitiappbackend.domain.miti.MitiService;
 
 @RestController
@@ -63,13 +64,13 @@ public class MitiResource {
     }
 
     @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
-    public Miti readMitiByUuid(@PathVariable Long mitiId) throws Exception {
+    public Miti readMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
         try {
             logger.info("RESTful call 'GET miti by mitiId'");
             return mitiService.readMitiByUuid(mitiId);
         } catch (Exception e) {
             logger.info("Error in RESTful call 'GET miti by mitiId'");
-            throw new Exception("Error in RESTful call 'GET miti by mitiId': " + mitiId + " does not exist");
+            throw new MitiNotFoundException(mitiId);
         }
     }
 

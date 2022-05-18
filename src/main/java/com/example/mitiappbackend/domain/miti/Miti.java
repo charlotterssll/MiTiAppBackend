@@ -27,8 +27,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.NamedQuery;
 
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.place.Place;
@@ -37,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "MITI")
-@NamedQuery(name = Miti.READ_ALL, query = "SELECT m FROM Miti m")
+@NamedQuery(name = Miti.READ_ALL, query = "SELECT m FROM Miti m ORDER BY m.mitiId")
 public class Miti {
 
     public static final String READ_ALL = "Miti.readAll";
