@@ -163,7 +163,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "date must only contain numbers YYYY.MM.DD format",
+            "date must only contain numbers YYYY-MM-DD format",
             thrown.getMessage());
     }
 }

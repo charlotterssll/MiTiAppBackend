@@ -35,7 +35,7 @@ public class Date extends AbstractSimpleValueObject<String> {
     @Override
     protected String validateAndNormalize(String date) {
         isTrue(date.matches("^\\s*((?:19|20)\\d{2})\\-(1[012]|0?[1-9])\\-(3[01]|[12][0-9]|0?[1-9])\\s*$"),
-            "date must only contain numbers YYYY.MM.DD format");
+            "date must only contain numbers YYYY-MM-DD format");
         return notBlank(date);
     }
 }
