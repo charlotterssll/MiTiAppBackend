@@ -149,22 +149,21 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    //TODO
-    /*@DisplayName("Employee does not want to create an incomplete lunch table with empty date")
+    @DisplayName("Employee does not want to create an incomplete lunch table with empty date")
     @Test
     public void testDbCreateMitiIncompleteEmptyDate() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                    new Place(new Locality("Metzger"), new Location("Hannover")),
-                    new Employee(new FirstName("Karl"), new LastName("Heinz")),
-                    new Time(""),
-                    new Date("01.04.2022"));
+                new Place(new Locality("Metzger"), new Location("Hannover")),
+                new Employee(new FirstName("Karl"), new LastName("Heinz")),
+                new Time("12:00"),
+                new Date(""));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-                "date must only contain numbers in 24h time format",
-                thrown.getMessage());
-    }*/
+            "date must only contain numbers DD.MM.YYYY format",
+            thrown.getMessage());
+    }
 }

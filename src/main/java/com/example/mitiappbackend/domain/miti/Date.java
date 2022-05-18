@@ -15,6 +15,7 @@
  */
 package com.example.mitiappbackend.domain.miti;
 
+import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
 import javax.persistence.Embeddable;
@@ -33,7 +34,8 @@ public class Date extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String date) {
-        //isTrue(date.matches("^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$"), "date must only contain numbers in 24h time format");
+        isTrue(date.matches("^\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*$"),
+            "date must only contain numbers DD.MM.YYYY format");
         return notBlank(date);
     }
 }
