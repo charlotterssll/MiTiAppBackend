@@ -45,7 +45,7 @@ public class DeleteMitiDbTest extends AbstractPersistenceTest {
             new Place(new Locality("Immergrün"), new Location("Oldenburg")),
             new Employee(new FirstName("Hannelore"), new LastName("Kranz")),
             new Time("14:30"),
-            new Date("01.04.2022"));
+            new Date("2022-04-01"));
         entityManager.persist(miti);
         entityManager.getTransaction().commit();
         entityManager.clear();

@@ -48,7 +48,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             new Place(new Locality("Metzger"), new Location("Hannover")),
             new Employee(new FirstName("Karl"), new LastName("Heinz")),
             new Time("12:00"),
-            new Date("01.04.2022"));
+            new Date("2022-04-01"));
         entityManager.getTransaction().commit();
 
         assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Metzger");
@@ -56,7 +56,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Karl");
         assertThat(mitiNew.getEmployee().getLastName().getValue()).isEqualTo("Heinz");
         assertThat(mitiNew.getTime().getValue()).isEqualTo("12:00");
-        assertThat(mitiNew.getDate().getValue()).isEqualTo("01.04.2022");
+        assertThat(mitiNew.getDate().getValue()).isEqualTo("2022-04-01");
     }
 
     @DisplayName("Employee does not want to create an incomplete lunch table with empty locality")
@@ -68,7 +68,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
                 new Place(new Locality(""), new Location("Hannover")),
                 new Employee(new FirstName("Karl"), new LastName("Heinz")),
                 new Time("12:00"),
-                new Date("01.04.2022"));
+                new Date("2022-04-01"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -86,7 +86,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
                 new Place(new Locality("Metzger"), new Location("")),
                 new Employee(new FirstName("Karl"), new LastName("Heinz")),
                 new Time("12:00"),
-                new Date("01.04.2022"));
+                new Date("2022-04-01"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -104,7 +104,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
                 new Place(new Locality("Metzger"), new Location("Hannover")),
                 new Employee(new FirstName(""), new LastName("Heinz")),
                 new Time("12:00"),
-                new Date("01.04.2022"));
+                new Date("2022-04-01"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -122,7 +122,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
                 new Place(new Locality("Metzger"), new Location("Hannover")),
                 new Employee(new FirstName("Karl"), new LastName("")),
                 new Time("12:00"),
-                new Date("01.04.2022"));
+                new Date("2022-04-01"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -140,7 +140,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
                 new Place(new Locality("Metzger"), new Location("Hannover")),
                 new Employee(new FirstName("Karl"), new LastName("Heinz")),
                 new Time(""),
-                new Date("01.04.2022"));
+                new Date("2022-04-01"));
             entityManager.persist(newMiti);
             entityManager.getTransaction().commit();
         });
@@ -163,7 +163,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "date must only contain numbers DD.MM.YYYY format",
+            "date must only contain numbers YYYY.MM.DD format",
             thrown.getMessage());
     }
 }

@@ -43,7 +43,7 @@ public class ReadMitiDbTest extends AbstractPersistenceTest {
             new Place(new Locality("Immergrün"), new Location("Oldenburg")),
             new Employee(new FirstName("Hannelore"), new LastName("Kranz")),
             new Time("14:30"),
-            new Date("01.04.2022"));
+            new Date("2022-04-01"));
         entityManager.persist(miti);
         entityManager.getTransaction().commit();
         entityManager.clear();
@@ -57,6 +57,6 @@ public class ReadMitiDbTest extends AbstractPersistenceTest {
         assertThat(miti.getEmployee().getFirstName().getValue()).isEqualTo("Hannelore");
         assertThat(miti.getEmployee().getLastName().getValue()).isEqualTo("Kranz");
         assertThat(miti.getTime().getValue()).isEqualTo("14:30");
-        assertThat(miti.getDate().getValue()).isEqualTo("01.04.2022");
+        assertThat(miti.getDate().getValue()).isEqualTo("2022-04-01");
     }
 }
