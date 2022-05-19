@@ -58,7 +58,7 @@ public class CreateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -77,7 +77,7 @@ public class CreateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("01.04.2022")));
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
     @DisplayName("Employee does not want to create an incomplete lunch table")

@@ -59,7 +59,7 @@ public class UpdateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -77,7 +77,7 @@ public class UpdateMitiApiTest {
                             "lastName":"Kranz"
                         },
                     "time":"14:30",
-                    "date":"01.05.2022"
+                    "date":"2022-05-01"
                 },
             """;
 
@@ -102,7 +102,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
-                .andExpect(jsonPath("$.[0].date.value", is("01.05.2022")));
+                .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }
 
     @DisplayName("Employee wants to update the locality on an existing lunch table")
@@ -123,7 +123,7 @@ public class UpdateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -141,7 +141,7 @@ public class UpdateMitiApiTest {
                             "lastName":"Heinz"
                         },
                     "time":"12:00",
-                    "date":"01.04.2022"
+                    "date":"2022-04-01"
                 },
             """;
 
@@ -166,7 +166,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("01.04.2022")));
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
     @DisplayName("Employee wants to update the location on an existing lunch table")
@@ -187,7 +187,7 @@ public class UpdateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -205,7 +205,7 @@ public class UpdateMitiApiTest {
                             "lastName":"Heinz"
                         },
                     "time":"12:00",
-                    "date":"01.04.2022"
+                    "date":"2022-04-01"
                 },
             """;
 
@@ -230,7 +230,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("01.04.2022")));
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
     @DisplayName("Employee wants to update thier first name on an existing lunch table")
@@ -251,7 +251,7 @@ public class UpdateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -269,7 +269,7 @@ public class UpdateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -294,7 +294,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("01.04.2022")));
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
     @DisplayName("Employee wants to update their last name on an existing lunch table")
@@ -315,7 +315,7 @@ public class UpdateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -333,7 +333,7 @@ public class UpdateMitiApiTest {
                             "lastName":"Kranz"
                         },
                     "time":"12:00",
-                    "date":"01.04.2022"
+                    "date":"2022-04-01"
                 },
             """;
 
@@ -358,7 +358,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("01.04.2022")));
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
     @DisplayName("Employee wants to update the time on an existing lunch table")
@@ -379,7 +379,7 @@ public class UpdateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -397,7 +397,7 @@ public class UpdateMitiApiTest {
                             "lastName":"Heinz"
                         },
                     "time":"14:30",
-                    "date":"01.04.2022"
+                    "date":"2022-04-01"
                 },
             """;
 
@@ -422,7 +422,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
-                .andExpect(jsonPath("$.[0].date.value", is("01.04.2022")));
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
     @DisplayName("Employee wants to update the date on an existing lunch table")
@@ -443,7 +443,7 @@ public class UpdateMitiApiTest {
                            "lastName":"Heinz"
                        },
                    "time":"12:00",
-                   "date":"01.04.2022"
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -461,7 +461,7 @@ public class UpdateMitiApiTest {
                             "lastName":"Heinz"
                         },
                     "time":"14:30",
-                    "date":"01.05.2022"
+                    "date":"2022-05-01"
                 },
             """;
 
@@ -486,6 +486,6 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
-                .andExpect(jsonPath("$.[0].date.value", is("01.05.2022")));
+                .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }
 }
