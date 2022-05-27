@@ -15,9 +15,16 @@
  */
 package com.example.mitiappbackend.infrastructure;
 
-public class MitiNotFoundException extends RuntimeException {
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-    public MitiNotFoundException(Long mitiId) {
-        super(String.format("Miti with mitiId: " + mitiId + " could not be found"));
-    }
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+@Documented
+@Retention(RUNTIME)
+@Target({TYPE, METHOD})
+public @interface ExcludeFromJacoco {
 }

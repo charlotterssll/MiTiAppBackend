@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.apitest;
+package com.example.mitiappbackend.application;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.DisplayName;
@@ -32,32 +36,47 @@ import org.springframework.test.web.servlet.MockMvc;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class ReadMitiApiTest {
+public class DeleteMitiApiTest {
 
     @Autowired
     private MockMvc mvc;
 
-    @DisplayName("Employee wants to read information about already existing lunch tables")
+    @DisplayName("Employee wants to delete a lunch table")
     @Test
-    void testReadMiti() throws Exception {
-        mvc.perform(get("/miti")
+    void testDeleteMiti() throws Exception {
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Immergrün",
+                           "location":"Oldenburg"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz"
+                       },
+                   "time":"14:30",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(jsonBody))
+                .andExpect(status().isOk());
+
+        mvc.perform(delete("/miti/{mitiId}", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
 
-    /*
-    @Test
-    void testGetMitiByFalseIdThrowException() throws Exception {
-        NestedServletException thrown = Assertions.assertThrows(NestedServletException.class, () -> {
-            mvc.perform(get("/miti/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
-        });
-        Assertions.assertEquals(
-            "Request processing failed; nested exception is java.lang.Exception: "
-            + "Error in RESTful call 'GET miti by mitiId': 1 does not exist",
-            thrown.getMessage());
+        mvc.perform(get("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
     }
-    */
 }

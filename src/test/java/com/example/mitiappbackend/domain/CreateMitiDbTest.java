@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.dbtest;
+package com.example.mitiappbackend.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +31,7 @@ import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
-import com.example.mitiappbackend.infrastructuretest.AbstractPersistenceTest;
+import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 
 public class CreateMitiDbTest extends AbstractPersistenceTest {
 

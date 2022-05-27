@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.infrastructuretest;
+package com.example.mitiappbackend.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -23,8 +23,6 @@ import java.util.Objects;
 import javax.persistence.MappedSuperclass;
 
 import org.junit.jupiter.api.Test;
-
-import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
 
 /**
  * Test class for the value object superclass {@link AbstractSimpleValueObject}.
