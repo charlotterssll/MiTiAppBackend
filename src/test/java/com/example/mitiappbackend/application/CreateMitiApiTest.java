@@ -50,7 +50,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee wants to create a lunch table")
     @Test
-    void testCreateMiti() throws Exception {
+    void testApiCreateMiti() throws Exception {
 
         String jsonBody =
             """
@@ -90,7 +90,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee does not want to create an incomplete lunch table")
     @Test
-    void testCreateMitiIncomplete() throws Exception {
+    void testApiCreateMitiIncomplete() throws Exception {
 
         String jsonBodyEmptyMiti =
             """

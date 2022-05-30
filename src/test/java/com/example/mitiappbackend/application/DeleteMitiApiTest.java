@@ -53,7 +53,7 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee wants to delete a lunch table")
     @Test
-    void testDeleteMiti() throws Exception {
+    void testApiDeleteMiti() throws Exception {
         String jsonBody =
             """
                 {
@@ -92,7 +92,7 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
 
     @DisplayName("Employee wants to get an error message when trying to delete a nonexistent lunch table via URL")
     @Test
-    void testDeleteMitiByFalseIdThrowException() {
+    void testApiDeleteMitiByFalseIdThrowException() {
         Long mitiId = 1L;
         MitiNotFoundException thrown = Assertions.assertThrows(MitiNotFoundException.class, () -> {
             mvc.perform(delete("/miti/{mitiId}", "1")

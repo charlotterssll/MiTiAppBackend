@@ -46,7 +46,7 @@ public class UpdateMitiApiTest {
 
     @DisplayName("Employee wants to update all information on an existing lunch table")
     @Test
-    void testUpdateMitiValueObjectsAll() throws Exception {
+    void testApiUpdateMitiValueObjectsAll() throws Exception {
 
         String jsonBody =
             """
@@ -110,7 +110,7 @@ public class UpdateMitiApiTest {
 
     @DisplayName("Employee wants to update the locality on an existing lunch table")
     @Test
-    void testUpdateMitiValueObjectLocality() throws Exception {
+    void testApiUpdateMitiValueObjectLocality() throws Exception {
 
         String jsonBody =
             """
@@ -174,7 +174,7 @@ public class UpdateMitiApiTest {
 
     @DisplayName("Employee wants to update the location on an existing lunch table")
     @Test
-    void testUpdateMitiValueObjectLocation() throws Exception {
+    void testApiUpdateMitiValueObjectLocation() throws Exception {
 
         String jsonBody =
             """
@@ -238,7 +238,7 @@ public class UpdateMitiApiTest {
 
     @DisplayName("Employee wants to update thier first name on an existing lunch table")
     @Test
-    void testUpdateMitiValueObjectFirstName() throws Exception {
+    void testApiUpdateMitiValueObjectFirstName() throws Exception {
 
         String jsonBody =
             """
@@ -302,7 +302,7 @@ public class UpdateMitiApiTest {
 
     @DisplayName("Employee wants to update their last name on an existing lunch table")
     @Test
-    void testUpdateMitiValueObjectLastName() throws Exception {
+    void testApiUpdateMitiValueObjectLastName() throws Exception {
 
         String jsonBody =
             """
@@ -366,7 +366,7 @@ public class UpdateMitiApiTest {
 
     @DisplayName("Employee wants to update the time on an existing lunch table")
     @Test
-    void testUpdateMitiValueObjectTime() throws Exception {
+    void testApiUpdateMitiValueObjectTime() throws Exception {
 
         String jsonBody =
             """
@@ -430,7 +430,7 @@ public class UpdateMitiApiTest {
 
     @DisplayName("Employee wants to update the date on an existing lunch table")
     @Test
-    void testUpdateMitiValueObjectDate() throws Exception {
+    void testApiUpdateMitiValueObjectDate() throws Exception {
 
         String jsonBody =
             """
@@ -494,7 +494,7 @@ public class UpdateMitiApiTest {
 
     @DisplayName("Employee wants to get an error message when trying to update a nonexistent lunch table via URL")
     @Test
-    void testUpdateMitiByFalseIdThrowException() {
+    void testApiUpdateMitiByFalseIdThrowException() {
         String jsonBody =
             """
                 {
