@@ -16,30 +16,37 @@
 package com.example.mitiappbackend.application;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.NestedServletException;
 
+import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 
 //TODO
 //change ID to UUID for persistent db testing
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class ReadMitiApiTest {
+public class ReadMitiApiTest extends AbstractPersistenceTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @BeforeEach
+    public void beforeApiTestClearDb() {
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+    }
 
     @DisplayName("Employee wants to read information about already existing lunch tables")
     @Test
@@ -50,29 +57,48 @@ public class ReadMitiApiTest {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("Employee wants to read information about one already existing lunch table")
     @Test
-    void testReadMitiByFalseIdThrowException() throws MitiNotFoundException {
+    void testReadMitiById() throws Exception {
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("Employee wants to get an error message when trying to read a nonexistent lunch table via URL")
+    @Test
+    void testReadMitiByFalseIdThrowException() {
         Long mitiId = 1L;
-        NestedServletException thrown = Assertions.assertThrows(NestedServletException.class, () -> {
+        MitiNotFoundException thrown = Assertions.assertThrows(MitiNotFoundException.class, () -> {
             mvc.perform(get("/miti/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         });
-        Assertions.assertEquals(
-            "Request processing failed; nested exception is com.example.mitiappbackend.infrastructure.MitiNotFoundException: "
-            + "Miti with mitiId: " + mitiId + " could not be found",
-            thrown.getMessage());
+        Assertions.assertEquals("Miti with mitiId: " + mitiId + " could not be found", thrown.getMessage());
     }
-
-    /*@Test
-    void testReadMitiByFalseIdThrowExceptionTestTwo() throws Exception {
-        Long mitiId = 1L;
-        mvc.perform(get("/miti/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MitiNotFoundException))
-                .andExpect(result -> assertEquals("Request processing failed; nested exception is " +
-                        "com.example.mitiappbackend.infrastructure.MitiNotFoundException: "
-                        + "Miti with mitiId: " + mitiId + " could not be found", result.getResolvedException().getMessage()));
-    }*/
 }

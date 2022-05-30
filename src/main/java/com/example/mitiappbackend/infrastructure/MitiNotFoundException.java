@@ -15,7 +15,9 @@
  */
 package com.example.mitiappbackend.infrastructure;
 
-public class MitiNotFoundException extends RuntimeException {
+import org.springframework.web.util.NestedServletException;
+
+public class MitiNotFoundException extends NestedServletException {
 
     public MitiNotFoundException(Long mitiId) {
         super(String.format("Miti with mitiId: " + mitiId + " could not be found"));

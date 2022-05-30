@@ -18,12 +18,12 @@ package com.example.mitiappbackend;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.mitiappbackend.infrastructure.ExcludeFromJacoco;
+import com.example.mitiappbackend.infrastructure.Generated;
 
 @SpringBootApplication(scanBasePackages = "com.example.mitiappbackend")
 public class MitiMain {
 
-    @ExcludeFromJacoco
+    @Generated
     public static void main(String[] args) {
         SpringApplication.run(MitiMain.class, args);
     }

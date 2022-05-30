@@ -21,24 +21,32 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 
 //TODO
 //change ID to UUID for persistent db testing
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class CreateMitiApiTest {
+public class CreateMitiApiTest extends AbstractPersistenceTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @BeforeEach
+    public void beforeApiTestClearDb() {
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+    }
 
     @DisplayName("Employee wants to create a lunch table")
     @Test

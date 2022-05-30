@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 
 //TODO
 //change ID to UUID for persistent db testing
@@ -487,5 +490,37 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
+    }
+
+    @DisplayName("Employee wants to get an error message when trying to update a nonexistent lunch table via URL")
+    @Test
+    void testUpdateMitiByFalseIdThrowException() {
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                },
+            """;
+        Long mitiId = 1L;
+
+        MitiNotFoundException thrown = Assertions.assertThrows(MitiNotFoundException.class, () -> {
+            mvc.perform(put("/miti/{mitiId}", 1)
+                            .content(jsonBody)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+        });
+        Assertions.assertEquals("Miti with mitiId: " + mitiId + " could not be found", thrown.getMessage());
     }
 }
