@@ -38,4 +38,16 @@ public class Date extends AbstractSimpleValueObject<String> {
             "date must only contain numbers YYYY-MM-DD format");
         return notBlank(date);
     }
+
+    /*@Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Date)) {
+            return false;
+        }
+        Date name = (Date)object;
+        return toString().equals(name.toString());
+    }*/
 }

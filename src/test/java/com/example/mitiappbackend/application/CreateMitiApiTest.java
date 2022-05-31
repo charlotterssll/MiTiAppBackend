@@ -21,7 +21,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
+import com.example.mitiappbackend.infrastructure.MitiCatchOnSameDayException;
 
 //TODO
 //change ID to UUID for persistent db testing
@@ -167,5 +170,61 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonBodyNullValueObjects))
                 .andExpect(status().is(400));
+    }
+
+    @Disabled
+    @DisplayName("Employee wants to get feedback when creating lunch table on a day they are already have a lunch table")
+    @Test
+    void testApiCreateMitiNotOnSameDay() {
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Metzger",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Ochsen",
+                           "location":"Hannover"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Karl",
+                           "lastName":"Heinz"
+                       },
+                   "time":"14:00",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        MitiCatchOnSameDayException thrown = Assertions.assertThrows(MitiCatchOnSameDayException.class, () -> {
+            mvc.perform(post("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(jsonBody))
+                .andExpect(status().isOk());
+
+            mvc.perform(post("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(jsonBodySecond))
+                .andExpect(status().isBadRequest());
+        });
+        Assertions.assertEquals("Employee already has a lunch table meeting on this day!", thrown.getMessage());
     }
 }

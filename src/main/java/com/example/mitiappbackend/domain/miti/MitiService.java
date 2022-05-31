@@ -22,6 +22,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.mitiappbackend.infrastructure.MitiCatchOnSameDayException;
+
 @Service
 public class MitiService {
 
@@ -29,7 +31,7 @@ public class MitiService {
     private MitiRepository mitiRepository;
 
     @Transactional
-    public void createMiti(Miti miti) {
+    public void createMiti(Miti miti) throws MitiCatchOnSameDayException {
         mitiRepository.createMiti(miti);
     }
 

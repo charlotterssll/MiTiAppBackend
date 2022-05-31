@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.miti.Miti;
 import com.example.mitiappbackend.domain.miti.MitiService;
+import com.example.mitiappbackend.infrastructure.MitiCatchOnSameDayException;
 import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 
 @RestController
@@ -44,9 +45,17 @@ public class MitiResource {
     //TODO
     //Überprüfung der ID-Generierung und Hochzählung nach Migration zur persistenten DB
     @PostMapping(value = "/miti", consumes = "application/json")
-    public void createMiti(@RequestBody Miti miti) {
-        logger.info("RESTful call 'POST miti'");
-        mitiService.createMiti(miti);
+    public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException {
+        List<Miti> mitiRead = mitiService.readMiti();
+
+        if (mitiRead.contains(miti.getEmployee().getFirstName())
+            && mitiRead.contains(miti.getEmployee().getLastName())
+            && mitiRead.contains(miti.getDate())) {
+            throw new MitiCatchOnSameDayException();
+        } else {
+            logger.info("RESTful call 'POST miti'");
+            mitiService.createMiti(miti);
+        }
     }
 
     @GetMapping(value = "/miti", produces = "application/json")
