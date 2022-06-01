@@ -125,7 +125,7 @@ public class Miti {
         return concatString;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Miti{"
                 + "mitiId=" + mitiId
@@ -134,5 +134,5 @@ public class Miti {
                 + ", time=" + time
                 + ", date=" + date
                 + '}';
-    }
+    }*/
 }

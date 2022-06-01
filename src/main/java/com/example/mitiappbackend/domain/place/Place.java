@@ -63,12 +63,12 @@ public class Place {
         return location;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Place{"
                 + "placeId=" + placeId
                 + ", locality=" + locality
                 + ", location=" + location
                 + '}';
-    }
+    }*/
 }
