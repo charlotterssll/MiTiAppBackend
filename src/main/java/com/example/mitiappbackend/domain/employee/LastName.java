@@ -38,16 +38,4 @@ public class LastName extends AbstractSimpleValueObject<String> {
             "lastName must only contain letters and begin with upper case");
         return notBlank(lastName);
     }
-
-    /*@Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof LastName)) {
-            return false;
-        }
-        LastName name = (LastName)object;
-        return toString().equals(name.toString());
-    }*/
 }

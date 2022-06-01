@@ -47,10 +47,11 @@ public class MitiResource {
     @PostMapping(value = "/miti", consumes = "application/json")
     public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException {
         List<Miti> mitiRead = mitiService.readMiti();
+        List<String> mitiInfos = mitiRead.stream()
+            .map(Miti::catchMitiOnSameDay)
+            .toList();
 
-        if (mitiRead.contains(miti.getEmployee().getFirstName())
-            && mitiRead.contains(miti.getEmployee().getLastName())
-            && mitiRead.contains(miti.getDate())) {
+        if (mitiInfos.contains(miti.catchMitiOnSameDay())) {
             throw new MitiCatchOnSameDayException();
         } else {
             logger.info("RESTful call 'POST miti'");

@@ -23,7 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,8 +171,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(status().is(400));
     }
 
-    @Disabled
-    @DisplayName("Employee wants to get feedback when creating lunch table on a day they are already have a lunch table")
+    @DisplayName("Employee wants to get feedback when creating a lunch table on a day they are already have a lunch table")
     @Test
     void testApiCreateMitiNotOnSameDay() {
         String jsonBody =
@@ -199,7 +197,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 {
                    "place":
                        {
-                           "locality":"Ochsen",
+                           "locality":"Metzger",
                            "location":"Hannover"
                        },
                    "employee":

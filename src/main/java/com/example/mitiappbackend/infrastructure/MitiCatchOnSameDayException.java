@@ -15,7 +15,9 @@
  */
 package com.example.mitiappbackend.infrastructure;
 
-public class MitiCatchOnSameDayException extends Exception {
+import org.springframework.web.util.NestedServletException;
+
+public class MitiCatchOnSameDayException extends NestedServletException {
     public MitiCatchOnSameDayException() {
         super(String.format("Employee already has a lunch table meeting on this day!"));
     }

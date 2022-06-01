@@ -62,4 +62,13 @@ public class Employee {
     public LastName getLastName() {
         return lastName;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{"
+                + "employeeId=" + employeeId
+                + ", firstName=" + firstName
+                + ", lastName=" + lastName
+                + '}';
+    }
 }

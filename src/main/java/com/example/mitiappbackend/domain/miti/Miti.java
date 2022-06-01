@@ -119,4 +119,20 @@ public class Miti {
     public void setDate(Date date) {
         this.date = notNull(date);
     }
+
+    public String catchMitiOnSameDay() {
+        String concatString = date.getValue().concat((employee.getLastName().getValue()).concat(employee.getFirstName().getValue()));
+        return concatString;
+    }
+
+    @Override
+    public String toString() {
+        return "Miti{"
+                + "mitiId=" + mitiId
+                + ", place=" + place
+                + ", employee=" + employee
+                + ", time=" + time
+                + ", date=" + date
+                + '}';
+    }
 }

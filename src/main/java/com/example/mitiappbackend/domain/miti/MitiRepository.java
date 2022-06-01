@@ -23,8 +23,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.mitiappbackend.infrastructure.MitiCatchOnSameDayException;
-
 @Repository
 public class MitiRepository {
 
@@ -32,7 +30,7 @@ public class MitiRepository {
     private EntityManager entityManager;
 
     @Transactional
-    public void createMiti(Miti miti) throws MitiCatchOnSameDayException {
+    public void createMiti(Miti miti) {
         entityManager.persist(miti);
     }
 

@@ -62,4 +62,13 @@ public class Place {
     public Location getLocation() {
         return location;
     }
+
+    @Override
+    public String toString() {
+        return "Place{"
+                + "placeId=" + placeId
+                + ", locality=" + locality
+                + ", location=" + location
+                + '}';
+    }
 }
