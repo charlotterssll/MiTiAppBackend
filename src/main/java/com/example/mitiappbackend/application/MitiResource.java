@@ -44,6 +44,7 @@ public class MitiResource {
 
     //TODO
     //Überprüfung der ID-Generierung und Hochzählung nach Migration zur persistenten DB
+
     @PostMapping(value = "/miti", consumes = "application/json")
     public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException {
         List<Miti> mitiRead = mitiService.readMiti();
