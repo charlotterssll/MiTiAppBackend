@@ -60,14 +60,16 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
                    "place":
                        {
                            "locality":"Immergrün",
-                           "location":"Oldenburg"
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
                            "firstName":"Hannelore",
-                           "lastName":"Kranz"
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
-                   "time":"14:30",
+                   "time":"12:00",
                    "date":"2022-04-01"
                 },
             """;

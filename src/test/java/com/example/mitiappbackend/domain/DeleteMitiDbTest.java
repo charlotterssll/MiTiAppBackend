@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.FirstName;
 import com.example.mitiappbackend.domain.employee.LastName;
@@ -32,6 +33,7 @@ import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
+import com.example.mitiappbackend.domain.place.Street;
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 
 public class DeleteMitiDbTest extends AbstractPersistenceTest {
@@ -42,9 +44,9 @@ public class DeleteMitiDbTest extends AbstractPersistenceTest {
     public void beforeDbTestInsertMitiTestDataIntoDb() {
         entityManager.getTransaction().begin();
         miti = new Miti(
-            new Place(new Locality("Immergrün"), new Location("Oldenburg")),
-            new Employee(new FirstName("Hannelore"), new LastName("Kranz")),
-            new Time("14:30"),
+            new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+            new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+            new Time("12:00"),
             new Date("2022-04-01"));
         entityManager.persist(miti);
         entityManager.getTransaction().commit();

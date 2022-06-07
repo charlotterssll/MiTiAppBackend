@@ -46,10 +46,17 @@ public class Employee {
     @AttributeOverride(name = "value", column = @Column(name = "LASTNAME"))
     private LastName lastName;
 
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "ABBREVIATION"))
+    private Abbreviation abbreviation;
+
     @JsonCreator
-    public Employee(@JsonProperty("firstName") FirstName firstName, @JsonProperty("lastName") LastName lastName) {
+    public Employee(@JsonProperty("firstName") FirstName firstName,
+        @JsonProperty("lastName") LastName lastName,
+        @JsonProperty("abbreviation") Abbreviation abbreviation) {
         this.firstName = notNull(firstName, "null in firstName is disallowed");
         this.lastName = notNull(lastName, "null in lastName is disallowed");
+        this.abbreviation = notNull(abbreviation, "null in abbreviation is disallowed");
     }
 
     protected Employee() {
@@ -63,12 +70,17 @@ public class Employee {
         return lastName;
     }
 
+    public Abbreviation getAbbreviation() {
+        return abbreviation;
+    }
+
     /*@Override
     public String toString() {
         return "Employee{"
                 + "employeeId=" + employeeId
                 + ", firstName=" + firstName
                 + ", lastName=" + lastName
+                + ", abbreviation=" + abbreviation
                 + '}';
     }*/
 }

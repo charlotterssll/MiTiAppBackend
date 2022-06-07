@@ -121,7 +121,10 @@ public class Miti {
     }
 
     public String catchMitiOnSameDay() {
-        String concatString = date.getValue().concat((employee.getLastName().getValue()).concat(employee.getFirstName().getValue()));
+        String concatString = date.getValue()
+            .concat(employee.getLastName().getValue())
+            .concat(employee.getFirstName().getValue())
+            .concat(employee.getAbbreviation().getValue());
         return concatString;
     }
 

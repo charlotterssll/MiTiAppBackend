@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.FirstName;
 import com.example.mitiappbackend.domain.employee.LastName;
@@ -30,6 +31,7 @@ import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
+import com.example.mitiappbackend.domain.place.Street;
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 
 public class ReadMitiDbTest extends AbstractPersistenceTest {
@@ -40,9 +42,9 @@ public class ReadMitiDbTest extends AbstractPersistenceTest {
     public void beforeDbTestInsertMitiTestDataIntoDb() {
         entityManager.getTransaction().begin();
         miti = new Miti(
-            new Place(new Locality("Immergrün"), new Location("Oldenburg")),
-            new Employee(new FirstName("Hannelore"), new LastName("Kranz")),
-            new Time("14:30"),
+            new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+            new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+            new Time("12:00"),
             new Date("2022-04-01"));
         entityManager.persist(miti);
         entityManager.getTransaction().commit();
@@ -54,9 +56,11 @@ public class ReadMitiDbTest extends AbstractPersistenceTest {
     public void testDbReadMiti() {
         assertThat(miti.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
         assertThat(miti.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
+        assertThat(miti.getPlace().getStreet().getValue()).isEqualTo("Poststraße");
         assertThat(miti.getEmployee().getFirstName().getValue()).isEqualTo("Hannelore");
         assertThat(miti.getEmployee().getLastName().getValue()).isEqualTo("Kranz");
-        assertThat(miti.getTime().getValue()).isEqualTo("14:30");
+        assertThat(miti.getEmployee().getAbbreviation().getValue()).isEqualTo("HKR");
+        assertThat(miti.getTime().getValue()).isEqualTo("12:00");
         assertThat(miti.getDate().getValue()).isEqualTo("2022-04-01");
     }
 }

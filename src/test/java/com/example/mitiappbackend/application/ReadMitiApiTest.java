@@ -65,13 +65,15 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"

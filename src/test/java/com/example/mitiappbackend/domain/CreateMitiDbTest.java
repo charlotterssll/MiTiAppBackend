@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.FirstName;
 import com.example.mitiappbackend.domain.employee.LastName;
@@ -31,6 +32,7 @@ import com.example.mitiappbackend.domain.miti.Time;
 import com.example.mitiappbackend.domain.place.Locality;
 import com.example.mitiappbackend.domain.place.Location;
 import com.example.mitiappbackend.domain.place.Place;
+import com.example.mitiappbackend.domain.place.Street;
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 
 public class CreateMitiDbTest extends AbstractPersistenceTest {
@@ -45,16 +47,18 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
     public void testDbCreateMiti() {
         entityManager.getTransaction().begin();
         Miti mitiNew = new Miti(
-            new Place(new Locality("Metzger"), new Location("Hannover")),
-            new Employee(new FirstName("Karl"), new LastName("Heinz")),
+            new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+            new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
             new Time("12:00"),
             new Date("2022-04-01"));
         entityManager.getTransaction().commit();
 
-        assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Metzger");
-        assertThat(mitiNew.getPlace().getLocation().getValue()).isEqualTo("Hannover");
-        assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Karl");
-        assertThat(mitiNew.getEmployee().getLastName().getValue()).isEqualTo("Heinz");
+        assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
+        assertThat(mitiNew.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
+        assertThat(mitiNew.getPlace().getStreet().getValue()).isEqualTo("Poststraße");
+        assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Hannelore");
+        assertThat(mitiNew.getEmployee().getLastName().getValue()).isEqualTo("Kranz");
+        assertThat(mitiNew.getEmployee().getAbbreviation().getValue()).isEqualTo("HKR");
         assertThat(mitiNew.getTime().getValue()).isEqualTo("12:00");
         assertThat(mitiNew.getDate().getValue()).isEqualTo("2022-04-01");
     }
@@ -65,8 +69,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality(""), new Location("Hannover")),
-                new Employee(new FirstName("Karl"), new LastName("Heinz")),
+                new Place(new Locality(""), new Location("Hannover"), new Street("Poststraße")),
+                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -83,8 +87,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("")),
-                new Employee(new FirstName("Karl"), new LastName("Heinz")),
+                new Place(new Locality("Immergrün"), new Location(""), new Street("Poststraße")),
+                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -95,14 +99,32 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
+    @DisplayName("Employee does not want to create an incomplete lunch table with empty street")
+    @Test
+    public void testDbCreateMitiIncompleteEmptyStreet() {
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            entityManager.getTransaction().begin();
+            Miti newMiti = new Miti(
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("")),
+                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+                new Time("12:00"),
+                new Date("2022-04-01"));
+            entityManager.persist(newMiti);
+            entityManager.getTransaction().commit();
+        });
+        Assertions.assertEquals(
+            "street must only contain letters and begin with upper case",
+            thrown.getMessage());
+    }
+
     @DisplayName("Employee does not want to create an incomplete lunch table with empty first name")
     @Test
     public void testDbCreateMitiIncompleteEmptyFirstName() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("Hannover")),
-                new Employee(new FirstName(""), new LastName("Heinz")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Employee(new FirstName(""), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -119,8 +141,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("Hannover")),
-                new Employee(new FirstName("Karl"), new LastName("")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Employee(new FirstName("Hannelore"), new LastName(""), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -131,14 +153,32 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
+    @DisplayName("Employee does not want to create an incomplete lunch table with empty abbreviation")
+    @Test
+    public void testDbCreateMitiIncompleteEmptyAbbreviation() {
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            entityManager.getTransaction().begin();
+            Miti newMiti = new Miti(
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("")),
+                new Time("12:00"),
+                new Date("2022-04-01"));
+            entityManager.persist(newMiti);
+            entityManager.getTransaction().commit();
+        });
+        Assertions.assertEquals(
+            "abbreviation must only contain capital letters and only three characters",
+            thrown.getMessage());
+    }
+
     @DisplayName("Employee does not want to create an incomplete lunch table with empty time")
     @Test
     public void testDbCreateMitiIncompleteEmptyTime() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("Hannover")),
-                new Employee(new FirstName("Karl"), new LastName("Heinz")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time(""),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -155,8 +195,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Metzger"), new Location("Hannover")),
-                new Employee(new FirstName("Karl"), new LastName("Heinz")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date(""));
             entityManager.persist(newMiti);

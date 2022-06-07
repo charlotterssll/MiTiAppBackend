@@ -53,13 +53,15 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -71,13 +73,15 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                            "locality":"Immergrün",
-                            "location":"Oldenburg"
+                            "locality":"Metzger",
+                            "location":"Essen",
+                            "street":"Buchstraße"
                         },
                     "employee":
                         {
-                            "firstName":"Hannelore",
-                            "lastName":"Kranz"
+                            "firstName":"Karl",
+                            "lastName":"Heinz",
+                            "abbreviation":"KHE"
                         },
                     "time":"14:30",
                     "date":"2022-05-01"
@@ -100,10 +104,12 @@ public class UpdateMitiApiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Essen")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Buchstraße")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("KHE")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }
@@ -117,77 +123,15 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
-                       },
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        String jsonBodySecond =
-            """
-                {
-                   "place":
-                       {
-                            "locality":"Immergrün",
-                            "location":"Hannover"
-                        },
-                    "employee":
-                        {
-                            "firstName":"Karl",
-                            "lastName":"Heinz"
-                        },
-                    "time":"12:00",
-                    "date":"2022-04-01"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .content(jsonBody)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(put("/miti/{mitiId}", 1)
-                        .content(jsonBodySecond)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(get("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
-    }
-
-    @DisplayName("Employee wants to update the location on an existing lunch table")
-    @Test
-    void testApiUpdateMitiValueObjectLocation() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Metzger",
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -200,12 +144,14 @@ public class UpdateMitiApiTest {
                    "place":
                        {
                             "locality":"Metzger",
-                            "location":"Oldenburg"
+                            "location":"Oldenburg",
+                            "street":"Poststraße"
                         },
                     "employee":
                         {
-                            "firstName":"Karl",
-                            "lastName":"Heinz"
+                            "firstName":"Hannelore",
+                            "lastName":"Kranz",
+                            "abbreviation":"HKR"
                         },
                     "time":"12:00",
                     "date":"2022-04-01"
@@ -230,92 +176,32 @@ public class UpdateMitiApiTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("Employee wants to update thier first name on an existing lunch table")
+    @DisplayName("Employee wants to update the location on an existing lunch table")
     @Test
-    void testApiUpdateMitiValueObjectFirstName() throws Exception {
+    void testApiUpdateMitiValueObjectLocation() throws Exception {
 
         String jsonBody =
             """
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
-                       },
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        String jsonBodySecond =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
                            "firstName":"Hannelore",
-                           "lastName":"Heinz"
-                       },
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                        .content(jsonBody)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(put("/miti/{mitiId}", 1)
-                        .content(jsonBodySecond)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(get("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
-    }
-
-    @DisplayName("Employee wants to update their last name on an existing lunch table")
-    @Test
-    void testApiUpdateMitiValueObjectLastName() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Metzger",
-                           "location":"Hannover"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -327,13 +213,15 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                            "locality":"Metzger",
-                            "location":"Hannover"
+                            "locality":"Immergrün",
+                            "location":"Essen",
+                            "street":"Poststraße"
                         },
                     "employee":
                         {
-                            "firstName":"Karl",
-                            "lastName":"Kranz"
+                            "firstName":"Hannelore",
+                            "lastName":"Kranz",
+                            "abbreviation":"HKR"
                         },
                     "time":"12:00",
                     "date":"2022-04-01"
@@ -356,10 +244,152 @@ public class UpdateMitiApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Essen")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
+    }
+
+    @DisplayName("Employee wants to update their first name on an existing lunch table")
+    @Test
+    void testApiUpdateMitiValueObjectFirstName() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Heinz",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                        .content(jsonBodySecond)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
+    }
+
+    @DisplayName("Employee wants to update their last name on an existing lunch table")
+    @Test
+    void testApiUpdateMitiValueObjectLastName() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        String jsonBodySecond =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Heinz",
+                           "abbreviation":"HKR"
+                       },
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/miti/{mitiId}", 1)
+                        .content(jsonBodySecond)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
@@ -373,13 +403,15 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -391,16 +423,18 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                            "locality":"Metzger",
-                            "location":"Hannover"
-                        },
-                    "employee":
-                        {
-                            "firstName":"Karl",
-                            "lastName":"Heinz"
-                        },
-                    "time":"14:30",
-                    "date":"2022-04-01"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "time":"14:30",
+                   "date":"2022-04-01"
                 },
             """;
 
@@ -420,10 +454,12 @@ public class UpdateMitiApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
@@ -437,13 +473,15 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -455,16 +493,18 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                            "locality":"Metzger",
-                            "location":"Hannover"
-                        },
-                    "employee":
-                        {
-                            "firstName":"Karl",
-                            "lastName":"Heinz"
-                        },
-                    "time":"14:30",
-                    "date":"2022-05-01"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
+                       },
+                   "employee":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "time":"12:00",
+                   "date":"2022-05-01"
                 },
             """;
 
@@ -484,11 +524,13 @@ public class UpdateMitiApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].time.value", is("14:30")))
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }
 
@@ -500,13 +542,15 @@ public class UpdateMitiApiTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"

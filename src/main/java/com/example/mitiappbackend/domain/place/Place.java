@@ -46,10 +46,17 @@ public class Place {
     @AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
     private Location location;
 
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "STREET"))
+    private Street street;
+
     @JsonCreator
-    public Place(@JsonProperty("locality") Locality locality, @JsonProperty("location") Location location) {
+    public Place(@JsonProperty("locality") Locality locality,
+        @JsonProperty("location") Location location,
+        @JsonProperty("street") Street street) {
         this.locality = notNull(locality, "null in locality is disallowed");
         this.location = notNull(location, "null in location is disallowed");
+        this.street = notNull(street, "null in street is disallowed");
     }
 
     protected Place() {
@@ -63,12 +70,17 @@ public class Place {
         return location;
     }
 
-    /*@Override
+    public Street getStreet() {
+        return street;
+    }
+
+/*@Override
     public String toString() {
         return "Place{"
                 + "placeId=" + placeId
                 + ", locality=" + locality
                 + ", location=" + location
+                + ", street=" + street
                 + '}';
     }*/
 }

@@ -59,13 +59,15 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -82,10 +84,12 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Hannover")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Karl")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße")))
+                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
@@ -128,12 +132,14 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                    "place":
                        {
                            "locality":"",
-                           "location":""
+                           "location":"",
+                           "street":""
                        },
                    "employee":
                        {
                            "firstName":"",
-                           "lastName":""
+                           "lastName":"",
+                           "abbreviation":""
                        },
                    "time":"",
                    "date":""
@@ -152,12 +158,14 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                    "place":
                        {
                            "locality":"null",
-                           "location":"null"
+                           "location":"null",
+                           "street":"null"
                        },
                    "employee":
                        {
                            "firstName":"null",
-                           "lastName":"null"
+                           "lastName":"null",
+                           "abbreviation":"null"
                        },
                    "time":"null",
                    "date":"null"
@@ -171,7 +179,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(status().is(400));
     }
 
-    @DisplayName("Employee wants to get feedback when creating a lunch table on a day they are already have a lunch table")
+    @DisplayName("Employee wants to get feedback when creating a lunch table on a day they already have a lunch table")
     @Test
     void testApiCreateMitiNotOnSameDay() {
         String jsonBody =
@@ -179,13 +187,15 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -197,15 +207,17 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 {
                    "place":
                        {
-                           "locality":"Metzger",
-                           "location":"Hannover"
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße"
                        },
                    "employee":
                        {
-                           "firstName":"Karl",
-                           "lastName":"Heinz"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
-                   "time":"14:00",
+                   "time":"12:00",
                    "date":"2022-04-01"
                 },
             """;
