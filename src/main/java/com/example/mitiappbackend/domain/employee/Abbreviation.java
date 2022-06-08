@@ -34,7 +34,7 @@ public class Abbreviation extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String abbreviation) {
-        isTrue(abbreviation.matches("[A-ZÄÖU]+(\\s[A-ZÄÖÜ]+)*"),
+        isTrue(abbreviation.matches("^[A-ZÄÖÜ]{3}$"),
             "abbreviation must only contain capital letters and only three characters");
         return notBlank(abbreviation);
     }

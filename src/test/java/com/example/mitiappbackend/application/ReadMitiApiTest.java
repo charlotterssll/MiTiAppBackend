@@ -48,7 +48,7 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("Employee wants to read information about already existing lunch tables")
+    @DisplayName("An employee wants to read information about already existing lunch tables")
     @Test
     void testApiReadMiti() throws Exception {
         mvc.perform(get("/miti")
@@ -57,7 +57,7 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("Employee wants to read information about one already existing lunch table")
+    @DisplayName("An employee wants to read information about one already existing lunch table")
     @Test
     void testApiReadMitiById() throws Exception {
         String jsonBody =
@@ -92,7 +92,7 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("Employee wants to get an error message when trying to read a nonexistent lunch table via URL")
+    @DisplayName("An employee wants to get an error message when trying to read a nonexistent lunch table via URL")
     @Test
     void testApiReadMitiByFalseIdThrowException() {
         Long mitiId = 1L;

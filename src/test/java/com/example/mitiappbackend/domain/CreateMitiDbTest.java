@@ -42,7 +42,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("Employee wants to create a lunch table")
+    @DisplayName("An employee wants to create a lunch table")
     @Test
     public void testDbCreateMiti() {
         entityManager.getTransaction().begin();
@@ -63,7 +63,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         assertThat(mitiNew.getDate().getValue()).isEqualTo("2022-04-01");
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty locality")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty locality")
     @Test
     public void testDbCreateMitiIncompleteEmptyLocality() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -81,7 +81,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty location")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty location")
     @Test
     public void testDbCreateMitiIncompleteEmptyLocation() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -99,7 +99,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty street")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty street")
     @Test
     public void testDbCreateMitiIncompleteEmptyStreet() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -117,7 +117,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty first name")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty first name")
     @Test
     public void testDbCreateMitiIncompleteEmptyFirstName() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -135,7 +135,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty last name")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty last name")
     @Test
     public void testDbCreateMitiIncompleteEmptyLastName() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -153,7 +153,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty abbreviation")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty abbreviation")
     @Test
     public void testDbCreateMitiIncompleteEmptyAbbreviation() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -171,7 +171,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty time")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty time")
     @Test
     public void testDbCreateMitiIncompleteEmptyTime() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -189,7 +189,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table with empty date")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty date")
     @Test
     public void testDbCreateMitiIncompleteEmptyDate() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -203,7 +203,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "date must only contain numbers YYYY-MM-DD format",
+            "date must only contain numbers and should match YYYY-MM-DD format",
             thrown.getMessage());
     }
 }

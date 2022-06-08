@@ -53,7 +53,7 @@ public class DeleteMitiDbTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("Employee wants to delete an existing lunch table")
+    @DisplayName("An employee wants to delete an existing lunch table")
     @Test
     public void testDbDeleteMiti() {
         entityManager.getTransaction().begin();

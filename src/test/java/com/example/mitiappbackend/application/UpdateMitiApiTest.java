@@ -44,7 +44,7 @@ public class UpdateMitiApiTest {
     @Autowired
     private MockMvc mvc;
 
-    @DisplayName("Employee wants to update all information on an existing lunch table")
+    @DisplayName("An employee wants to update all information on an existing lunch table")
     @Test
     void testApiUpdateMitiValueObjectsAll() throws Exception {
 
@@ -114,7 +114,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }
 
-    @DisplayName("Employee wants to update the locality on an existing lunch table")
+    @DisplayName("An employee wants to update the locality on an existing lunch table")
     @Test
     void testApiUpdateMitiValueObjectLocality() throws Exception {
 
@@ -184,7 +184,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("Employee wants to update the location on an existing lunch table")
+    @DisplayName("An employee wants to update the location on an existing lunch table")
     @Test
     void testApiUpdateMitiValueObjectLocation() throws Exception {
 
@@ -254,7 +254,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("Employee wants to update their first name on an existing lunch table")
+    @DisplayName("An employee wants to update their first name on an existing lunch table")
     @Test
     void testApiUpdateMitiValueObjectFirstName() throws Exception {
 
@@ -324,7 +324,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("Employee wants to update their last name on an existing lunch table")
+    @DisplayName("An employee wants to update their last name on an existing lunch table")
     @Test
     void testApiUpdateMitiValueObjectLastName() throws Exception {
 
@@ -394,7 +394,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("Employee wants to update the time on an existing lunch table")
+    @DisplayName("An employee wants to update the time on an existing lunch table")
     @Test
     void testApiUpdateMitiValueObjectTime() throws Exception {
 
@@ -464,7 +464,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("Employee wants to update the date on an existing lunch table")
+    @DisplayName("An employee wants to update the date on an existing lunch table")
     @Test
     void testApiUpdateMitiValueObjectDate() throws Exception {
 
@@ -534,7 +534,7 @@ public class UpdateMitiApiTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }
 
-    @DisplayName("Employee wants to get an error message when trying to update a nonexistent lunch table via URL")
+    @DisplayName("An employee wants to get an error message when trying to update a nonexistent lunch table via URL")
     @Test
     void testApiUpdateMitiByFalseIdThrowException() {
         String jsonBody =

@@ -50,7 +50,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("Employee wants to create a lunch table")
+    @DisplayName("An employee wants to create a lunch table")
     @Test
     void testApiCreateMiti() throws Exception {
 
@@ -94,7 +94,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("Employee does not want to create an incomplete lunch table")
+    @DisplayName("An employee does not want to create an incomplete lunch table")
     @Test
     void testApiCreateMitiIncomplete() throws Exception {
 
@@ -179,7 +179,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(status().is(400));
     }
 
-    @DisplayName("Employee wants to get feedback when creating a lunch table on a day they already have a lunch table")
+    @DisplayName("An employee wants to get feedback when creating a lunch table on a day they already have a lunch table")
     @Test
     void testApiCreateMitiNotOnSameDay() {
         String jsonBody =
@@ -235,6 +235,6 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                         .content(jsonBodySecond))
                 .andExpect(status().isBadRequest());
         });
-        Assertions.assertEquals("Employee already has a lunch table meeting on this day!", thrown.getMessage());
+        Assertions.assertEquals("This employee already has a lunch table meeting on this day!", thrown.getMessage());
     }
 }

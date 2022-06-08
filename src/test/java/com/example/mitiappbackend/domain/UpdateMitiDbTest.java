@@ -52,7 +52,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("Employee wants to update the locality on an existing lunch table")
+    @DisplayName("An employee wants to update the locality on an existing lunch table")
     @Test
     public void testDbUpdateMitiLocality() {
         entityManager.getTransaction().begin();
@@ -74,7 +74,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
-    @DisplayName("Employee wants to update the location on an existing lunch table")
+    @DisplayName("An employee wants to update the location on an existing lunch table")
     @Test
     public void testDbUpdateMitiLocation() {
         entityManager.getTransaction().begin();
@@ -96,7 +96,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
-    @DisplayName("Employee wants to update the street on an existing lunch table")
+    @DisplayName("An employee wants to update the street on an existing lunch table")
     @Test
     public void testDbUpdateMitiStreet() {
         entityManager.getTransaction().begin();
@@ -118,7 +118,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
-    @DisplayName("Employee wants to update the first name on an existing lunch table")
+    @DisplayName("An employee wants to update the first name on an existing lunch table")
     @Test
     public void testDbUpdateMitiFirstName() {
         entityManager.getTransaction().begin();
@@ -140,7 +140,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
-    @DisplayName("Employee wants to update the last name on an existing lunch table")
+    @DisplayName("An employee wants to update the last name on an existing lunch table")
     @Test
     public void testDbUpdateMitiLastName() {
         entityManager.getTransaction().begin();
@@ -162,7 +162,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
-    @DisplayName("Employee wants to update the abbreviation on an existing lunch table")
+    @DisplayName("An employee wants to update the abbreviation on an existing lunch table")
     @Test
     public void testDbUpdateMitiAbbreviation() {
         entityManager.getTransaction().begin();
@@ -184,7 +184,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
-    @DisplayName("Employee wants to update the time on an existing lunch table")
+    @DisplayName("An employee wants to update the time on an existing lunch table")
     @Test
     public void testDbUpdateMitiTime() {
         entityManager.getTransaction().begin();
@@ -206,7 +206,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
-    @DisplayName("Employee wants to update the date on an existing lunch table")
+    @DisplayName("An employee wants to update the date on an existing lunch table")
     @Test
     public void testDbUpdateMitiDate() {
         entityManager.getTransaction().begin();
@@ -228,7 +228,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-05-01"));
     }
 
-    @DisplayName("Employee wants to update all information on an existing lunch table")
+    @DisplayName("An employee wants to update all information on an existing lunch table")
     @Test
     public void testDbUpdateMitiAll() {
         entityManager.getTransaction().begin();

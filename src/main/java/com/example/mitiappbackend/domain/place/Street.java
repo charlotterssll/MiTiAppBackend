@@ -34,7 +34,7 @@ public class Street extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String street) {
-        isTrue(street.matches("[A-ZÄÖU][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"),
+        isTrue(street.matches("[A-ZÄÖÜ][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"),
             "street must only contain letters and begin with upper case");
         return notBlank(street);
     }

@@ -51,7 +51,7 @@ public class ReadMitiDbTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("Employee wants to read information about already existing lunch tables")
+    @DisplayName("An employee wants to read information about an already existing lunch table")
     @Test
     public void testDbReadMiti() {
         assertThat(miti.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
