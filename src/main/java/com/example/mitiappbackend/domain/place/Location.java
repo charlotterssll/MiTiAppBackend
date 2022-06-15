@@ -35,7 +35,7 @@ public class Location extends AbstractSimpleValueObject<String> {
     @Override
     protected String validateAndNormalize(String location) {
         isTrue(location.matches("[A-ZÄÖÜ][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"),
-            "location must only contain letters and begin with upper case");
+            "Location must only contain letters and/or dashes and begin with upper case");
         return notBlank(location);
     }
 }

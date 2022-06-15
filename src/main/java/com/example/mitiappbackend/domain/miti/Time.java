@@ -34,7 +34,9 @@ public class Time extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String time) {
-        isTrue(time.matches("^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$"), "time must only contain numbers in 24h time format");
+        isTrue(time.matches("^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$"),
+            "Time must only contain numbers in 24h time format,"
+            + " if its a single digit number please add a leading zero, minutes 00-59, hours 00-23");
         return notBlank(time);
     }
 }

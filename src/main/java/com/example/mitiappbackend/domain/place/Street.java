@@ -34,8 +34,9 @@ public class Street extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String street) {
-        isTrue(street.matches("[A-ZÄÖÜ][a-zäöüß-]+(\\s[A-ZÄÖÜ][a-zäöüß-]+)*"),
-            "street must only contain letters and begin with upper case");
+        isTrue(street.matches("^([A-ZÄÖÜÁÀÂÉÈÊÍÌÎÓÒÔÚÙÛ][a-zäöüßáàâéèêíìîóòôúùû\\s-]*)+"
+            + "?(\\s[1-9]\\d*(?:[ -]?(?:[a-zäöüßáàâéèêíìîóòôúùûA-ZÄÖÜÁÀÂÉÈÊÍÌÎÓÒÔÚÙÛ]+|[1-9]\\d*))?)?$"),
+            "Street must only contain letters and/or dashes and begin with upper case, it may also contain a house number");
         return notBlank(street);
     }
 }

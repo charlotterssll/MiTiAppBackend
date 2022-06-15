@@ -43,7 +43,7 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
     public void beforeDbTestInsertMitiTestDataIntoDb() {
         entityManager.getTransaction().begin();
         miti = new Miti(
-            new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+            new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
             new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
             new Time("12:00"),
             new Date("2022-04-01"));
@@ -57,21 +57,13 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
     public void testDbUpdateMitiLocality() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
-        foundMiti.setPlace(new Place(new Locality("Metzger"), new Location("Oldenburg"), new Street("Poststraße")));
-        foundMiti.setEmployee(new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")));
-        foundMiti.setTime(new Time("12:00"));
-        foundMiti.setDate(new Date("2022-04-01"));
+        foundMiti.setPlace(new Place(new Locality("Metzger"), new Location("Oldenburg"), new Street("Poststraße 1a")));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Metzger"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocation().getValue(), is("Oldenburg"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Poststraße"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Hannelore"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Kranz"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getAbbreviation().getValue(), is("HKR"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("12:00"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
+        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Poststraße 1a"));
     }
 
     @DisplayName("An employee wants to update the location on an existing lunch table")
@@ -80,20 +72,12 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
         foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Essen"), new Street("Poststraße")));
-        foundMiti.setEmployee(new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")));
-        foundMiti.setTime(new Time("12:00"));
-        foundMiti.setDate(new Date("2022-04-01"));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Immergrün"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocation().getValue(), is("Essen"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Poststraße"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Hannelore"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Kranz"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getAbbreviation().getValue(), is("HKR"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("12:00"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
     @DisplayName("An employee wants to update the street on an existing lunch table")
@@ -102,20 +86,12 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
         foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Essen"), new Street("Buchstraße")));
-        foundMiti.setEmployee(new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")));
-        foundMiti.setTime(new Time("12:00"));
-        foundMiti.setDate(new Date("2022-04-01"));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Immergrün"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocation().getValue(), is("Essen"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Buchstraße"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Hannelore"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Kranz"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getAbbreviation().getValue(), is("HKR"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("12:00"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
     @DisplayName("An employee wants to update the first name on an existing lunch table")
@@ -123,21 +99,13 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
     public void testDbUpdateMitiFirstName() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
-        foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")));
         foundMiti.setEmployee(new Employee(new FirstName("Karl"), new LastName("Kranz"), new Abbreviation("HKR")));
-        foundMiti.setTime(new Time("12:00"));
-        foundMiti.setDate(new Date("2022-04-01"));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Immergrün"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocation().getValue(), is("Oldenburg"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Poststraße"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Karl"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Kranz"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getAbbreviation().getValue(), is("HKR"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("12:00"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
     @DisplayName("An employee wants to update the last name on an existing lunch table")
@@ -145,21 +113,13 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
     public void testDbUpdateMitiLastName() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
-        foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")));
         foundMiti.setEmployee(new Employee(new FirstName("Hannelore"), new LastName("Heinz"), new Abbreviation("HKR")));
-        foundMiti.setTime(new Time("12:00"));
-        foundMiti.setDate(new Date("2022-04-01"));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Immergrün"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocation().getValue(), is("Oldenburg"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Poststraße"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Hannelore"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Heinz"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getAbbreviation().getValue(), is("HKR"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("12:00"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
     @DisplayName("An employee wants to update the abbreviation on an existing lunch table")
@@ -167,21 +127,13 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
     public void testDbUpdateMitiAbbreviation() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
-        foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")));
         foundMiti.setEmployee(new Employee(new FirstName("Hannelore"), new LastName("Heinz"), new Abbreviation("KHE")));
-        foundMiti.setTime(new Time("12:00"));
-        foundMiti.setDate(new Date("2022-04-01"));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Immergrün"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocation().getValue(), is("Oldenburg"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Poststraße"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Hannelore"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Heinz"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getAbbreviation().getValue(), is("KHE"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("12:00"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
     @DisplayName("An employee wants to update the time on an existing lunch table")
@@ -189,21 +141,11 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
     public void testDbUpdateMitiTime() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
-        foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")));
-        foundMiti.setEmployee(new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")));
         foundMiti.setTime(new Time("14:30"));
-        foundMiti.setDate(new Date("2022-04-01"));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Immergrün"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocation().getValue(), is("Oldenburg"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Poststraße"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Hannelore"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Kranz"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getAbbreviation().getValue(), is("HKR"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("14:30"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-04-01"));
     }
 
     @DisplayName("An employee wants to update the date on an existing lunch table")
@@ -211,20 +153,10 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
     public void testDbUpdateMitiDate() {
         entityManager.getTransaction().begin();
         Miti foundMiti = entityManager.find(Miti.class, miti.getMitiId());
-        foundMiti.setPlace(new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")));
-        foundMiti.setEmployee(new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")));
-        foundMiti.setTime(new Time("12:00"));
         foundMiti.setDate(new Date("2022-05-01"));
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocality().getValue(), is("Immergrün"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getLocation().getValue(), is("Oldenburg"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getPlace().getStreet().getValue(), is("Poststraße"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getFirstName().getValue(), is("Hannelore"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getLastName().getValue(), is("Kranz"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getEmployee().getAbbreviation().getValue(), is("HKR"));
-        MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getTime().getValue(), is("12:00"));
         MatcherAssert.assertThat(entityManager.find(Miti.class, miti.getMitiId()).getDate().getValue(), is("2022-05-01"));
     }
 

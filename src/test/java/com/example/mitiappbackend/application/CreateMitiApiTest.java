@@ -61,7 +61,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                        {
                            "locality":"Immergrün",
                            "location":"Oldenburg",
-                           "street":"Poststraße"
+                           "street":"Poststraße 1a"
                        },
                    "employee":
                        {
@@ -86,7 +86,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
-                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
                 .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
                 .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
                 .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
@@ -189,7 +189,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                        {
                            "locality":"Immergrün",
                            "location":"Oldenburg",
-                           "street":"Poststraße"
+                           "street":"Poststraße 1a"
                        },
                    "employee":
                        {
@@ -209,7 +209,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                        {
                            "locality":"Immergrün",
                            "location":"Oldenburg",
-                           "street":"Poststraße"
+                           "street":"Poststraße 1a"
                        },
                    "employee":
                        {

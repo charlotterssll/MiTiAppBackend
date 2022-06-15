@@ -47,7 +47,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
     public void testDbCreateMiti() {
         entityManager.getTransaction().begin();
         Miti mitiNew = new Miti(
-            new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+            new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
             new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
             new Time("12:00"),
             new Date("2022-04-01"));
@@ -55,7 +55,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
 
         assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
         assertThat(mitiNew.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
-        assertThat(mitiNew.getPlace().getStreet().getValue()).isEqualTo("Poststraße");
+        assertThat(mitiNew.getPlace().getStreet().getValue()).isEqualTo("Poststraße 1a");
         assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Hannelore");
         assertThat(mitiNew.getEmployee().getLastName().getValue()).isEqualTo("Kranz");
         assertThat(mitiNew.getEmployee().getAbbreviation().getValue()).isEqualTo("HKR");
@@ -69,7 +69,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality(""), new Location("Hannover"), new Street("Poststraße")),
+                new Place(new Locality(""), new Location("Hannover"), new Street("Poststraße 1a")),
                 new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
@@ -77,7 +77,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "locality must only contain letters and begin with upper case",
+            "Locality can contain different characters, upper cases and lower cases",
             thrown.getMessage());
     }
 
@@ -87,7 +87,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Immergrün"), new Location(""), new Street("Poststraße")),
+                new Place(new Locality("Immergrün"), new Location(""), new Street("Poststraße 1a")),
                 new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
@@ -95,11 +95,11 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "location must only contain letters and begin with upper case",
+            "Location must only contain letters and/or dashes and begin with upper case",
             thrown.getMessage());
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty street")
+    @DisplayName("An employee does not want to create an incomplete lunch table with empty street and house number")
     @Test
     public void testDbCreateMitiIncompleteEmptyStreet() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -113,7 +113,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "street must only contain letters and begin with upper case",
+            "Street must only contain letters and/or dashes and begin with upper case, it may also contain a house number",
             thrown.getMessage());
     }
 
@@ -123,7 +123,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
                 new Employee(new FirstName(""), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
@@ -131,7 +131,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "firstName must only contain letters and begin with upper case",
+            "FirstName must only contain letters and/or dashes and begin with upper case",
             thrown.getMessage());
     }
 
@@ -141,7 +141,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
                 new Employee(new FirstName("Hannelore"), new LastName(""), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
@@ -149,7 +149,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "lastName must only contain letters and begin with upper case",
+            "LastName must only contain letters and/or dashes and begin with upper case",
             thrown.getMessage());
     }
 
@@ -159,7 +159,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
                 new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("")),
                 new Time("12:00"),
                 new Date("2022-04-01"));
@@ -167,7 +167,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "abbreviation must only contain capital letters and only three characters",
+            "Abbreviation must only contain capital letters and only three characters",
             thrown.getMessage());
     }
 
@@ -177,7 +177,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
                 new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time(""),
                 new Date("2022-04-01"));
@@ -185,7 +185,8 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "time must only contain numbers in 24h time format",
+            "Time must only contain numbers in 24h time format,"
+            + " if its a single digit number please add a leading zero, minutes 00-59, hours 00-23",
             thrown.getMessage());
     }
 
@@ -195,7 +196,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
             Miti newMiti = new Miti(
-                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße")),
+                new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
                 new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
                 new Time("12:00"),
                 new Date(""));
@@ -203,7 +204,7 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             entityManager.getTransaction().commit();
         });
         Assertions.assertEquals(
-            "date must only contain numbers and should match YYYY-MM-DD format",
+            "Date must only contain numbers YYYY-MM-DD format",
             thrown.getMessage());
     }
 }
