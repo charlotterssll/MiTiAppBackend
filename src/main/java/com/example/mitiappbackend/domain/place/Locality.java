@@ -34,7 +34,7 @@ public class Locality extends AbstractSimpleValueObject<String> {
 
     @Override
     protected String validateAndNormalize(String locality) {
-        isTrue(locality.matches("^(?!\\s*$).+"),
+        isTrue(locality.matches("^[^\\s](?!\\s*$).+"),
             "Locality can contain different characters, upper cases and lower cases");
         return notBlank(locality);
     }
