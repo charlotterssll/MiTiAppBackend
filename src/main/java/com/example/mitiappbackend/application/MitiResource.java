@@ -47,17 +47,8 @@ public class MitiResource {
 
     @PostMapping(value = "/miti", consumes = "application/json")
     public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException {
-        List<Miti> mitiRead = mitiService.readMiti();
-        List<String> mitiInfos = mitiRead.stream()
-            .map(Miti::catchMitiOnSameDay)
-            .toList();
-
-        if (mitiInfos.contains(miti.catchMitiOnSameDay())) {
-            throw new MitiCatchOnSameDayException();
-        } else {
-            logger.info("RESTful call 'POST miti'");
-            mitiService.createMiti(miti);
-        }
+        mitiService.createMiti(miti);
+        logger.info("RESTful call 'POST miti'");
     }
 
     @GetMapping(value = "/miti", produces = "application/json")
@@ -68,37 +59,19 @@ public class MitiResource {
 
     @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
     public Miti readMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
-        Miti mitiRead = mitiService.readMitiByUuid(mitiId);
-
-        if (mitiRead == null) {
-            throw new MitiNotFoundException(mitiId);
-        }
-
         logger.info("RESTful call 'GET miti by mitiId'");
         return mitiService.readMitiByUuid(mitiId);
     }
 
     @PutMapping(value = "/miti/{mitiId}")
     public void updateMitiByUuid(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws MitiNotFoundException {
-        Miti mitiUpdate = mitiService.readMitiByUuid(mitiId);
-
-        if (mitiUpdate == null) {
-            throw new MitiNotFoundException(mitiId);
-        }
-
-        logger.info("RESTful call 'PUT miti'");
         mitiService.updateMitiByUuid(mitiId, miti);
+        logger.info("RESTful call 'PUT miti'");
     }
 
     @DeleteMapping(value = "/miti/{mitiId}")
     public void deleteMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
-        Miti mitiDelete = mitiService.readMitiByUuid(mitiId);
-
-        if (mitiDelete == null) {
-            throw new MitiNotFoundException(mitiId);
-        }
-
-        logger.info("RESTful call 'DELETE miti'");
         mitiService.deleteMitiByUuid(mitiId);
+        logger.info("RESTful call 'DELETE miti'");
     }
 }
