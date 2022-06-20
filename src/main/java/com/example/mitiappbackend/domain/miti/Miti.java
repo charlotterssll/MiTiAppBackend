@@ -125,15 +125,4 @@ public class Miti {
             .concat(employee.getAbbreviation().getValue());
         return concatString;
     }
-
-    /*@Override
-    public String toString() {
-        return "Miti{"
-                + "mitiId=" + mitiId
-                + ", place=" + place
-                + ", employee=" + employee
-                + ", time=" + time
-                + ", date=" + date
-                + '}';
-    }*/
 }

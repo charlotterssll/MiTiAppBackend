@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
@@ -39,6 +40,7 @@ import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 //change ID to UUID for persistent db testing
 @AutoConfigureMockMvc
 @SpringBootTest
+@WithMockUser(username = "HKR", password = "pwd", roles = "USER")
 public class DeleteMitiApiTest extends AbstractPersistenceTest {
 
     @Autowired

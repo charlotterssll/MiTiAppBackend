@@ -39,15 +39,15 @@ public class Place {
     private Long placeId;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "LOCALITY"))
+    @AttributeOverride(name = "value", column = @Column(name = "PLACE_LOCALITY"))
     private Locality locality;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "LOCATION"))
+    @AttributeOverride(name = "value", column = @Column(name = "PLACE_LOCATION"))
     private Location location;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "STREET"))
+    @AttributeOverride(name = "value", column = @Column(name = "PLACE_STREET"))
     private Street street;
 
     @JsonCreator
@@ -73,14 +73,4 @@ public class Place {
     public Street getStreet() {
         return street;
     }
-
-/*@Override
-    public String toString() {
-        return "Place{"
-                + "placeId=" + placeId
-                + ", locality=" + locality
-                + ", location=" + location
-                + ", street=" + street
-                + '}';
-    }*/
 }

@@ -15,17 +15,30 @@
  */
 package com.example.mitiappbackend.domain.miti;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 import javax.persistence.Embeddable;
 
-import com.example.mitiappbackend.infrastructure.AbstractSimpleValueObject;
+import com.example.mitiappbackend.domain.employee.Abbreviation;
+import com.example.mitiappbackend.infrastructure.AbstractValueObject;
 
 @Embeddable
-public class AbbreviationDate extends AbstractSimpleValueObject<String> {
+public class AbbreviationDate extends AbstractValueObject {
 
-    public AbbreviationDate(String abbreviationDate) {
-        super(abbreviationDate);
+    private Abbreviation abbreviation;
+
+    private Date date;
+
+    public AbbreviationDate(Abbreviation abbreviation, Date date) {
+        abbreviation = notNull(abbreviation, "abbreviation can not be null");
+        date = notNull(date, "date can not be null");
     }
 
     protected AbbreviationDate() {
+    }
+
+    @Override
+    protected Object[] values() {
+        return new Object[0];
     }
 }

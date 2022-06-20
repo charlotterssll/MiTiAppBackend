@@ -39,15 +39,15 @@ public class Employee {
     private Long employeeId;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "FIRSTNAME"))
+    @AttributeOverride(name = "value", column = @Column(name = "EMPLOYEE_FIRSTNAME"))
     private FirstName firstName;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "LASTNAME"))
+    @AttributeOverride(name = "value", column = @Column(name = "EMPLOYEE_LASTNAME"))
     private LastName lastName;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "ABBREVIATION"))
+    @AttributeOverride(name = "value", column = @Column(name = "EMPLOYEE_ABBREVIATION"))
     private Abbreviation abbreviation;
 
     @JsonCreator
@@ -73,14 +73,4 @@ public class Employee {
     public Abbreviation getAbbreviation() {
         return abbreviation;
     }
-
-    /*@Override
-    public String toString() {
-        return "Employee{"
-                + "employeeId=" + employeeId
-                + ", firstName=" + firstName
-                + ", lastName=" + lastName
-                + ", abbreviation=" + abbreviation
-                + '}';
-    }*/
 }
