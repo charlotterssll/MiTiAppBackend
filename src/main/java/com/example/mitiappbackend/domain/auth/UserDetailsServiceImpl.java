@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.employee;
-
-import javax.transaction.Transactional;
+package com.example.mitiappbackend.domain.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class EmployeeService {
-
+public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    UserRepository userRepository;
 
+    @Override
     @Transactional
-    public void registerEmployee(Employee employee) {
-        employeeRepository.registerEmployee(employee);
-    }
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
-    @Transactional
-    public void loginEmployee(Employee employee) {
-        employeeRepository.loginEmployee(employee);
+        return UserDetailsImpl.build(user);
     }
 }

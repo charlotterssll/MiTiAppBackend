@@ -40,7 +40,7 @@ import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
-@WithMockUser(username = "HKR", password = "pwd", roles = "USER")
+@WithMockUser(username = "testdummy", password = "testdummy", roles = "USER")
 public class UpdateMitiApiTest {
 
     @Autowired

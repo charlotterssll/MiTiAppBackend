@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,30 +47,35 @@ public class MitiResource {
     //Überprüfung der ID-Generierung und Hochzählung nach Migration zur persistenten DB
 
     @PostMapping(value = "/miti", consumes = "application/json")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException {
         mitiService.createMiti(miti);
         logger.info("RESTful call 'POST miti'");
     }
 
     @GetMapping(value = "/miti", produces = "application/json")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Miti> readMiti() {
         logger.info("RESTful call 'GET miti'");
         return mitiService.readMiti();
     }
 
     @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public Miti readMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
         logger.info("RESTful call 'GET miti by mitiId'");
         return mitiService.readMitiByUuid(mitiId);
     }
 
     @PutMapping(value = "/miti/{mitiId}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public void updateMitiByUuid(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws MitiNotFoundException {
         mitiService.updateMitiByUuid(mitiId, miti);
         logger.info("RESTful call 'PUT miti'");
     }
 
     @DeleteMapping(value = "/miti/{mitiId}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public void deleteMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
         mitiService.deleteMitiByUuid(mitiId);
         logger.info("RESTful call 'DELETE miti'");

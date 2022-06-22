@@ -13,27 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.employee;
+package com.example.mitiappbackend.domain.auth;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public class EmployeeRepository {
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @Transactional
-    public void registerEmployee(Employee employee) {
-        entityManager.persist(employee);
-    }
-
-    @Transactional
-    public void loginEmployee(Employee employee) {
-        entityManager.persist(employee);
-    }
+public enum Erole {
+  ROLE_USER,
+  ROLE_MODERATOR,
+  ROLE_ADMIN
 }

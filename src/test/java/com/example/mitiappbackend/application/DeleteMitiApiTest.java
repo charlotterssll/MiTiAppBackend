@@ -40,7 +40,7 @@ import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 //change ID to UUID for persistent db testing
 @AutoConfigureMockMvc
 @SpringBootTest
-@WithMockUser(username = "HKR", password = "pwd", roles = "USER")
+@WithMockUser(username = "testdummy", password = "testdummy", roles = "USER")
 public class DeleteMitiApiTest extends AbstractPersistenceTest {
 
     @Autowired
