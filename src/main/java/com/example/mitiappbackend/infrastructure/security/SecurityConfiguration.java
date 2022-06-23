@@ -15,9 +15,7 @@
  */
 package com.example.mitiappbackend.infrastructure.security;
 
-import com.example.mitiappbackend.domain.auth.UserDetailsServiceImpl;
-import com.example.mitiappbackend.infrastructure.security.jwt.AuthEntryPointJwt;
-import com.example.mitiappbackend.infrastructure.security.jwt.AuthTokenFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -33,22 +31,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.example.mitiappbackend.domain.auth.UserDetailsServiceImpl;
+import com.example.mitiappbackend.infrastructure.security.jwt.AuthEntryPointJwt;
+import com.example.mitiappbackend.infrastructure.security.jwt.AuthTokenFilter;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-        // securedEnabled = true,
-        // jsr250Enabled = true,
-        prePostEnabled = true)
+    // securedEnabled = true,
+    // jsr250Enabled = true,
+    prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    @Value("${spring.h2.console.path}")
-    private String h2ConsolePath;
-
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Value("${spring.h2.console.path}")
+    private String hTwoConsolePath;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -78,7 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
-                .antMatchers(h2ConsolePath + "/**").permitAll()
+                .antMatchers(hTwoConsolePath + "/**").permitAll()
                 .anyRequest().authenticated();
 
         // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
