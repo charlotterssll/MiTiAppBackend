@@ -32,7 +32,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.mitiappbackend.domain.auth.UserDetailsServiceImpl;
+import com.example.mitiappbackend.domain.user.UserDetailsServiceImpl;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
 

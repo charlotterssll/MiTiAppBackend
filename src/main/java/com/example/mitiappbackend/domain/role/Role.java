@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.auth;
+package com.example.mitiappbackend.domain.role;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,30 +25,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "ROLE")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long roleId;
 
     @Enumerated(EnumType.STRING)
     @Column
     private Erole name;
 
-    public Role() {
-
+    protected Role() {
     }
 
     public Role(Erole name) {
         this.name = name;
     }
 
-    public Integer getId() {
-        return id;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public Erole getName() {

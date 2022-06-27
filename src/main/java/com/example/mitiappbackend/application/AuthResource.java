@@ -35,12 +35,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.mitiappbackend.domain.auth.Erole;
-import com.example.mitiappbackend.domain.auth.Role;
-import com.example.mitiappbackend.domain.auth.RoleRepository;
-import com.example.mitiappbackend.domain.auth.User;
-import com.example.mitiappbackend.domain.auth.UserDetailsImpl;
-import com.example.mitiappbackend.domain.auth.UserRepository;
+import com.example.mitiappbackend.domain.role.Erole;
+import com.example.mitiappbackend.domain.role.Role;
+import com.example.mitiappbackend.domain.role.RoleRepositoryTwo;
+import com.example.mitiappbackend.domain.role.RoleService;
+import com.example.mitiappbackend.domain.user.User;
+import com.example.mitiappbackend.domain.user.UserDetailsImpl;
+import com.example.mitiappbackend.domain.user.UserRepository;
 import com.example.mitiappbackend.infrastructure.security.jwt.JwtUtils;
 import com.example.mitiappbackend.infrastructure.security.payload.request.LoginRequest;
 import com.example.mitiappbackend.infrastructure.security.payload.request.SignupRequest;
@@ -52,26 +53,29 @@ import com.example.mitiappbackend.infrastructure.security.payload.response.Messa
 @RequestMapping("/api/auth")
 public class AuthResource {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private static final String ROLEERRORMESSAGE = "Error: Role is not found.";
 
     @Autowired
-    UserRepository userRepository;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    RoleRepository roleRepository;
+    private JwtUtils jwtUtils;
 
     @Autowired
-    PasswordEncoder encoder;
+    private PasswordEncoder encoder;
 
     @Autowired
-    JwtUtils jwtUtils;
+    private RoleRepositoryTwo roleRepositoryTwo;
 
-    private final String roleErrorMessage = "Error: Role is not found.";
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/role")
-    public void saveRole(@RequestBody Role role) {
-        roleRepository.save(role);
+    public void createRole(@RequestBody Role role) {
+        roleService.createRole(role);
     }
 
     @PostMapping("/signin")
@@ -117,27 +121,21 @@ public class AuthResource {
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(Erole.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException(roleErrorMessage));
+            Role userRole = roleRepositoryTwo.findByName(Erole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleRepository.findByName(Erole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException(roleErrorMessage));
+                        Role adminRole = roleRepositoryTwo.findByName(Erole.ROLE_ADMIN)
+                            .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(Erole.ROLE_MODERATOR)
-                            .orElseThrow(() -> new RuntimeException(roleErrorMessage));
-                        roles.add(modRole);
-
-                        break;
                     default:
-                        Role userRole = roleRepository.findByName(Erole.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException(roleErrorMessage));
+                        Role userRole = roleRepositoryTwo.findByName(Erole.ROLE_USER)
+                            .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
                         roles.add(userRole);
                 }
             });

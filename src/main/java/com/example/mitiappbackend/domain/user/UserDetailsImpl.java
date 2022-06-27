@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.auth;
+package com.example.mitiappbackend.domain.user;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,9 +27,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetailsImpl implements UserDetails {
+
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Long userId;
 
     private String username;
 
@@ -40,9 +41,9 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String username, String email, String password,
+    public UserDetailsImpl(Long userId, String username, String email, String password,
         Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
+        this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -55,7 +56,7 @@ public class UserDetailsImpl implements UserDetails {
             .collect(Collectors.toList());
 
         return new UserDetailsImpl(
-          user.getId(),
+          user.getUserId(),
           user.getUsername(),
           user.getEmail(),
           user.getPassword(),
@@ -68,7 +69,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public Long getId() {
-        return id;
+        return userId;
     }
 
     public String getEmail() {
@@ -114,11 +115,11 @@ public class UserDetailsImpl implements UserDetails {
             return false;
         }
         UserDetailsImpl user = (UserDetailsImpl)o;
-        return Objects.equals(id, user.id);
+        return Objects.equals(userId, user.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password, authorities);
+        return Objects.hash(userId, username, email, password, authorities);
     }
 }

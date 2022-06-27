@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.auth;
+package com.example.mitiappbackend.domain.user;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,16 +29,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.example.mitiappbackend.domain.role.Role;
+
 @Entity
-@Table(name = "users",
+@Table(name = "USER",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = "username"),
-        @UniqueConstraint(columnNames = "email")
+        @UniqueConstraint(columnNames = "USERNAME"),
+        @UniqueConstraint(columnNames = "EMAIL")
     })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     private String username;
 
@@ -47,9 +49,9 @@ public class User {
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "USER_ROLES",
+        joinColumns = @JoinColumn(name = "USER_USERID"),
+        inverseJoinColumns = @JoinColumn(name = "ROLE_ROLEID"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {
@@ -61,12 +63,12 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
