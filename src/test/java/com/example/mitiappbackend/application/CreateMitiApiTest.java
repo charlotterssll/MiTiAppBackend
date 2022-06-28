@@ -39,7 +39,7 @@ import com.example.mitiappbackend.infrastructure.MitiCatchOnSameDayException;
 //change ID to UUID for persistent db testing
 @AutoConfigureMockMvc
 @SpringBootTest
-@WithMockUser(username = "testdummy", password = "testdummy", roles = "USER")
+@WithMockUser(username = "TES", password = "testDummy1#", roles = "USER")
 public class CreateMitiApiTest extends AbstractPersistenceTest {
 
     @Autowired

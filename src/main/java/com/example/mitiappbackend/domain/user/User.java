@@ -29,6 +29,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.lang3.Validate;
+
 import com.example.mitiappbackend.domain.role.Role;
 
 @Entity
@@ -59,8 +61,24 @@ public class User {
 
     public User(String username, String email, String password) {
         this.username = username;
+        Validate.matchesPattern(username, "^[A-ZÄÖÜ]{3}$",
+            "Username must only contain capital letters and only three characters");
         this.email = email;
+        Validate.matchesPattern(email, "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+            + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c"
+            + "\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09"
+            + "\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])"
+            + "?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]"
+            + "|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|"
+            + "[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a"
+            + "\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+            "Email must match a valid format");
         this.password = password;
+        Validate.matchesPattern(password,
+            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,200}$",
+            "Password must contain minimum eight and maximum 200 characters, "
+            + "at least one uppercase letter, one lowercase letter, "
+            + "one number and one special character:");
     }
 
     public Long getUserId() {
