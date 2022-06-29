@@ -34,17 +34,10 @@ import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class AuthApiTest extends AbstractPersistenceTest {
+public class AuthApiTest {
 
     @Autowired
     private MockMvc mvc;
-
-    @BeforeEach
-    public void beforeApiTestClearDb() {
-        entityManager.getTransaction().begin();
-        entityManager.getTransaction().commit();
-        entityManager.clear();
-    }
 
     @DisplayName("An employee wants to register for the MitiApp")
     @Test
