@@ -38,7 +38,7 @@ import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 @CrossOrigin
 public class MitiResource {
 
-    private final Logger logger = Logger.getLogger(MitiResource.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(MitiResource.class.getSimpleName());
 
     @Autowired
     private MitiService mitiService;
@@ -47,37 +47,37 @@ public class MitiResource {
     //Überprüfung der ID-Generierung und Hochzählung nach Migration zur persistenten DB
 
     @PostMapping(value = "/miti", consumes = "application/json")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException {
         mitiService.createMiti(miti);
-        logger.info("RESTful call 'POST miti'");
+        LOGGER.info("RESTful call 'POST miti'");
     }
 
     @GetMapping(value = "/miti", produces = "application/json")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<Miti> readMiti() {
-        logger.info("RESTful call 'GET miti'");
+        LOGGER.info("RESTful call 'GET miti'");
         return mitiService.readMiti();
     }
 
     @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public Miti readMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
-        logger.info("RESTful call 'GET miti by mitiId'");
+        LOGGER.info("RESTful call 'GET miti by mitiId'");
         return mitiService.readMitiByUuid(mitiId);
     }
 
     @PutMapping(value = "/miti/{mitiId}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void updateMitiByUuid(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws MitiNotFoundException {
         mitiService.updateMitiByUuid(mitiId, miti);
-        logger.info("RESTful call 'PUT miti'");
+        LOGGER.info("RESTful call 'PUT miti'");
     }
 
     @DeleteMapping(value = "/miti/{mitiId}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void deleteMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
         mitiService.deleteMitiByUuid(mitiId);
-        logger.info("RESTful call 'DELETE miti'");
+        LOGGER.info("RESTful call 'DELETE miti'");
     }
 }

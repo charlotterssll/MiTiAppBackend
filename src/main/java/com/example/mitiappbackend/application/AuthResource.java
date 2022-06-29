@@ -18,6 +18,7 @@ package com.example.mitiappbackend.application;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -53,6 +54,8 @@ import com.example.mitiappbackend.infrastructure.security.payload.response.Messa
 @RequestMapping("/api/auth")
 public class AuthResource {
 
+    private static final Logger LOGGER = Logger.getLogger(AuthResource.class.getSimpleName());
+
     private static final String ROLEERRORMESSAGE = "Error: Role is not found.";
 
     @Autowired
@@ -76,6 +79,7 @@ public class AuthResource {
     @PostMapping("/role")
     public void createRole(@RequestBody Role role) {
         roleService.createRole(role);
+        LOGGER.info("RESTful call 'POST role'");
     }
 
     @PostMapping("/signin")

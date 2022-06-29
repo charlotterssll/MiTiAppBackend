@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import com.example.mitiappbackend.domain.user.User;
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 
-public class UserDbTest extends AbstractPersistenceTest {
+public class CreateUserDbTest extends AbstractPersistenceTest {
 
     @BeforeEach
     public void beforeDbTestInsertUserTestDataIntoDb() {

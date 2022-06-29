@@ -26,12 +26,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQuery;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "PLACE")
+@NamedQuery(name = Place.READ_ALL, query = "SELECT p FROM Place p ORDER BY p.placeId")
 public class Place {
+
+    public static final String READ_ALL = "Place.readAll";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
