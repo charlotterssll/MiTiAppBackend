@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License\.
  */
-package com.example.mitiappbackend.domain.miti;
+package com.example.mitiappbackend.domain.employee;
 
 import java.util.List;
 
@@ -24,39 +24,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MitiRepository {
+public class EmployeeRepository {
 
     @Autowired
     private EntityManager entityManager;
 
     @Transactional
-    public void createMiti(Miti miti) {
-        entityManager.persist(miti);
+    public void createEmployee(Employee employee) {
+        entityManager.persist(employee);
     }
 
     @Transactional
-    public List<Miti> readMiti() {
-        return entityManager.createNamedQuery(Miti.READ_ALL, Miti.class).getResultList();
+    public List<Employee> readEmployee() {
+        return entityManager.createNamedQuery(Employee.READ_ALL, Employee.class).getResultList();
     }
 
     @Transactional
-    public Miti readMitiById(Long mitiId) {
-        return entityManager.find(Miti.class, mitiId);
-    }
-
-    @Transactional
-    public void updateMitiById(Long mitiId, Miti miti) {
-        Miti mitiToUpdate = entityManager.find(Miti.class, mitiId);
-        mitiToUpdate.setPlace(miti.getPlace());
-        mitiToUpdate.setEmployee(miti.getEmployee());
-        mitiToUpdate.setTime(miti.getTime());
-        mitiToUpdate.setDate(miti.getDate());
-        entityManager.persist(mitiToUpdate);
-    }
-
-    @Transactional
-    public void deleteMitiById(Long mitiId) {
-        Miti miti = entityManager.find(Miti.class, mitiId);
-        entityManager.remove(miti);
+    public Employee readEmployeeById(Long employeeId) {
+        return entityManager.find(Employee.class, employeeId);
     }
 }

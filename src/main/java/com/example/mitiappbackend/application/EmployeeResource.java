@@ -27,37 +27,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.mitiappbackend.domain.place.Place;
-import com.example.mitiappbackend.domain.place.PlaceService;
-import com.example.mitiappbackend.infrastructure.PlaceNotFoundException;
+import com.example.mitiappbackend.domain.employee.Employee;
+import com.example.mitiappbackend.domain.employee.EmployeeService;
+import com.example.mitiappbackend.infrastructure.EmployeeNotFoundException;
 
 @RestController
 @CrossOrigin
-public class PlaceResource {
+public class EmployeeResource {
 
-    private static final Logger LOGGER = Logger.getLogger(PlaceResource.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(EmployeeResource.class.getSimpleName());
 
     @Autowired
-    private PlaceService placeService;
+    private EmployeeService employeeService;
 
-    @PostMapping(value = "/place", consumes = "application/json")
+    @PostMapping(value = "/employee", consumes = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void createPlace(@RequestBody Place place) {
-        placeService.createPlace(place);
-        LOGGER.info("RESTful call 'POST place'");
+    public void createEmployee(@RequestBody Employee employee) {
+        employeeService.createEmployee(employee);
+        LOGGER.info("RESTful call 'POST employee'");
     }
 
-    @GetMapping(value = "/place", produces = "application/json")
+    @GetMapping(value = "/employee", produces = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public List<Place> readPlace() {
-        LOGGER.info("RESTful call 'GET place'");
-        return placeService.readPlace();
+    public List<Employee> readEmployee() {
+        LOGGER.info("RESTful call 'GET employee'");
+        return employeeService.readEmployee();
     }
 
-    @GetMapping(value = "/place/{placeId}", produces = "application/json")
+    @GetMapping(value = "/employee/{employeeId}", produces = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public Place readPlaceById(@PathVariable Long placeId) throws PlaceNotFoundException {
-        LOGGER.info("RESTful call 'GET place by placeId'");
-        return placeService.readPlaceById(placeId);
+    public Employee readEmployeeById(@PathVariable Long employeeId) throws EmployeeNotFoundException {
+        LOGGER.info("RESTful call 'GET employee by employeeId'");
+        return employeeService.readEmployeeById(employeeId);
     }
 }

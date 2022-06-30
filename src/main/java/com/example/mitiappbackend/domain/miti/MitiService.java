@@ -58,35 +58,35 @@ public class MitiService {
     }
 
     @Transactional
-    public Miti readMitiByUuid(Long mitiId) throws MitiNotFoundException {
-        Miti mitiRead = mitiRepository.readMitiByUuid(mitiId);
+    public Miti readMitiById(Long mitiId) throws MitiNotFoundException {
+        Miti mitiRead = mitiRepository.readMitiById(mitiId);
 
         if (mitiRead == null) {
             throw new MitiNotFoundException(mitiId);
         }
 
-        return mitiRepository.readMitiByUuid(mitiId);
+        return mitiRepository.readMitiById(mitiId);
     }
 
     @Transactional
-    public void updateMitiByUuid(Long mitiId, Miti miti) throws MitiNotFoundException {
-        Miti mitiUpdate = mitiRepository.readMitiByUuid(mitiId);
+    public void updateMitiById(Long mitiId, Miti miti) throws MitiNotFoundException {
+        Miti mitiUpdate = mitiRepository.readMitiById(mitiId);
 
         if (mitiUpdate == null) {
             throw new MitiNotFoundException(mitiId);
         }
 
-        mitiRepository.updateMitiByUuid(mitiId, miti);
+        mitiRepository.updateMitiById(mitiId, miti);
     }
 
     @Transactional
-    public void deleteMitiByUuid(Long mitiId) throws MitiNotFoundException {
-        Miti mitiDelete = mitiRepository.readMitiByUuid(mitiId);
+    public void deleteMitiById(Long mitiId) throws MitiNotFoundException {
+        Miti mitiDelete = mitiRepository.readMitiById(mitiId);
 
         if (mitiDelete == null) {
             throw new MitiNotFoundException(mitiId);
         }
 
-        mitiRepository.deleteMitiByUuid(mitiId);
+        mitiRepository.deleteMitiById(mitiId);
     }
 }

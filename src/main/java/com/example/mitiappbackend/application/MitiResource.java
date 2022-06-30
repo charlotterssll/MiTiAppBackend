@@ -43,9 +43,6 @@ public class MitiResource {
     @Autowired
     private MitiService mitiService;
 
-    //TODO
-    //Überprüfung der ID-Generierung und Hochzählung nach Migration zur persistenten DB
-
     @PostMapping(value = "/miti", consumes = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException {
@@ -62,22 +59,22 @@ public class MitiResource {
 
     @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public Miti readMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
+    public Miti readMitiById(@PathVariable Long mitiId) throws MitiNotFoundException {
         LOGGER.info("RESTful call 'GET miti by mitiId'");
-        return mitiService.readMitiByUuid(mitiId);
+        return mitiService.readMitiById(mitiId);
     }
 
     @PutMapping(value = "/miti/{mitiId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void updateMitiByUuid(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws MitiNotFoundException {
-        mitiService.updateMitiByUuid(mitiId, miti);
+    public void updateMitiById(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws MitiNotFoundException {
+        mitiService.updateMitiById(mitiId, miti);
         LOGGER.info("RESTful call 'PUT miti'");
     }
 
     @DeleteMapping(value = "/miti/{mitiId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void deleteMitiByUuid(@PathVariable Long mitiId) throws MitiNotFoundException {
-        mitiService.deleteMitiByUuid(mitiId);
+    public void deleteMitiById(@PathVariable Long mitiId) throws MitiNotFoundException {
+        mitiService.deleteMitiById(mitiId);
         LOGGER.info("RESTful call 'DELETE miti'");
     }
 }

@@ -15,11 +15,8 @@
  */
 package com.example.mitiappbackend.application;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Assertions;
@@ -34,12 +31,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
-import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
+import com.example.mitiappbackend.infrastructure.EmployeeNotFoundException;
 
 @AutoConfigureMockMvc
 @SpringBootTest
 @WithMockUser(username = "TES", password = "testDummy1#", roles = "USER")
-public class DeleteMitiApiTest extends AbstractPersistenceTest {
+public class ReadEmployeeApiTest extends AbstractPersistenceTest {
 
     @Autowired
     private MockMvc mvc;
@@ -51,57 +48,48 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("An employee wants to delete a lunch table")
+    @DisplayName("An employee wants to read information about already existing employees")
     @Test
-    void testApiDeleteMiti() throws Exception {
+    void testApiReadEmployee() throws Exception {
+        mvc.perform(get("/employee")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("An employee wants to read information about one already existing employee")
+    @Test
+    void testApiReadEmployeeById() throws Exception {
         String jsonBody =
             """
                 {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
-                       },
-                   "employee":
-                       {
-                           "firstName":"Hannelore",
-                           "lastName":"Kranz",
-                           "abbreviation":"HKR"
-                       },
-                   "time":"12:00",
-                   "date":"2022-04-01"
+                   "firstName":"Hannelore",
+                   "lastName":"Kranz",
+                   "abbreviation":"HKR"
                 },
             """;
 
-        mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
+        mvc.perform(post("/employee")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
                 .andExpect(status().isOk());
 
-        mvc.perform(delete("/miti/{mitiId}", "1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/employee/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
-        mvc.perform(get("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(0)));
     }
 
-    @DisplayName("An employee wants to get an error message when trying to delete a nonexistent lunch table via URL")
+    @DisplayName("An employee wants to get an error message when trying to read a nonexistent employee via URL")
     @Test
-    void testApiDeleteMitiByFalseIdThrowException() {
-        Long mitiId = 1L;
-        MitiNotFoundException thrown = Assertions.assertThrows(MitiNotFoundException.class, () -> {
-            mvc.perform(delete("/miti/{mitiId}", "1")
+    void testApiReadEmployeeByFalseIdThrowException() {
+        Long employeeId = 1L;
+        EmployeeNotFoundException thrown = Assertions.assertThrows(EmployeeNotFoundException.class, () -> {
+            mvc.perform(get("/employee/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
-
         });
-        Assertions.assertEquals("Miti with mitiId: " + mitiId + " could not be found", thrown.getMessage());
+        Assertions.assertEquals("Employee with employeeId: " + employeeId + " could not be found", thrown.getMessage());
     }
 }

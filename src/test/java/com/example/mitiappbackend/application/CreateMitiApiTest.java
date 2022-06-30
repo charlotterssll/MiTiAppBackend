@@ -35,8 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 import com.example.mitiappbackend.infrastructure.MitiCatchOnSameDayException;
 
-//TODO
-//change ID to UUID for persistent db testing
 @AutoConfigureMockMvc
 @SpringBootTest
 @WithMockUser(username = "TES", password = "testDummy1#", roles = "USER")

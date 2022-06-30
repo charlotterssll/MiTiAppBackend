@@ -35,8 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 
-//TODO
-//change ID to UUID for persistent db testing
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 @SpringBootTest
