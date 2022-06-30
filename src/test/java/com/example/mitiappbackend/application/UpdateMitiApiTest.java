@@ -31,6 +31,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
@@ -39,6 +40,7 @@ import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
 @AutoConfigureMockMvc
 @SpringBootTest
 @WithMockUser(username = "TES", password = "testDummy1#", roles = "USER")
+@TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create")
 public class UpdateMitiApiTest {
 
     @Autowired

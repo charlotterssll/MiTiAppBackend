@@ -9,7 +9,7 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:file:./mitidb"/>
             <property name="javax.persistence.jdbc.user" value="sa"/>
             <property name="javax.persistence.jdbc.password" value=""/>
-            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
             <property name="hibernate.show_sql" value="true"/>
         </properties>
     </persistence-unit>
