@@ -22,7 +22,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.mitiappbackend.infrastructure.PlaceNotFoundException;
+import com.example.mitiappbackend.infrastructure.exceptions.PlaceNotFoundException;
 
 @Service
 public class PlaceService {
@@ -49,5 +49,16 @@ public class PlaceService {
     @Transactional
     public void createPlace(Place place) {
         placeRepository.createPlace(place);
+    }
+
+    @Transactional
+    public void deletePlaceById(Long placeId) throws PlaceNotFoundException {
+        Place placeDelete = placeRepository.readPlaceById(placeId);
+
+        if (placeDelete == null) {
+            throw new PlaceNotFoundException(placeId);
+        }
+
+        placeRepository.deletePlaceById(placeId);
     }
 }

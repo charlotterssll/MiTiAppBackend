@@ -67,6 +67,10 @@ public class Place {
     protected Place() {
     }
 
+    public Long getPlaceId() {
+        return placeId;
+    }
+
     public Locality getLocality() {
         return locality;
     }

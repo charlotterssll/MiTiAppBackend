@@ -67,6 +67,10 @@ public class Employee {
     protected Employee() {
     }
 
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
     public FirstName getFirstName() {
         return firstName;
     }

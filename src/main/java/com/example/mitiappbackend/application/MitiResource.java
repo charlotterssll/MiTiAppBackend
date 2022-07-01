@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.miti.Miti;
 import com.example.mitiappbackend.domain.miti.MitiService;
-import com.example.mitiappbackend.infrastructure.MitiCatchOnSameDayException;
-import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
+import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchOnSameDayException;
+import com.example.mitiappbackend.infrastructure.exceptions.MitiNotFoundException;
 
 @RestController
 @CrossOrigin

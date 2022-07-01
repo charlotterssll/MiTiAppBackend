@@ -43,4 +43,10 @@ public class EmployeeRepository {
     public Employee readEmployeeById(Long employeeId) {
         return entityManager.find(Employee.class, employeeId);
     }
+
+    @Transactional
+    public void deleteEmployeeById(Long employeeId) {
+        Employee employee = entityManager.find(Employee.class, employeeId);
+        entityManager.remove(employee);
+    }
 }

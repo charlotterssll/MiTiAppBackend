@@ -22,8 +22,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.mitiappbackend.infrastructure.MitiCatchOnSameDayException;
-import com.example.mitiappbackend.infrastructure.MitiNotFoundException;
+import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchOnSameDayException;
+import com.example.mitiappbackend.infrastructure.exceptions.MitiNotFoundException;
 
 @Service
 public class MitiService {

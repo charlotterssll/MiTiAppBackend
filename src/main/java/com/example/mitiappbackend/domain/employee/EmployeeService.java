@@ -22,7 +22,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.mitiappbackend.infrastructure.EmployeeNotFoundException;
+import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotFoundException;
 
 @Service
 public class EmployeeService {
@@ -49,5 +49,16 @@ public class EmployeeService {
         }
 
         return employeeRepository.readEmployeeById(employeeId);
+    }
+
+    @Transactional
+    public void deleteEmployeeById(Long employeeId) throws EmployeeNotFoundException {
+        Employee employeeDelete = employeeRepository.readEmployeeById(employeeId);
+
+        if (employeeDelete == null) {
+            throw new EmployeeNotFoundException(employeeId);
+        }
+
+        employeeRepository.deleteEmployeeById(employeeId);
     }
 }

@@ -43,4 +43,10 @@ public class PlaceRepository {
     public Place readPlaceById(Long placeId) {
         return entityManager.find(Place.class, placeId);
     }
+
+    @Transactional
+    public void deletePlaceById(Long placeId) {
+        Place place = entityManager.find(Place.class, placeId);
+        entityManager.remove(place);
+    }
 }

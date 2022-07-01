@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.EmployeeService;
-import com.example.mitiappbackend.infrastructure.EmployeeNotFoundException;
+import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotFoundException;
 
 @RestController
 @CrossOrigin
@@ -59,5 +60,12 @@ public class EmployeeResource {
     public Employee readEmployeeById(@PathVariable Long employeeId) throws EmployeeNotFoundException {
         LOGGER.info("RESTful call 'GET employee by employeeId'");
         return employeeService.readEmployeeById(employeeId);
+    }
+
+    @DeleteMapping(value = "/employee/{employeeId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public void deleteEmployeeById(@PathVariable Long employeeId) throws EmployeeNotFoundException {
+        employeeService.deleteEmployeeById(employeeId);
+        LOGGER.info("RESTful call 'DELETE employee'");
     }
 }
