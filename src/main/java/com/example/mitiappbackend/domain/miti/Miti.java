@@ -17,6 +17,8 @@ package com.example.mitiappbackend.domain.miti;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +28,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -48,16 +51,13 @@ public class Miti {
     @Column(name = "MITI_ID")
     private Long mitiId;
 
-    /*@Column(name = "MITI_UUID")
-    private UUID uuid;*/
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MITI_PLACE_ID", referencedColumnName = "PLACE_ID")
     private Place place;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MITI_EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
-    private Employee employee;
+    private List<Employee> employee;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "MITI_TIME"))
@@ -68,9 +68,8 @@ public class Miti {
     private Date date;
 
     @JsonCreator
-    public Miti(@JsonProperty("place") Place place, @JsonProperty("employee") Employee employee, @JsonProperty("time") Time time,
+    public Miti(@JsonProperty("place") Place place, @JsonProperty("employee") List<Employee> employee, @JsonProperty("time") Time time,
         @JsonProperty("date") Date date) {
-        //this.uuid = UUID.randomUUID();
         this.place = notNull(place, "null in place is disallowed");
         this.employee = notNull(employee, "null in employee is disallowed");
         this.time = notNull(time, "null in time is disallowed");
@@ -84,15 +83,11 @@ public class Miti {
         return mitiId;
     }
 
-    /*public UUID getUuid() {
-        return uuid;
-    }*/
-
     public Place getPlace() {
         return place;
     }
 
-    public Employee getEmployee() {
+    public List<Employee> getEmployee() {
         return employee;
     }
 
@@ -108,7 +103,7 @@ public class Miti {
         this.place = notNull(place);
     }
 
-    public void setEmployee(Employee employee) {
+    public void setEmployee(List<Employee> employee) {
         this.employee = notNull(employee);
     }
 
@@ -122,7 +117,7 @@ public class Miti {
 
     public String catchMitiOnSameDay() {
         String concatString = date.getValue()
-            .concat(employee.getAbbreviation().getValue());
+            .concat(employee.get(0).getAbbreviation().getValue());
         return concatString;
     }
 }

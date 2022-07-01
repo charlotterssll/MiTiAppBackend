@@ -52,7 +52,7 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("An employee wants to create a lunch table")
+    @DisplayName("An employee wants to create a lunch table meeting")
     @Test
     void testApiCreateMiti() throws Exception {
 
@@ -66,11 +66,13 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "street":"Poststraße 1a"
                        },
                    "employee":
-                       {
-                           "firstName":"Hannelore",
-                           "lastName":"Kranz",
-                           "abbreviation":"HKR"
-                       },
+                        [
+                           {
+                               "firstName":"Hannelore",
+                               "lastName":"Kranz",
+                               "abbreviation":"HKR"
+                           }
+                        ],
                    "time":"12:00",
                    "date":"2022-04-01"
                 },
@@ -89,14 +91,68 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee.firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee.lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table")
+    @DisplayName("An employee wants to add a colleague to a lunch table meeting")
+    @Test
+    void testApiCreateMitiWithColleague() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße 1a"
+                       },
+                   "employee":
+                        [
+                           {
+                               "firstName":"Hannelore",
+                               "lastName":"Kranz",
+                               "abbreviation":"HKR"
+                           },
+                           {
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
+                           }
+                        ],
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                },
+            """;
+
+        mvc.perform(post("/miti")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
+                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employee[1].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employee[1].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employee[1].abbreviation.value", is("KHE")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
+    }
+
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting")
     @Test
     void testApiCreateMitiIncomplete() throws Exception {
 
@@ -105,9 +161,9 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
             """;
 
         mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBodyEmptyMiti))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodyEmptyMiti))
                 .andExpect(status().is(400));
 
         String jsonBodyMissingValueObjects =
@@ -117,15 +173,17 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                        {
                        },
                    "employee":
-                       {
-                       },
+                        [
+                           {
+                           },
+                        ]
                 },
             """;
 
         mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBodyMissingValueObjects))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodyMissingValueObjects))
                 .andExpect(status().is(400));
 
         String jsonBodyEmptyValueObjects =
@@ -138,11 +196,13 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "street":""
                        },
                    "employee":
-                       {
-                           "firstName":"",
-                           "lastName":"",
-                           "abbreviation":""
-                       },
+                        [
+                           {
+                               "firstName":"",
+                               "lastName":"",
+                               "abbreviation":""
+                           },
+                        ]
                    "time":"",
                    "date":""
                 },
@@ -164,24 +224,26 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "street":"null"
                        },
                    "employee":
-                       {
-                           "firstName":"null",
-                           "lastName":"null",
-                           "abbreviation":"null"
-                       },
+                        [
+                           {
+                               "firstName":"null",
+                               "lastName":"null",
+                               "abbreviation":"null"
+                           },
+                        ]
                    "time":"null",
                    "date":"null"
                 },
             """;
 
         mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBodyNullValueObjects))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodyNullValueObjects))
                 .andExpect(status().is(400));
     }
 
-    @DisplayName("An employee wants to get feedback when creating a lunch table on a day they already have a lunch table")
+    @DisplayName("An employee wants to get feedback when creating a lunch table meeting on a day they already have a lunch table")
     @Test
     void testApiCreateMitiNotOnSameDay() {
         String jsonBody =
@@ -194,11 +256,13 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "street":"Poststraße 1a"
                        },
                    "employee":
-                       {
-                           "firstName":"Hannelore",
-                           "lastName":"Kranz",
-                           "abbreviation":"HKR"
-                       },
+                        [
+                           {
+                               "firstName":"Hannelore",
+                               "lastName":"Kranz",
+                               "abbreviation":"HKR"
+                           }
+                        ],
                    "time":"12:00",
                    "date":"2022-04-01"
                 },
@@ -214,11 +278,13 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "street":"Poststraße 1a"
                        },
                    "employee":
-                       {
-                           "firstName":"Hannelore",
-                           "lastName":"Kranz",
-                           "abbreviation":"HKR"
-                       },
+                        [
+                           {
+                               "firstName":"Hannelore",
+                               "lastName":"Kranz",
+                               "abbreviation":"HKR"
+                           }
+                        ],
                    "time":"12:00",
                    "date":"2022-04-01"
                 },
@@ -226,15 +292,15 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
 
         MitiCatchOnSameDayException thrown = Assertions.assertThrows(MitiCatchOnSameDayException.class, () -> {
             mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
                 .andExpect(status().isOk());
 
             mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBodySecond))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodySecond))
                 .andExpect(status().isBadRequest());
         });
         Assertions.assertEquals("This employee already has a lunch table meeting on this day!", thrown.getMessage());

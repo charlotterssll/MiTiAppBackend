@@ -55,7 +55,7 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("An employee wants to delete a lunch table")
+    @DisplayName("An employee wants to delete a lunch table meeting")
     @Test
     void testApiDeleteMiti() throws Exception {
         String jsonBody =
@@ -68,35 +68,37 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
                            "street":"Poststraße 1a"
                        },
                    "employee":
-                       {
-                           "firstName":"Hannelore",
-                           "lastName":"Kranz",
-                           "abbreviation":"HKR"
-                       },
+                        [
+                           {
+                               "firstName":"Hannelore",
+                               "lastName":"Kranz",
+                               "abbreviation":"HKR"
+                           }
+                        ],
                    "time":"12:00",
                    "date":"2022-04-01"
                 },
             """;
 
         mvc.perform(post("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
                 .andExpect(status().isOk());
 
         mvc.perform(delete("/miti/{mitiId}", "1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         mvc.perform(get("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
 
-    @DisplayName("An employee wants to get an error message when trying to delete a nonexistent lunch table via URL")
+    @DisplayName("An employee wants to get an error message when trying to delete a nonexistent lunch table meeting via URL")
     @Test
     void testApiDeleteMitiByFalseIdThrowException() {
         Long mitiId = 1L;

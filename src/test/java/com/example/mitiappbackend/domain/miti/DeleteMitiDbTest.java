@@ -18,6 +18,9 @@ package com.example.mitiappbackend.domain.miti;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,9 +43,12 @@ public class DeleteMitiDbTest extends AbstractPersistenceTest {
     @BeforeEach
     public void beforeDbTestInsertMitiTestDataIntoDb() {
         entityManager.getTransaction().begin();
+        List<Employee> employee = new ArrayList<>();
+        employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+            new Abbreviation("HKR")));
         miti = new Miti(
             new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
-            new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+            employee,
             new Time("12:00"),
             new Date("2022-04-01"));
         entityManager.persist(miti);
@@ -50,7 +56,7 @@ public class DeleteMitiDbTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("An employee wants to delete an existing lunch table")
+    @DisplayName("An employee wants to delete an existing lunch table meeting")
     @Test
     public void testDbDeleteMiti() {
         entityManager.getTransaction().begin();

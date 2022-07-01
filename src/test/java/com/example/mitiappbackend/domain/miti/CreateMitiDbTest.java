@@ -17,6 +17,9 @@ package com.example.mitiappbackend.domain.miti;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,13 +42,16 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("An employee wants to create a lunch table")
+    @DisplayName("An employee wants to create a lunch table meeting")
     @Test
     public void testDbCreateMiti() {
         entityManager.getTransaction().begin();
+        List<Employee> employee = new ArrayList<>();
+        employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+            new Abbreviation("HKR")));
         Miti mitiNew = new Miti(
             new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
-            new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+            employee,
             new Time("12:00"),
             new Date("2022-04-01"));
         entityManager.getTransaction().commit();
@@ -53,21 +59,53 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
         assertThat(mitiNew.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
         assertThat(mitiNew.getPlace().getStreet().getValue()).isEqualTo("Poststraße 1a");
-        assertThat(mitiNew.getEmployee().getFirstName().getValue()).isEqualTo("Hannelore");
-        assertThat(mitiNew.getEmployee().getLastName().getValue()).isEqualTo("Kranz");
-        assertThat(mitiNew.getEmployee().getAbbreviation().getValue()).isEqualTo("HKR");
+        assertThat(mitiNew.getEmployee().get(0).getFirstName().getValue()).isEqualTo("Hannelore");
+        assertThat(mitiNew.getEmployee().get(0).getLastName().getValue()).isEqualTo("Kranz");
+        assertThat(mitiNew.getEmployee().get(0).getAbbreviation().getValue()).isEqualTo("HKR");
         assertThat(mitiNew.getTime().getValue()).isEqualTo("12:00");
         assertThat(mitiNew.getDate().getValue()).isEqualTo("2022-04-01");
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty locality")
+    @DisplayName("An employee wants to add a colleague to a lunch table meeting")
+    @Test
+    public void testDbCreateMitiWithColleague() {
+        entityManager.getTransaction().begin();
+        List<Employee> employee = new ArrayList<>();
+        employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+            new Abbreviation("HKR")));
+        employee.add(new Employee(new FirstName("Karl"), new LastName("Heinz"),
+            new Abbreviation("KHE")));
+        Miti mitiNew = new Miti(
+            new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
+            employee,
+            new Time("12:00"),
+            new Date("2022-04-01"));
+        entityManager.getTransaction().commit();
+
+        assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
+        assertThat(mitiNew.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
+        assertThat(mitiNew.getPlace().getStreet().getValue()).isEqualTo("Poststraße 1a");
+        assertThat(mitiNew.getEmployee().get(0).getFirstName().getValue()).isEqualTo("Hannelore");
+        assertThat(mitiNew.getEmployee().get(0).getLastName().getValue()).isEqualTo("Kranz");
+        assertThat(mitiNew.getEmployee().get(0).getAbbreviation().getValue()).isEqualTo("HKR");
+        assertThat(mitiNew.getEmployee().get(1).getFirstName().getValue()).isEqualTo("Karl");
+        assertThat(mitiNew.getEmployee().get(1).getLastName().getValue()).isEqualTo("Heinz");
+        assertThat(mitiNew.getEmployee().get(1).getAbbreviation().getValue()).isEqualTo("KHE");
+        assertThat(mitiNew.getTime().getValue()).isEqualTo("12:00");
+        assertThat(mitiNew.getDate().getValue()).isEqualTo("2022-04-01");
+    }
+
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting with empty locality")
     @Test
     public void testDbCreateMitiIncompleteEmptyLocality() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+                new Abbreviation("HKR")));
             Miti newMiti = new Miti(
                 new Place(new Locality(""), new Location("Hannover"), new Street("Poststraße 1a")),
-                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+                employee,
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -78,14 +116,17 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty location")
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting with empty location")
     @Test
     public void testDbCreateMitiIncompleteEmptyLocation() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+                new Abbreviation("HKR")));
             Miti newMiti = new Miti(
                 new Place(new Locality("Immergrün"), new Location(""), new Street("Poststraße 1a")),
-                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+                employee,
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -96,14 +137,17 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty street and house number")
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting with empty street and house number")
     @Test
     public void testDbCreateMitiIncompleteEmptyStreet() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+                new Abbreviation("HKR")));
             Miti newMiti = new Miti(
                 new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("")),
-                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+                employee,
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -114,14 +158,17 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty first name")
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting with empty first name")
     @Test
     public void testDbCreateMitiIncompleteEmptyFirstName() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(new FirstName(""), new LastName("Kranz"),
+                new Abbreviation("HKR")));
             Miti newMiti = new Miti(
                 new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
-                new Employee(new FirstName(""), new LastName("Kranz"), new Abbreviation("HKR")),
+                employee,
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -132,14 +179,17 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty last name")
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting with empty last name")
     @Test
     public void testDbCreateMitiIncompleteEmptyLastName() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(new FirstName("Hannelore"), new LastName(""),
+                new Abbreviation("HKR")));
             Miti newMiti = new Miti(
                 new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
-                new Employee(new FirstName("Hannelore"), new LastName(""), new Abbreviation("HKR")),
+                employee,
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -150,14 +200,17 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty abbreviation")
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting with empty abbreviation")
     @Test
     public void testDbCreateMitiIncompleteEmptyAbbreviation() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+                new Abbreviation("")));
             Miti newMiti = new Miti(
                 new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
-                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("")),
+                employee,
                 new Time("12:00"),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -168,14 +221,17 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty time")
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting with empty time")
     @Test
     public void testDbCreateMitiIncompleteEmptyTime() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+                new Abbreviation("HKR")));
             Miti newMiti = new Miti(
                 new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
-                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+                employee,
                 new Time(""),
                 new Date("2022-04-01"));
             entityManager.persist(newMiti);
@@ -187,14 +243,17 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
             thrown.getMessage());
     }
 
-    @DisplayName("An employee does not want to create an incomplete lunch table with empty date")
+    @DisplayName("An employee does not want to create an incomplete lunch table meeting with empty date")
     @Test
     public void testDbCreateMitiIncompleteEmptyDate() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             entityManager.getTransaction().begin();
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
+                new Abbreviation("HKR")));
             Miti newMiti = new Miti(
                 new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
-                new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
+                employee,
                 new Time("12:00"),
                 new Date(""));
             entityManager.persist(newMiti);

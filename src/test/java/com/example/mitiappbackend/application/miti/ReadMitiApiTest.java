@@ -52,16 +52,16 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
         entityManager.clear();
     }
 
-    @DisplayName("An employee wants to read information about already existing lunch tables")
+    @DisplayName("An employee wants to read information about already existing lunch table meetings")
     @Test
     void testApiReadMiti() throws Exception {
         mvc.perform(get("/miti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("An employee wants to read information about one already existing lunch table")
+    @DisplayName("An employee wants to read information about one already existing lunch table meeting")
     @Test
     void testApiReadMitiById() throws Exception {
         String jsonBody =
@@ -74,11 +74,13 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                            "street":"Poststraße 1a"
                        },
                    "employee":
-                       {
-                           "firstName":"Hannelore",
-                           "lastName":"Kranz",
-                           "abbreviation":"HKR"
-                       },
+                        [
+                           {
+                               "firstName":"Hannelore",
+                               "lastName":"Kranz",
+                               "abbreviation":"HKR"
+                           }
+                       ],
                    "time":"12:00",
                    "date":"2022-04-01"
                 },
@@ -96,7 +98,7 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("An employee wants to get an error message when trying to read a nonexistent lunch table via URL")
+    @DisplayName("An employee wants to get an error message when trying to read a nonexistent lunch table meeting via URL")
     @Test
     void testApiReadMitiByFalseIdThrowException() {
         Long mitiId = 1L;
