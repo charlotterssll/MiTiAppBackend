@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.mitiappbackend.infrastructure.exceptions.EmployeeAlreadyExists;
 import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotFoundException;
 
 @Service
@@ -31,8 +32,17 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Transactional
-    public void createEmployee(Employee employee) {
-        employeeRepository.createEmployee(employee);
+    public void createEmployee(Employee employee) throws EmployeeAlreadyExists {
+        List<Employee> employeeRead = employeeRepository.readEmployee();
+        List<String> employeeInfos = employeeRead.stream()
+            .map(Employee::employeeAlreadyExists)
+            .toList();
+
+        if (employeeInfos.contains(employee.employeeAlreadyExists())) {
+            throw new EmployeeAlreadyExists();
+        } else {
+            employeeRepository.createEmployee(employee);
+        }
     }
 
     @Transactional

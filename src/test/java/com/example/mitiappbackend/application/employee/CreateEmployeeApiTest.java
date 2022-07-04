@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
+import com.example.mitiappbackend.infrastructure.exceptions.EmployeeAlreadyExists;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -133,5 +135,42 @@ public class CreateEmployeeApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonBodyNullValueObjects))
                 .andExpect(status().is(400));
+    }
+
+    @DisplayName("An employee wants to get feedback when creating an employee who already exists")
+    @Test
+    void testApiCreateEmployeeWhoAlreadyExists() {
+        String jsonBody =
+            """
+               {
+                   "firstName":"Hannelore",
+                   "lastName":"Kranz",
+                   "abbreviation":"HKR"
+               }
+            """;
+
+        String jsonBodySecond =
+            """
+               {
+                   "firstName":"Hannelore",
+                   "lastName":"Kranz",
+                   "abbreviation":"HKR"
+               }
+            """;
+
+        EmployeeAlreadyExists thrown = Assertions.assertThrows(EmployeeAlreadyExists.class, () -> {
+            mvc.perform(post("/employee")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(jsonBody))
+                    .andExpect(status().isOk());
+
+            mvc.perform(post("/employee")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(jsonBodySecond))
+                    .andExpect(status().isBadRequest());
+        });
+        Assertions.assertEquals("This employee already exists.", thrown.getMessage());
     }
 }

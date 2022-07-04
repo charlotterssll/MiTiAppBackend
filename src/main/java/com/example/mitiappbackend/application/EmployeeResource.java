@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.EmployeeService;
+import com.example.mitiappbackend.infrastructure.exceptions.EmployeeAlreadyExists;
 import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotFoundException;
 
 @RestController
@@ -43,7 +44,7 @@ public class EmployeeResource {
 
     @PostMapping(value = "/employee", consumes = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void createEmployee(@RequestBody Employee employee) {
+    public void createEmployee(@RequestBody Employee employee) throws EmployeeAlreadyExists {
         employeeService.createEmployee(employee);
         LOGGER.info("RESTful call 'POST employee'");
     }

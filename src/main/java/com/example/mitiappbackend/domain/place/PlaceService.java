@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.mitiappbackend.infrastructure.exceptions.PlaceAlreadyExists;
 import com.example.mitiappbackend.infrastructure.exceptions.PlaceNotFoundException;
 
 @Service
@@ -29,6 +30,20 @@ public class PlaceService {
 
     @Autowired
     private PlaceRepository placeRepository;
+
+    @Transactional
+    public void createPlace(Place place) throws PlaceAlreadyExists {
+        List<Place> placeRead = placeRepository.readPlaces();
+        List<String> placeInfos = placeRead.stream()
+            .map(Place::placeAlreadyExists)
+            .toList();
+
+        if (placeInfos.contains(place.placeAlreadyExists())) {
+            throw new PlaceAlreadyExists();
+        } else {
+            placeRepository.createPlace(place);
+        }
+    }
 
     @Transactional
     public List<Place> readPlace() {
@@ -44,11 +59,6 @@ public class PlaceService {
         }
 
         return placeRepository.readPlaceById(placeId);
-    }
-
-    @Transactional
-    public void createPlace(Place place) {
-        placeRepository.createPlace(place);
     }
 
     @Transactional

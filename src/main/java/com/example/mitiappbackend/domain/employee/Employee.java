@@ -82,4 +82,10 @@ public class Employee {
     public Abbreviation getAbbreviation() {
         return abbreviation;
     }
+
+    public String employeeAlreadyExists() {
+        String concatString = firstName.getValue()
+            .concat(lastName.getValue().concat(abbreviation.getValue()));
+        return concatString;
+    }
 }

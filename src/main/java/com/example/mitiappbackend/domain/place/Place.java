@@ -82,4 +82,10 @@ public class Place {
     public Street getStreet() {
         return street;
     }
+
+    public String placeAlreadyExists() {
+        String concatString = locality.getValue()
+            .concat(location.getValue().concat(street.getValue()));
+        return concatString;
+    }
 }

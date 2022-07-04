@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.place.Place;
 import com.example.mitiappbackend.domain.place.PlaceService;
+import com.example.mitiappbackend.infrastructure.exceptions.PlaceAlreadyExists;
 import com.example.mitiappbackend.infrastructure.exceptions.PlaceNotFoundException;
 
 @RestController
@@ -43,7 +44,7 @@ public class PlaceResource {
 
     @PostMapping(value = "/place", consumes = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void createPlace(@RequestBody Place place) {
+    public void createPlace(@RequestBody Place place) throws PlaceAlreadyExists {
         placeService.createPlace(place);
         LOGGER.info("RESTful call 'POST place'");
     }
