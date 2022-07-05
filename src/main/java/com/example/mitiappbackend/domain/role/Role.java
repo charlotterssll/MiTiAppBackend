@@ -24,9 +24,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQuery;
+
 @Entity
 @Table(name = "ROLE")
+@NamedQuery(name = Role.READ_ALL, query = "SELECT r FROM Role r ORDER BY r.roleId")
 public class Role {
+
+    public static final String READ_ALL = "Role.readAll";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roleId;

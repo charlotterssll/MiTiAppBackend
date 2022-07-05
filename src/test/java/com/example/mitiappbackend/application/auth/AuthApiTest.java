@@ -15,6 +15,7 @@
  */
 package com.example.mitiappbackend.application.auth;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,7 +56,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
         String jsonBodyRole =
             """
                 {
-                   "name": "ROLE_USER"
+                   "name": "ROLE_ADMIN"
                 }
             """;
 
@@ -65,7 +66,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
                    "username": "TES",
                    "email": "test@test.de",
                    "password": "testDummy1#",
-                   "role": ["ROLE_USER"]
+                   "role": ["ROLE_ADMIN"]
                 }
             """;
 
@@ -89,7 +90,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
         String jsonBodyRole =
             """
                 {
-                   "name": "ROLE_USER"
+                   "name": "ROLE_ADMIN"
                 }
             """;
 
@@ -99,7 +100,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
                    "username": "TES",
                    "email": "test@test.de",
                    "password": "testDummy1#",
-                   "role": ["ROLE_USER"]
+                   "role": ["ROLE_ADMIN"]
                 }
             """;
 
@@ -136,7 +137,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
         String jsonBodyRole =
             """
                 {
-                   "name": "ROLE_USER"
+                   "name": "ROLE_ADMIN"
                 }
             """;
 
@@ -146,7 +147,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
                    "username": "TES",
                    "email": "test@test.de",
                    "password": "testDummy1#",
-                   "role": ["ROLE_USER"]
+                   "role": ["ROLE_ADMIN"]
                 }
             """;
 
@@ -186,7 +187,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
         String jsonBodyRole =
             """
                 {
-                   "name": "ROLE_USER"
+                   "name": "ROLE_ADMIN"
                 }
             """;
 
@@ -196,7 +197,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
                    "username": "TES",
                    "email": "test@test.de",
                    "password": "testDummy1#",
-                   "role": ["ROLE_USER"]
+                   "role": ["ROLE_ADMIN"]
                 }
             """;
 
@@ -206,7 +207,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
                    "username": "TIS",
                    "email": "test@test.de",
                    "password": "testDummy1#",
-                   "role": ["ROLE_USER"]
+                   "role": ["ROLE_ADMIN"]
                 }
             """;
 
@@ -236,7 +237,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
         String jsonBodyRole =
             """
                 {
-                   "name": "ROLE_USER"
+                   "name": "ROLE_ADMIN"
                 }
             """;
 
@@ -261,14 +262,14 @@ public class AuthApiTest extends AbstractPersistenceTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    /*@DisplayName("An employee wants to register as an admin for the MitiApp")
+    @DisplayName("An employee wants to register as a user for the MitiApp")
     @Test
-    void testApiRegisterEmployeeWithRoleAdmin() throws Exception {
+    void testApiRegisterEmployeeWithRoleUser() throws Exception {
 
         String jsonBodyRole =
             """
                 {
-                   "name": "ROLE_ADMIN"
+                   "name": "ROLE_USER"
                 }
             """;
 
@@ -278,7 +279,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
                    "username": "TES",
                    "email": "test@test.de",
                    "password": "testDummy1#",
-                   "role": ["ROLE_ADMIN"]
+                   "role": ["ROLE_USER"]
                 }
             """;
 
@@ -293,7 +294,25 @@ public class AuthApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
                 .andExpect(status().isOk());
-    }*/
+    }
+
+    @DisplayName("An employee wants to read information about already existing roles")
+    @Test
+    void testApiReadRole() throws Exception {
+        mvc.perform(get("/api/auth/role")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("An employee wants to read information about already existing users")
+    @Test
+    void testApiReadUser() throws Exception {
+        mvc.perform(get("/api/auth/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
     @DisplayName("An employee wants to get feedback when registering without a role")
     @Test
@@ -304,7 +323,7 @@ public class AuthApiTest extends AbstractPersistenceTest {
                    "username": "TES",
                    "email": "test@test.de",
                    "password": "testDummy1#",
-                   "role": ["ROLE_USER"]
+                   "role": ["ROLE_ADMIN"]
                 }
             """;
 

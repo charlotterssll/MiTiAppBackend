@@ -15,11 +15,12 @@
  */
 package com.example.mitiappbackend.domain.role;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 @Service
 public class RoleService {
 
@@ -27,12 +28,17 @@ public class RoleService {
     private RoleRepository roleRepository;
 
     @Transactional
-    public Role readRoleByRoleName(Erole roleName) {
-        return roleRepository.readRoleByRolename(roleName);
+    public void createRole(Role roleName) {
+        roleRepository.createRole(roleName);
     }
 
     @Transactional
-    public void createRole(Role roleName) {
-        roleRepository.createRole(roleName);
+    public List<Role> readRole() {
+        return roleRepository.readRole();
+    }
+
+    @Transactional
+    public Role readRoleByRoleName(Erole roleName) {
+        return roleRepository.readRoleByRolename(roleName);
     }
 }

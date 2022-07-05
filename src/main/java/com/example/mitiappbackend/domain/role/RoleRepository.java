@@ -15,6 +15,8 @@
  */
 package com.example.mitiappbackend.domain.role;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
@@ -30,6 +32,11 @@ public class RoleRepository {
     @Transactional
     public void createRole(Role role) {
         entityManager.persist(role);
+    }
+
+    @Transactional
+    public List<Role> readRole() {
+        return entityManager.createNamedQuery(Role.READ_ALL, Role.class).getResultList();
     }
 
     @Transactional

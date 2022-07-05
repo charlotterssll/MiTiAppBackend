@@ -31,6 +31,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,10 +77,22 @@ public class AuthResource {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/role")
+    @PostMapping(value = "/role", consumes = "application/json")
     public void createRole(@RequestBody Role role) {
         roleService.createRole(role);
         LOGGER.info("RESTful call 'POST role'");
+    }
+
+    @GetMapping(value = "/role", produces = "application/json")
+    public List<Role> readRole() {
+        LOGGER.info("RESTful call 'GET role'");
+        return roleService.readRole();
+    }
+
+    @GetMapping(value = "/user", produces = "application/json")
+    public List<User> readUser() {
+        LOGGER.info("RESTful call 'GET user'");
+        return userRepository.findAll();
     }
 
     @PostMapping("/signin")
@@ -124,26 +137,22 @@ public class AuthResource {
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null) {
-            Role userRole = roleRepositoryTwo.findByName(Erole.ROLE_USER)
+        /*if (strRoles == null) {
+            Role userRole = roleRepositoryTwo.findByName(Erole.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
             roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepositoryTwo.findByName(Erole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
-                        roles.add(adminRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepositoryTwo.findByName(Erole.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
-                        roles.add(userRole);
-                }
-            });
-        }
+        }*/
+        strRoles.forEach(role -> {
+            if ("ROLE_USER".equals(role)) {
+                Role userRole = roleRepositoryTwo.findByName(Erole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
+                roles.add(userRole);
+            } else {
+                Role adminRole = roleRepositoryTwo.findByName(Erole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
+                roles.add(adminRole);
+            }
+        });
 
         user.setRoles(roles);
         userRepository.save(user);
