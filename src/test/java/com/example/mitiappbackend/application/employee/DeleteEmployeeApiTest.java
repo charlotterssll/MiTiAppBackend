@@ -64,7 +64,7 @@ public class DeleteEmployeeApiTest extends AbstractPersistenceTest {
                    "firstName":"Hannelore",
                    "lastName":"Kranz",
                    "abbreviation":"HKR"
-                },
+                }
             """;
 
         mvc.perform(post("/employee")
@@ -95,6 +95,6 @@ public class DeleteEmployeeApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON));
 
         });
-        Assertions.assertEquals("Employee with employeeId: " + employeeId + " could not be found", thrown.getMessage());
+        Assertions.assertEquals("Employee with employeeId " + "'" + employeeId + "'" + " could not be found", thrown.getMessage());
     }
 }

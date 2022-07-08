@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.miti.Miti;
 import com.example.mitiappbackend.domain.miti.MitiService;
+import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotRegisteredException;
+import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchMoreThanFiveEmployees;
 import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchOnSameDayException;
 import com.example.mitiappbackend.infrastructure.exceptions.MitiNotFoundException;
 
@@ -45,7 +47,8 @@ public class MitiResource {
 
     @PostMapping(value = "/miti", consumes = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException {
+    public void createMiti(@RequestBody Miti miti) throws MitiCatchOnSameDayException,
+            EmployeeNotRegisteredException, MitiCatchMoreThanFiveEmployees {
         mitiService.createMiti(miti);
         LOGGER.info("RESTful call 'POST miti'");
     }
@@ -66,7 +69,7 @@ public class MitiResource {
 
     @PutMapping(value = "/miti/{mitiId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void updateMitiById(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) throws MitiNotFoundException {
+    public void updateMitiById(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) {
         mitiService.updateMitiById(mitiId, miti);
         LOGGER.info("RESTful call 'PUT miti'");
     }

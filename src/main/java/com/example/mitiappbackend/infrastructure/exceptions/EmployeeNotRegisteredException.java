@@ -17,11 +17,9 @@ package com.example.mitiappbackend.infrastructure.exceptions;
 
 import org.springframework.web.util.NestedServletException;
 
-public class MitiNotFoundException extends NestedServletException {
+public class EmployeeNotRegisteredException extends NestedServletException {
 
-    private static final String QUOTATION_MARKS = "'";
-
-    public MitiNotFoundException(Long mitiId) {
-        super(String.format("Miti with mitiId " + QUOTATION_MARKS + mitiId + QUOTATION_MARKS + " could not be found"));
+    public EmployeeNotRegisteredException() {
+        super(String.format("Employee could not get added to the lunch table meeting because this employee is not registered"));
     }
 }

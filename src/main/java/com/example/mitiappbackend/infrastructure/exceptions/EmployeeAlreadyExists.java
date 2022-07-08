@@ -19,6 +19,6 @@ import org.springframework.web.util.NestedServletException;
 
 public class EmployeeAlreadyExists extends NestedServletException {
     public EmployeeAlreadyExists() {
-        super(String.format("This employee already exists."));
+        super(String.format("This employee already exists"));
     }
 }

@@ -19,6 +19,6 @@ import org.springframework.web.util.NestedServletException;
 
 public class MitiCatchOnSameDayException extends NestedServletException {
     public MitiCatchOnSameDayException() {
-        super(String.format("This employee already has a lunch table meeting on this day!"));
+        super(String.format("This employee already has a lunch table meeting on this day"));
     }
 }

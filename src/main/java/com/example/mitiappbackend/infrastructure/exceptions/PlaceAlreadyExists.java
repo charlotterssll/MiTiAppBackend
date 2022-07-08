@@ -19,6 +19,6 @@ import org.springframework.web.util.NestedServletException;
 
 public class PlaceAlreadyExists extends NestedServletException {
     public PlaceAlreadyExists() {
-        super(String.format("This place already exists."));
+        super(String.format("This place already exists"));
     }
 }

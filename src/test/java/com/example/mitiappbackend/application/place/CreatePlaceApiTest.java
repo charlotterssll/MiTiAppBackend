@@ -62,7 +62,7 @@ public class CreatePlaceApiTest extends AbstractPersistenceTest {
                    "locality":"Immergrün",
                    "location":"Oldenburg",
                    "street":"Poststraße 1a"
-                },
+                }
             """;
 
         mvc.perform(post("/place")
@@ -97,7 +97,7 @@ public class CreatePlaceApiTest extends AbstractPersistenceTest {
         String jsonBodyMissingValueObjects =
             """
                 {
-                },
+                }
             """;
 
         mvc.perform(post("/place")
@@ -112,7 +112,7 @@ public class CreatePlaceApiTest extends AbstractPersistenceTest {
                    "locality":"",
                    "location":"",
                    "street":""
-                },
+                }
             """;
 
         mvc.perform(post("/place")
@@ -127,7 +127,7 @@ public class CreatePlaceApiTest extends AbstractPersistenceTest {
                    "locality":"null",
                    "location":"null",
                    "street":"null"
-                },
+                }
             """;
 
         mvc.perform(post("/place")
@@ -171,6 +171,6 @@ public class CreatePlaceApiTest extends AbstractPersistenceTest {
                     .content(jsonBodySecond))
                     .andExpect(status().isBadRequest());
         });
-        Assertions.assertEquals("This place already exists.", thrown.getMessage());
+        Assertions.assertEquals("This place already exists", thrown.getMessage());
     }
 }

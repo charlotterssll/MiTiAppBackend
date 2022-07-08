@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +35,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
-import com.example.mitiappbackend.infrastructure.exceptions.MitiNotFoundException;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
@@ -49,13 +47,72 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
     private MockMvc mvc;
 
     @BeforeEach
-    public void beforeApiTestClearDb() {
+    public void beforeApiTestClearDb() throws Exception {
         entityManager.getTransaction().begin();
         entityManager.getTransaction().commit();
         entityManager.clear();
+
+        String jsonBodyRole =
+            """
+                {
+                   "name": "ROLE_ADMIN"
+                }
+            """;
+
+        String jsonBodySignUp =
+            """
+                {
+                    "username":"HKR",
+                    "email": "hannelore@gmail.com",
+                    "password":"Testtest1#",
+                    "role": ["ROLE_ADMIN"]
+                }
+            """;
+
+        String jsonBodySignUpTwo =
+            """
+                {
+                    "username":"KHE",
+                    "email": "karlheinz@web.de",
+                    "password":"Hallohallo1#",
+                    "role": ["ROLE_ADMIN"]
+                }
+            """;
+
+        String jsonBodySignIn =
+            """
+                {
+                    "username":"HKR",
+                    "password":"Testtest1#"
+                }
+            """;
+
+        mvc.perform(post("/api/auth/role")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodyRole))
+                .andExpect(status().isOk());
+
+        mvc.perform(post("/api/auth/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodySignUp))
+                .andExpect(status().isOk());
+
+        mvc.perform(post("/api/auth/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodySignUpTwo))
+                .andExpect(status().isOk());
+
+        mvc.perform(post("/api/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodySignIn))
+                .andExpect(status().isOk());
     }
 
-    @DisplayName("An employee wants to update all information on an existing lunch table meeting")
+    @DisplayName("An employee wants to update all except employee information on an existing lunch table meeting")
     @Test
     void testApiUpdateMitiValueObjectsAll() throws Exception {
 
@@ -93,9 +150,9 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                    "employee":
                         [
                             {
-                                "firstName":"Karl",
-                                "lastName":"Heinz",
-                                "abbreviation":"KHE"
+                                "firstName":"Hannelore",
+                                "lastName":"Kranz",
+                                "abbreviation":"HKR"
                             }
                         ],
                    "time":"14:30",
@@ -122,9 +179,9 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Essen")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Buchstraße 50d")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Karl")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("KHE")))
+                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }
@@ -351,228 +408,6 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
 
-    @DisplayName("An employee wants to update their first name on an existing lunch table meeting")
-    @Test
-    void testApiUpdateMitiValueObjectFirstName() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
-                       },
-                   "employee":
-                        [
-                           {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
-                           }
-                        ],
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        String jsonBodySecond =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
-                       },
-                   "employee":
-                        [
-                           {
-                               "firstName":"Heinz",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
-                           }
-                        ],
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                .content(jsonBody)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(put("/miti/{mitiId}", 1)
-                .content(jsonBodySecond)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(get("/miti")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
-                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
-                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
-    }
-
-    @DisplayName("An employee wants to update their last name on an existing lunch table meeting")
-    @Test
-    void testApiUpdateMitiValueObjectLastName() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
-                       },
-                   "employee":
-                        [
-                           {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
-                           }
-                        ],
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        String jsonBodySecond =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
-                       },
-                   "employee":
-                        [
-                           {
-                               "firstName":"Hannelore",
-                               "lastName":"Heinz",
-                               "abbreviation":"HKR"
-                           }
-                        ],
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                .content(jsonBody)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(put("/miti/{mitiId}", 1)
-                .content(jsonBodySecond)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(get("/miti")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
-                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
-                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
-    }
-
-    @DisplayName("An employee wants to update their abbreviation on an existing lunch table meeting")
-    @Test
-    void testApiUpdateMitiValueObjectAbbreviation() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
-                       },
-                   "employee":
-                        [
-                           {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
-                           }
-                        ],
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        String jsonBodySecond =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
-                       },
-                   "employee":
-                        [
-                           {
-                               "firstName":"Hannelore",
-                               "lastName":"Heinz",
-                               "abbreviation":"KHE"
-                           }
-                        ],
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-
-        mvc.perform(post("/miti")
-                .content(jsonBody)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(put("/miti/{mitiId}", 1)
-                .content(jsonBodySecond)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        mvc.perform(get("/miti")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
-                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("KHE")))
-                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
-    }
-
     @DisplayName("An employee wants to update the time on an existing lunch table meeting")
     @Test
     void testApiUpdateMitiValueObjectTime() throws Exception {
@@ -719,41 +554,5 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
-    }
-
-    @DisplayName("An employee wants to get an error message when trying to update a nonexistent lunch table meeting via URL")
-    @Test
-    void testApiUpdateMitiByFalseIdThrowException() {
-        String jsonBody =
-            """
-                {
-                   "place":
-                       {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
-                       },
-                   "employee":
-                        [
-                           {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
-                           }
-                        ],
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                },
-            """;
-        Long mitiId = 1L;
-
-        MitiNotFoundException thrown = Assertions.assertThrows(MitiNotFoundException.class, () -> {
-            mvc.perform(put("/miti/{mitiId}", 1)
-                    .content(jsonBody)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
-        });
-        Assertions.assertEquals("Miti with mitiId: " + mitiId + " could not be found", thrown.getMessage());
     }
 }

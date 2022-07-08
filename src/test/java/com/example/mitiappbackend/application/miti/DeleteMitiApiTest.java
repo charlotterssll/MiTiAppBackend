@@ -49,10 +49,53 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
     private MockMvc mvc;
 
     @BeforeEach
-    public void beforeApiTestClearDb() {
+    public void beforeApiTestClearDb() throws Exception {
         entityManager.getTransaction().begin();
         entityManager.getTransaction().commit();
         entityManager.clear();
+
+        String jsonBodyRole =
+            """
+                {
+                   "name": "ROLE_ADMIN"
+                }
+            """;
+
+        String jsonBodySignUp =
+            """
+                {
+                    "username":"HKR",
+                    "email": "hannelore@gmail.com",
+                    "password":"Testtest1#",
+                    "role": ["ROLE_ADMIN"]
+                }
+            """;
+
+        String jsonBodySignIn =
+            """
+                {
+                    "username":"HKR",
+                    "password":"Testtest1#"
+                }
+            """;
+
+        mvc.perform(post("/api/auth/role")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodyRole))
+                .andExpect(status().isOk());
+
+        mvc.perform(post("/api/auth/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodySignUp))
+                .andExpect(status().isOk());
+
+        mvc.perform(post("/api/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodySignIn))
+                .andExpect(status().isOk());
     }
 
     @DisplayName("An employee wants to delete a lunch table meeting")
@@ -77,7 +120,7 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
                         ],
                    "time":"12:00",
                    "date":"2022-04-01"
-                },
+                }
             """;
 
         mvc.perform(post("/miti")
@@ -108,6 +151,6 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON));
 
         });
-        Assertions.assertEquals("Miti with mitiId: " + mitiId + " could not be found", thrown.getMessage());
+        Assertions.assertEquals("Miti with mitiId " + "'" + mitiId + "'" + " could not be found", thrown.getMessage());
     }
 }

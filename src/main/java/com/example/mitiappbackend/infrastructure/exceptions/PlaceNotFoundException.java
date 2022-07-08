@@ -19,7 +19,9 @@ import org.springframework.web.util.NestedServletException;
 
 public class PlaceNotFoundException extends NestedServletException {
 
+    private static final String QUOTATION_MARKS = "'";
+
     public PlaceNotFoundException(Long placeId) {
-        super(String.format("Place with placeId: " + placeId + " could not be found"));
+        super(String.format("Place with placeId " + QUOTATION_MARKS + placeId + QUOTATION_MARKS + " could not be found"));
     }
 }

@@ -62,7 +62,7 @@ public class CreateEmployeeApiTest extends AbstractPersistenceTest {
                    "firstName":"Hannelore",
                    "lastName":"Kranz",
                    "abbreviation":"HKR"
-                },
+                }
             """;
 
         mvc.perform(post("/employee")
@@ -97,7 +97,7 @@ public class CreateEmployeeApiTest extends AbstractPersistenceTest {
         String jsonBodyMissingValueObjects =
             """
                 {
-                },
+                }
             """;
 
         mvc.perform(post("/employee")
@@ -112,7 +112,7 @@ public class CreateEmployeeApiTest extends AbstractPersistenceTest {
                    "firstName":"",
                    "lastName":"",
                    "abbreviation":""
-                },
+                }
             """;
 
         mvc.perform(post("/employee")
@@ -127,7 +127,7 @@ public class CreateEmployeeApiTest extends AbstractPersistenceTest {
                    "firstName":"null",
                    "lastName":"null",
                    "abbreviation":"null"
-                },
+                }
             """;
 
         mvc.perform(post("/employee")
@@ -171,6 +171,6 @@ public class CreateEmployeeApiTest extends AbstractPersistenceTest {
                     .content(jsonBodySecond))
                     .andExpect(status().isBadRequest());
         });
-        Assertions.assertEquals("This employee already exists.", thrown.getMessage());
+        Assertions.assertEquals("This employee already exists", thrown.getMessage());
     }
 }

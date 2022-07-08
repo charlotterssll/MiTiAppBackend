@@ -29,7 +29,6 @@ public class MitiRepository {
     @Autowired
     private EntityManager entityManager;
 
-    @Transactional
     public void createMiti(Miti miti) {
         entityManager.persist(miti);
     }
@@ -42,16 +41,6 @@ public class MitiRepository {
     @Transactional
     public Miti readMitiById(Long mitiId) {
         return entityManager.find(Miti.class, mitiId);
-    }
-
-    @Transactional
-    public void updateMitiById(Long mitiId, Miti miti) {
-        Miti mitiToUpdate = entityManager.find(Miti.class, mitiId);
-        mitiToUpdate.setPlace(miti.getPlace());
-        mitiToUpdate.setEmployee(miti.getEmployee());
-        mitiToUpdate.setTime(miti.getTime());
-        mitiToUpdate.setDate(miti.getDate());
-        entityManager.persist(mitiToUpdate);
     }
 
     @Transactional

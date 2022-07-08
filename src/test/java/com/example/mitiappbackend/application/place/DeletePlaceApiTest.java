@@ -64,7 +64,7 @@ public class DeletePlaceApiTest extends AbstractPersistenceTest {
                    "locality":"Immergrün",
                    "location":"Oldenburg",
                    "street":"Poststraße 1a"
-                },
+                }
             """;
 
         mvc.perform(post("/place")
@@ -95,6 +95,6 @@ public class DeletePlaceApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON));
 
         });
-        Assertions.assertEquals("Place with placeId: " + placeId + " could not be found", thrown.getMessage());
+        Assertions.assertEquals("Place with placeId " + "'" + placeId + "'" + " could not be found", thrown.getMessage());
     }
 }

@@ -17,11 +17,8 @@ package com.example.mitiappbackend.infrastructure.exceptions;
 
 import org.springframework.web.util.NestedServletException;
 
-public class MitiNotFoundException extends NestedServletException {
-
-    private static final String QUOTATION_MARKS = "'";
-
-    public MitiNotFoundException(Long mitiId) {
-        super(String.format("Miti with mitiId " + QUOTATION_MARKS + mitiId + QUOTATION_MARKS + " could not be found"));
+public class MitiCatchMoreThanFiveEmployees extends NestedServletException {
+    public MitiCatchMoreThanFiveEmployees() {
+        super(String.format("Not more than five employees for each lunch table meeting allowed"));
     }
 }

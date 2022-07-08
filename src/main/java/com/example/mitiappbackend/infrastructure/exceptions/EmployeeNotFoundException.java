@@ -19,7 +19,9 @@ import org.springframework.web.util.NestedServletException;
 
 public class EmployeeNotFoundException extends NestedServletException {
 
+    private static final String QUOTATION_MARKS = "'";
+
     public EmployeeNotFoundException(Long employeeId) {
-        super(String.format("Employee with employeeId: " + employeeId + " could not be found"));
+        super(String.format("Employee with employeeId " + QUOTATION_MARKS + employeeId + QUOTATION_MARKS + " could not be found"));
     }
 }

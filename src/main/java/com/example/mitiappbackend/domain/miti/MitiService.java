@@ -22,31 +22,65 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.mitiappbackend.domain.user.UserRepository;
+import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotRegisteredException;
+import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchMoreThanFiveEmployees;
 import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchOnSameDayException;
 import com.example.mitiappbackend.infrastructure.exceptions.MitiNotFoundException;
 
 @Service
 public class MitiService {
 
+    private static final int EMPLOYEE_LIST_SIZE_ONE = 1;
+    private static final int EMPLOYEE_LIST_SIZE_TWO = 2;
+    private static final int EMPLOYEE_LIST_SIZE_THREE = 3;
+    private static final int EMPLOYEE_LIST_SIZE_FOUR = 4;
+    private static final int EMPLOYEE_LIST_SIZE_FIVE = 5;
+
     @Autowired
     private MitiRepository mitiRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Transactional
-    public void createMiti(Miti miti) throws MitiCatchOnSameDayException {
-        /*List<Miti> mitiList = mitiRepository.readMiti();
-        String mitiConcat = miti.getEmployee().getAbbreviation().getValue();
-        if (mitiList.contains(mitiConcat)) {
-            throw new MitiCatchOnSameDayException();
-        } else {
-            mitiRepository.createMiti(miti);
-        }*/
+    public void createMiti(Miti miti) throws
+            MitiCatchOnSameDayException,
+            EmployeeNotRegisteredException,
+            MitiCatchMoreThanFiveEmployees {
         List<Miti> mitiRead = mitiRepository.readMiti();
         List<String> mitiInfos = mitiRead.stream()
             .map(Miti::catchMitiOnSameDay)
             .toList();
-
         if (mitiInfos.contains(miti.catchMitiOnSameDay())) {
             throw new MitiCatchOnSameDayException();
+        } else if (miti.getEmployee().size() == EMPLOYEE_LIST_SIZE_ONE
+            && !userRepository.existsByUsername(miti.getEmployee().get(0).getAbbreviation().getValue())) {
+            throw new EmployeeNotRegisteredException();
+        /*} else if (miti.getEmployee().size() == EMPLOYEE_LIST_SIZE_TWO
+            && !userRepository.existsByUsername(miti.getEmployee().get(0).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(1).getAbbreviation().getValue())) {
+            throw new EmployeeNotRegisteredException();
+        } else if (miti.getEmployee().size() == EMPLOYEE_LIST_SIZE_THREE
+            && !userRepository.existsByUsername(miti.getEmployee().get(0).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(1).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(2).getAbbreviation().getValue())) {
+            throw new EmployeeNotRegisteredException();
+         } else if (miti.getEmployee().size() == EMPLOYEE_LIST_SIZE_FOUR
+            && !userRepository.existsByUsername(miti.getEmployee().get(0).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(1).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(2).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(EMPLOYEE_LIST_SIZE_THREE).getAbbreviation().getValue())) {
+            throw new EmployeeNotRegisteredException();
+       } else if (miti.getEmployee().size() == EMPLOYEE_LIST_SIZE_FIVE
+            && !userRepository.existsByUsername(miti.getEmployee().get(0).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(1).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(2).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(EMPLOYEE_LIST_SIZE_THREE).getAbbreviation().getValue())
+            || !userRepository.existsByUsername(miti.getEmployee().get(EMPLOYEE_LIST_SIZE_FOUR).getAbbreviation().getValue())) {
+            throw new EmployeeNotRegisteredException();*/
+        } else if (miti.getEmployee().size() > EMPLOYEE_LIST_SIZE_FIVE) {
+            throw new MitiCatchMoreThanFiveEmployees();
         } else {
             mitiRepository.createMiti(miti);
         }
@@ -69,14 +103,11 @@ public class MitiService {
     }
 
     @Transactional
-    public void updateMitiById(Long mitiId, Miti miti) throws MitiNotFoundException {
-        Miti mitiUpdate = mitiRepository.readMitiById(mitiId);
-
-        if (mitiUpdate == null) {
-            throw new MitiNotFoundException(mitiId);
-        }
-
-        mitiRepository.updateMitiById(mitiId, miti);
+    public void updateMitiById(Long mitiId, Miti miti) {
+        Miti mitiToUpdate = mitiRepository.readMitiById(mitiId);
+        mitiToUpdate.setPlace(miti.getPlace());
+        mitiToUpdate.setTime(miti.getTime());
+        mitiToUpdate.setDate(miti.getDate());
     }
 
     @Transactional

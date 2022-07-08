@@ -29,7 +29,6 @@ public class EmployeeRepository {
     @Autowired
     private EntityManager entityManager;
 
-    @Transactional
     public void createEmployee(Employee employee) {
         entityManager.persist(employee);
     }

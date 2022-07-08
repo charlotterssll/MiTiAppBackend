@@ -29,7 +29,6 @@ public class PlaceRepository {
     @Autowired
     private EntityManager entityManager;
 
-    @Transactional
     public void createPlace(Place place) {
         entityManager.persist(place);
     }

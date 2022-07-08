@@ -137,11 +137,11 @@ public class AuthResource {
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
-        /*if (strRoles == null) {
+        if (strRoles == null) {
             Role userRole = roleRepositoryTwo.findByName(Erole.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException(ROLEERRORMESSAGE));
             roles.add(userRole);
-        }*/
+        }
         strRoles.forEach(role -> {
             if ("ROLE_USER".equals(role)) {
                 Role userRole = roleRepositoryTwo.findByName(Erole.ROLE_USER)
