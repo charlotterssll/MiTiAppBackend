@@ -125,12 +125,18 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
                            }
                         ],
                    "time":"12:00",
@@ -147,13 +153,19 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                             "location":"Essen",
                             "street":"Buchstraße 50d"
                         },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
-                            {
-                                "firstName":"Hannelore",
-                                "lastName":"Kranz",
-                                "abbreviation":"HKR"
-                            }
+                           {
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
+                           }
                         ],
                    "time":"14:30",
                    "date":"2022-05-01"
@@ -179,9 +191,12 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Essen")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Buchstraße 50d")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeCreator.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employeeCreator.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employeeCreator.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].abbreviation.value", is("KHE")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }
@@ -199,14 +214,20 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
                            }
-                       ],
+                        ],
                    "time":"12:00",
                    "date":"2022-04-01"
                 },
@@ -221,13 +242,19 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                             "location":"Oldenburg",
                             "street":"Poststraße 1a"
                         },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
-                            {
-                                "firstName":"Hannelore",
-                                "lastName":"Kranz",
-                                "abbreviation":"HKR"
-                            }
+                           {
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
+                           }
                         ],
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -253,9 +280,12 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Metzger")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeCreator.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employeeCreator.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employeeCreator.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].abbreviation.value", is("KHE")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
@@ -273,13 +303,19 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
-                            {
-                                "firstName":"Hannelore",
-                                "lastName":"Kranz",
-                                "abbreviation":"HKR"
-                            }
+                           {
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
+                           }
                         ],
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -295,13 +331,19 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                             "location":"Essen",
                             "street":"Poststraße 1a"
                         },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
-                            {
-                                "firstName":"Hannelore",
-                                "lastName":"Kranz",
-                                "abbreviation":"HKR"
-                            }
+                           {
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
+                           }
                         ],
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -327,9 +369,12 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Essen")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeCreator.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employeeCreator.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employeeCreator.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].abbreviation.value", is("KHE")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
@@ -347,12 +392,18 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
                            }
                         ],
                    "time":"12:00",
@@ -369,13 +420,19 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                             "location":"Essen",
                             "street":"Buchstraße 50d"
                         },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
-                            {
-                                "firstName":"Hannelore",
-                                "lastName":"Kranz",
-                                "abbreviation":"HKR"
-                            }
+                           {
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
+                           }
                         ],
                    "time":"12:00",
                    "date":"2022-04-01"
@@ -401,9 +458,12 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Essen")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Buchstraße 50d")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeCreator.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employeeCreator.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employeeCreator.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].abbreviation.value", is("KHE")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
@@ -421,12 +481,18 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
                            }
                         ],
                    "time":"12:00",
@@ -443,12 +509,18 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
                            }
                         ],
                    "time":"14:30",
@@ -475,9 +547,12 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeCreator.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employeeCreator.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employeeCreator.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].abbreviation.value", is("KHE")))
                 .andExpect(jsonPath("$.[0].time.value", is("14:30")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
@@ -495,12 +570,18 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
                            }
                         ],
                    "time":"12:00",
@@ -517,12 +598,18 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
                            }
                         ],
                    "time":"12:00",
@@ -549,9 +636,12 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeCreator.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employeeCreator.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employeeCreator.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].abbreviation.value", is("KHE")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-05-01")));
     }

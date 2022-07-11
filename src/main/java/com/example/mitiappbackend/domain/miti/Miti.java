@@ -55,6 +55,10 @@ public class Miti {
     @JoinColumn(name = "MITI_PLACE_ID", referencedColumnName = "PLACE_ID")
     private Place place;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "MITI_EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
+    private Employee employeeCreator;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MITI_EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
     private List<Employee> employee;
@@ -68,10 +72,13 @@ public class Miti {
     private Date date;
 
     @JsonCreator
-    public Miti(@JsonProperty("place") Place place, @JsonProperty("employee") List<Employee> employee, @JsonProperty("time") Time time,
+    public Miti(@JsonProperty("place") Place place, @JsonProperty("employeeCreator") Employee employeeCreator,
+        @JsonProperty("employeeParticipants") List<Employee> employeeParticipants,
+        @JsonProperty("time") Time time,
         @JsonProperty("date") Date date) {
         this.place = notNull(place, "null in place is disallowed");
-        this.employee = notNull(employee, "null in employee is disallowed");
+        this.employeeCreator = notNull(employeeCreator, "null in employee creator is disallowed");
+        this.employee = notNull(employeeParticipants, "null in employee participants is disallowed");
         this.time = notNull(time, "null in time is disallowed");
         this.date = notNull(date, "null in date is disallowed");
     }
@@ -87,7 +94,11 @@ public class Miti {
         return place;
     }
 
-    public List<Employee> getEmployee() {
+    public Employee getEmployeeCreator() {
+        return employeeCreator;
+    }
+
+    public List<Employee> getEmployeeParticipants() {
         return employee;
     }
 
@@ -103,8 +114,12 @@ public class Miti {
         this.place = notNull(place);
     }
 
-    public void setEmployee(List<Employee> employee) {
-        this.employee = notNull(employee);
+    public void setEmployeeCreator(Employee employeeCreator) {
+        this.employeeCreator = notNull(employeeCreator);
+    }
+
+    public void setEmployeeParticipants(List<Employee> employeeParticipants) {
+        this.employee = notNull(employeeParticipants);
     }
 
     public void setTime(Time time) {

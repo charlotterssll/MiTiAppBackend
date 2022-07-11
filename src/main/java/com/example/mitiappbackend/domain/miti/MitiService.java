@@ -54,8 +54,8 @@ public class MitiService {
             .toList();
         if (mitiInfos.contains(miti.catchMitiOnSameDay())) {
             throw new MitiCatchOnSameDayException();
-        } else if (miti.getEmployee().size() == EMPLOYEE_LIST_SIZE_ONE
-            && !userRepository.existsByUsername(miti.getEmployee().get(0).getAbbreviation().getValue())) {
+        } else if (miti.getEmployeeParticipants().size() == EMPLOYEE_LIST_SIZE_ONE
+            && !userRepository.existsByUsername(miti.getEmployeeParticipants().get(0).getAbbreviation().getValue())) {
             throw new EmployeeNotRegisteredException();
         /*} else if (miti.getEmployee().size() == EMPLOYEE_LIST_SIZE_TWO
             && !userRepository.existsByUsername(miti.getEmployee().get(0).getAbbreviation().getValue())
@@ -79,7 +79,7 @@ public class MitiService {
             || !userRepository.existsByUsername(miti.getEmployee().get(EMPLOYEE_LIST_SIZE_THREE).getAbbreviation().getValue())
             || !userRepository.existsByUsername(miti.getEmployee().get(EMPLOYEE_LIST_SIZE_FOUR).getAbbreviation().getValue())) {
             throw new EmployeeNotRegisteredException();*/
-        } else if (miti.getEmployee().size() > EMPLOYEE_LIST_SIZE_FIVE) {
+        } else if (miti.getEmployeeParticipants().size() > EMPLOYEE_LIST_SIZE_FIVE) {
             throw new MitiCatchMoreThanFiveEmployees();
         } else {
             mitiRepository.createMiti(miti);

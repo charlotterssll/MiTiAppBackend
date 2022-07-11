@@ -48,6 +48,7 @@ public class DeleteMitiDbTest extends AbstractPersistenceTest {
             new Abbreviation("HKR")));
         miti = new Miti(
             new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
+            new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
             employee,
             new Time("12:00"),
             new Date("2022-04-01"));

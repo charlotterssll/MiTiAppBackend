@@ -68,6 +68,16 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                 }
             """;
 
+        String jsonBodySignUpTwo =
+            """
+                {
+                    "username":"KHE",
+                    "email": "karlheinz@gmail.com",
+                    "password":"Hallohallo1#",
+                    "role": ["ROLE_ADMIN"]
+                }
+            """;
+
         String jsonBodySignIn =
             """
                 {
@@ -86,6 +96,12 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonBodySignUp))
+                .andExpect(status().isOk());
+
+        mvc.perform(post("/api/auth/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodySignUpTwo))
                 .andExpect(status().isOk());
 
         mvc.perform(post("/api/auth/signin")
@@ -116,14 +132,20 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
                            }
-                       ],
+                        ],
                    "time":"12:00",
                    "date":"2022-04-01"
                 }

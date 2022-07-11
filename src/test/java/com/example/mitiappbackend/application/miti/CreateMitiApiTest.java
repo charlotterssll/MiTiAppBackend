@@ -68,6 +68,16 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 }
             """;
 
+        String jsonBodySignUpTwo =
+            """
+                {
+                    "username":"KHE",
+                    "email": "karlheinz@gmail.com",
+                    "password":"Hallohallo1#",
+                    "role": ["ROLE_ADMIN"]
+                }
+            """;
+
         String jsonBodySignIn =
             """
                 {
@@ -86,6 +96,12 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonBodySignUp))
+                .andExpect(status().isOk());
+
+        mvc.perform(post("/api/auth/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBodySignUpTwo))
                 .andExpect(status().isOk());
 
         mvc.perform(post("/api/auth/signin")
@@ -108,59 +124,14 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
-                        [
-                           {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
-                           }
-                        ],
-                   "time":"12:00",
-                   "date":"2022-04-01"
-                }
-            """;
-
-        mvc.perform(post("/miti")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(jsonBody))
-                .andExpect(status().isOk());
-
-        mvc.perform(get("/miti")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
-                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
-                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
-                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
-                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
-    }
-
-    @DisplayName("An employee wants to add a colleague to a lunch table meeting")
-    @Test
-    void testApiCreateMitiWithColleague() throws Exception {
-
-        String jsonBody =
-            """
-                {
-                   "place":
+                   "employeeCreator":
                        {
-                           "locality":"Immergrün",
-                           "location":"Oldenburg",
-                           "street":"Poststraße 1a"
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
                        },
-                   "employee":
+                   "employeeParticipants":
                         [
-                           {
-                               "firstName":"Hannelore",
-                               "lastName":"Kranz",
-                               "abbreviation":"HKR"
-                           },
                            {
                                "firstName":"Karl",
                                "lastName":"Heinz",
@@ -185,12 +156,67 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                 .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
                 .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
                 .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
-                .andExpect(jsonPath("$.[0].employee[0].firstName.value", is("Hannelore")))
-                .andExpect(jsonPath("$.[0].employee[0].lastName.value", is("Kranz")))
-                .andExpect(jsonPath("$.[0].employee[0].abbreviation.value", is("HKR")))
-                .andExpect(jsonPath("$.[0].employee[1].firstName.value", is("Karl")))
-                .andExpect(jsonPath("$.[0].employee[1].lastName.value", is("Heinz")))
-                .andExpect(jsonPath("$.[0].employee[1].abbreviation.value", is("KHE")))
+                .andExpect(jsonPath("$.[0].employeeCreator.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employeeCreator.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employeeCreator.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].abbreviation.value", is("KHE")))
+                .andExpect(jsonPath("$.[0].time.value", is("12:00")))
+                .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
+    }
+
+    @DisplayName("An employee wants to add a colleague to a lunch table meeting")
+    @Test
+    void testApiCreateMitiWithColleague() throws Exception {
+
+        String jsonBody =
+            """
+                {
+                   "place":
+                       {
+                           "locality":"Immergrün",
+                           "location":"Oldenburg",
+                           "street":"Poststraße 1a"
+                       },
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
+                        [
+                           {
+                               "firstName":"Karl",
+                               "lastName":"Heinz",
+                               "abbreviation":"KHE"
+                           }
+                        ],
+                   "time":"12:00",
+                   "date":"2022-04-01"
+                }
+            """;
+
+        mvc.perform(post("/miti")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/miti")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].place.locality.value", is("Immergrün")))
+                .andExpect(jsonPath("$.[0].place.location.value", is("Oldenburg")))
+                .andExpect(jsonPath("$.[0].place.street.value", is("Poststraße 1a")))
+                .andExpect(jsonPath("$.[0].employeeCreator.firstName.value", is("Hannelore")))
+                .andExpect(jsonPath("$.[0].employeeCreator.lastName.value", is("Kranz")))
+                .andExpect(jsonPath("$.[0].employeeCreator.abbreviation.value", is("HKR")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].firstName.value", is("Karl")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].lastName.value", is("Heinz")))
+                .andExpect(jsonPath("$.[0].employeeParticipants[0].abbreviation.value", is("KHE")))
                 .andExpect(jsonPath("$.[0].time.value", is("12:00")))
                 .andExpect(jsonPath("$.[0].date.value", is("2022-04-01")));
     }
@@ -215,7 +241,10 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                    "place":
                        {
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                       },
+                   "employeeParticipants":
                         [
                            {
                            }
@@ -238,7 +267,13 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "location":"",
                            "street":""
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"",
+                           "lastName":"",
+                           "abbreviation":""
+                       },
+                   "employeeParticipants":
                         [
                            {
                                "firstName":"",
@@ -266,7 +301,13 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "location":"null",
                            "street":"null"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"null",
+                           "lastName":"null",
+                           "abbreviation":"null"
+                       },
+                   "employeeParticipants":
                         [
                            {
                                "firstName":"null",
@@ -298,7 +339,13 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
                                "firstName":"Hannelore",
@@ -320,7 +367,13 @@ public class CreateMitiApiTest extends AbstractPersistenceTest {
                            "location":"Oldenburg",
                            "street":"Poststraße 1a"
                        },
-                   "employee":
+                   "employeeCreator":
+                       {
+                           "firstName":"Hannelore",
+                           "lastName":"Kranz",
+                           "abbreviation":"HKR"
+                       },
+                   "employeeParticipants":
                         [
                            {
                                "firstName":"Hannelore",

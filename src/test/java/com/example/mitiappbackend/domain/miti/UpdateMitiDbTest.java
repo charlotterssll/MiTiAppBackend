@@ -43,10 +43,11 @@ public class UpdateMitiDbTest extends AbstractPersistenceTest {
     @BeforeEach
     public void beforeDbTestInsertMitiTestDataIntoDb() {
         entityManager.getTransaction().begin();
-        employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
-            new Abbreviation("HKR")));
+        employee.add(new Employee(new FirstName("Karl"), new LastName("Heinz"),
+            new Abbreviation("KHE")));
         miti = new Miti(
             new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
+            new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
             employee,
             new Time("12:00"),
             new Date("2022-04-01"));

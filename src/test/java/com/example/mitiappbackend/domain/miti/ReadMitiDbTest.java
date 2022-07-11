@@ -42,14 +42,14 @@ public class ReadMitiDbTest extends AbstractPersistenceTest {
     public void beforeDbTestInsertMitiTestDataIntoDb() {
         entityManager.getTransaction().begin();
         List<Employee> employee = new ArrayList<>();
-        employee.add(new Employee(new FirstName("Hannelore"), new LastName("Kranz"),
-            new Abbreviation("HKR")));
+        employee.add(new Employee(new FirstName("Karl"), new LastName("Heinz"),
+            new Abbreviation("KHE")));
         miti = new Miti(
             new Place(new Locality("Immergrün"), new Location("Oldenburg"), new Street("Poststraße 1a")),
+            new Employee(new FirstName("Hannelore"), new LastName("Kranz"), new Abbreviation("HKR")),
             employee,
             new Time("12:00"),
             new Date("2022-04-01"));
-        entityManager.persist(miti);
         entityManager.getTransaction().commit();
         entityManager.clear();
     }
@@ -60,9 +60,12 @@ public class ReadMitiDbTest extends AbstractPersistenceTest {
         assertThat(miti.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
         assertThat(miti.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
         assertThat(miti.getPlace().getStreet().getValue()).isEqualTo("Poststraße 1a");
-        assertThat(miti.getEmployee().get(0).getFirstName().getValue()).isEqualTo("Hannelore");
-        assertThat(miti.getEmployee().get(0).getLastName().getValue()).isEqualTo("Kranz");
-        assertThat(miti.getEmployee().get(0).getAbbreviation().getValue()).isEqualTo("HKR");
+        assertThat(miti.getEmployeeCreator().getFirstName().getValue()).isEqualTo("Hannelore");
+        assertThat(miti.getEmployeeCreator().getLastName().getValue()).isEqualTo("Kranz");
+        assertThat(miti.getEmployeeCreator().getAbbreviation().getValue()).isEqualTo("HKR");
+        assertThat(miti.getEmployeeParticipants().get(0).getFirstName().getValue()).isEqualTo("Karl");
+        assertThat(miti.getEmployeeParticipants().get(0).getLastName().getValue()).isEqualTo("Heinz");
+        assertThat(miti.getEmployeeParticipants().get(0).getAbbreviation().getValue()).isEqualTo("KHE");
         assertThat(miti.getTime().getValue()).isEqualTo("12:00");
         assertThat(miti.getDate().getValue()).isEqualTo("2022-04-01");
     }
