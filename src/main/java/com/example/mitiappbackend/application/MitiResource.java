@@ -29,8 +29,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
+import com.example.mitiappbackend.domain.miti.Date;
 import com.example.mitiappbackend.domain.miti.Miti;
 import com.example.mitiappbackend.domain.miti.MitiService;
+import com.example.mitiappbackend.domain.miti.MitiValues;
 import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotRegisteredException;
 import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchMoreThanFiveEmployees;
 import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchOnSameDayException;
@@ -60,24 +63,28 @@ public class MitiResource {
         return mitiService.readMiti();
     }
 
-    @GetMapping(value = "/miti/{mitiId}", produces = "application/json")
+    @GetMapping(value = "/miti/{date}/{employeeCreator}", produces = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public Miti readMitiById(@PathVariable Long mitiId) throws MitiNotFoundException {
+    public MitiValues readMitiById(@PathVariable(value = "date") Date date,
+        @PathVariable(value = "employeeCreator") Abbreviation employeeCreator) throws MitiNotFoundException {
         LOGGER.info("RESTful call 'GET miti by mitiId'");
-        return mitiService.readMitiById(mitiId);
+        return mitiService.readMitiById(date, employeeCreator).map(MitiValues::new).orElseThrow(() -> new MitiNotFoundException(date,
+                employeeCreator));
     }
 
-    @PutMapping(value = "/miti/{mitiId}")
+    @PutMapping(value = "/miti/{date}/{employeeCreator}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void updateMitiById(@PathVariable(value = "mitiId") Long mitiId, @RequestBody Miti miti) {
-        mitiService.updateMitiById(mitiId, miti);
+    public void updateMitiById(@PathVariable(value = "date") Date date,
+        @PathVariable(value = "employeeCreator") Abbreviation employeeCreator, @RequestBody Miti miti) {
+        mitiService.updateMitiById(date, employeeCreator, miti);
         LOGGER.info("RESTful call 'PUT miti'");
     }
 
-    @DeleteMapping(value = "/miti/{mitiId}")
+    @DeleteMapping(value = "/miti/{date}/{employeeCreator}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void deleteMitiById(@PathVariable Long mitiId) throws MitiNotFoundException {
-        mitiService.deleteMitiById(mitiId);
+    public void deleteMitiById(@PathVariable(value = "date") Date date,
+        @PathVariable(value = "employeeCreator") Abbreviation employeeCreator) throws MitiNotFoundException {
+        mitiService.deleteMitiById(date, employeeCreator);
         LOGGER.info("RESTful call 'DELETE miti'");
     }
 }

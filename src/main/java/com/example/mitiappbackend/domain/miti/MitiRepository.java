@@ -16,12 +16,15 @@
 package com.example.mitiappbackend.domain.miti;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.example.mitiappbackend.domain.employee.Abbreviation;
 
 @Repository
 public class MitiRepository {
@@ -39,13 +42,18 @@ public class MitiRepository {
     }
 
     @Transactional
-    public Miti readMitiById(Long mitiId) {
-        return entityManager.find(Miti.class, mitiId);
+    public Optional<Miti> readMitiById(Date date, Abbreviation employeeCreator) {
+        return entityManager.createNamedQuery(Miti.READ_BY_DATE_EMPLOYEE_CREATOR, Miti.class)
+                .setParameter("date", date)
+                .setParameter("employeeCreator", employeeCreator)
+                .getResultList().stream().findAny();
     }
 
     @Transactional
-    public void deleteMitiById(Long mitiId) {
-        Miti miti = entityManager.find(Miti.class, mitiId);
-        entityManager.remove(miti);
+    public void deleteMitiById(Date date, Abbreviation employeeCreator) {
+        Optional<Miti> mitiToDelete = this.readMitiById(date, employeeCreator);
+        if (mitiToDelete.isPresent()) {
+            entityManager.remove(mitiToDelete.get());
+        }
     }
 }

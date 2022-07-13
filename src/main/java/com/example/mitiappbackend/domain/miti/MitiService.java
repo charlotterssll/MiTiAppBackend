@@ -16,12 +16,15 @@
 package com.example.mitiappbackend.domain.miti;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
+import com.example.mitiappbackend.domain.place.Place;
 import com.example.mitiappbackend.domain.user.UserRepository;
 import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotRegisteredException;
 import com.example.mitiappbackend.infrastructure.exceptions.MitiCatchMoreThanFiveEmployees;
@@ -92,32 +95,32 @@ public class MitiService {
     }
 
     @Transactional
-    public Miti readMitiById(Long mitiId) throws MitiNotFoundException {
-        Miti mitiRead = mitiRepository.readMitiById(mitiId);
+    public Optional<Miti> readMitiById(Date date, Abbreviation employeeCreator) throws MitiNotFoundException {
+        Optional<Miti> mitiRead = mitiRepository.readMitiById(date, employeeCreator);
 
         if (mitiRead == null) {
-            throw new MitiNotFoundException(mitiId);
+            throw new MitiNotFoundException(date, employeeCreator);
         }
 
-        return mitiRepository.readMitiById(mitiId);
+        return mitiRepository.readMitiById(date, employeeCreator);
     }
 
     @Transactional
-    public void updateMitiById(Long mitiId, Miti miti) {
-        Miti mitiToUpdate = mitiRepository.readMitiById(mitiId);
-        mitiToUpdate.setPlace(miti.getPlace());
-        mitiToUpdate.setTime(miti.getTime());
-        mitiToUpdate.setDate(miti.getDate());
+    public void updateMitiById(Date date, Abbreviation employeeCreator, Miti miti) {
+        Optional<Miti> mitiToUpdate = mitiRepository.readMitiById(date, employeeCreator);
+        mitiToUpdate.ifPresent(m -> m.setPlace(new Place(miti.getPlace().getLocality(),
+            miti.getPlace().getLocation(), miti.getPlace().getStreet())));
+        mitiToUpdate.ifPresent(m -> m.setTime(new Time(miti.getTime().getValue())));
+        mitiToUpdate.ifPresent(m -> m.setDate(new Date(miti.getDate().getValue())));
     }
 
     @Transactional
-    public void deleteMitiById(Long mitiId) throws MitiNotFoundException {
-        Miti mitiDelete = mitiRepository.readMitiById(mitiId);
+    public void deleteMitiById(Date date, Abbreviation employeeCreator) throws MitiNotFoundException {
+        Optional<Miti> mitiDelete = mitiRepository.readMitiById(date, employeeCreator);
 
-        if (mitiDelete == null) {
-            throw new MitiNotFoundException(mitiId);
+        if (!mitiDelete.isPresent()) {
+            throw new MitiNotFoundException(date, employeeCreator);
         }
-
-        mitiRepository.deleteMitiById(mitiId);
+        mitiRepository.deleteMitiById(date, employeeCreator);
     }
 }

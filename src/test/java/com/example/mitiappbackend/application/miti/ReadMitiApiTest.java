@@ -32,6 +32,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
+import com.example.mitiappbackend.domain.miti.Date;
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 import com.example.mitiappbackend.infrastructure.exceptions.MitiNotFoundException;
 
@@ -157,7 +159,7 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
                 .content(jsonBody))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/miti/1")
+        mvc.perform(get("/miti/2022-04-01/HKR")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -166,12 +168,15 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
     @DisplayName("An employee wants to get an error message when trying to read a nonexistent lunch table meeting via URL")
     @Test
     void testApiReadMitiByFalseIdThrowException() {
-        Long mitiId = 1L;
+        String quotationMarks = "'";
+        Date date = new Date("2022-04-01");
+        Abbreviation employeeCreator = new Abbreviation("HKR");
         MitiNotFoundException thrown = Assertions.assertThrows(MitiNotFoundException.class, () -> {
-            mvc.perform(get("/miti/1")
+            mvc.perform(get("/miti/2022-04-01/HKR")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         });
-        Assertions.assertEquals("Miti with mitiId " + "'" + mitiId + "'" + " could not be found", thrown.getMessage());
+        Assertions.assertEquals("Miti with this date " + quotationMarks + date + quotationMarks
+            + " of " + employeeCreator + " could not be found", thrown.getMessage());
     }
 }

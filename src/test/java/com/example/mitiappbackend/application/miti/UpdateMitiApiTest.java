@@ -178,7 +178,7 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mvc.perform(put("/miti/{mitiId}", 1)
+        mvc.perform(put("/miti/2022-04-01/HKR")
                 .content(jsonBodySecond)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -267,7 +267,7 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mvc.perform(put("/miti/{mitiId}", 1)
+        mvc.perform(put("/miti/2022-04-01/HKR")
                 .content(jsonBodySecond)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -356,7 +356,7 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mvc.perform(put("/miti/{mitiId}", 1)
+        mvc.perform(put("/miti/2022-04-01/HKR", 1)
                 .content(jsonBodySecond)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -445,7 +445,7 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mvc.perform(put("/miti/{mitiId}", 1)
+        mvc.perform(put("/miti/2022-04-01/HKR")
                 .content(jsonBodySecond)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -534,7 +534,7 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mvc.perform(put("/miti/{mitiId}", 1)
+        mvc.perform(put("/miti/2022-04-01/HKR")
                 .content(jsonBodySecond)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -623,7 +623,7 @@ public class UpdateMitiApiTest extends AbstractPersistenceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mvc.perform(put("/miti/{mitiId}", 1)
+        mvc.perform(put("/miti/2022-04-01/HKR")
                 .content(jsonBodySecond)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

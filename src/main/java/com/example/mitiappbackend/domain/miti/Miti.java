@@ -30,9 +30,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.NamedQuery;
 
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.place.Place;
@@ -40,11 +42,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "MITI")
-@NamedQuery(name = Miti.READ_ALL, query = "SELECT m FROM Miti m ORDER BY m.mitiId")
+@Table(name = "MITI", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "MITI_EMPLOYEE_ID"),
+    @UniqueConstraint(columnNames = "MITI_DATE")})
+@NamedQueries({
+    @NamedQuery(name = Miti.READ_ALL, query = "SELECT m FROM Miti m ORDER BY m.mitiId"),
+    @NamedQuery(name = Miti.READ_BY_DATE_EMPLOYEE_CREATOR, query = "SELECT m FROM Miti m WHERE m.date = :date AND "
+            + "m.employeeCreator.abbreviation = :employeeCreator")
+})
 public class Miti {
 
     public static final String READ_ALL = "Miti.readAll";
+
+    public static final String READ_BY_DATE_EMPLOYEE_CREATOR = "Miti.readByDateEmployeeCreator";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

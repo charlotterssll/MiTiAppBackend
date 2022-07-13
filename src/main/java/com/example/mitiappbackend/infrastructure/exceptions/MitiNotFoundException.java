@@ -17,11 +17,15 @@ package com.example.mitiappbackend.infrastructure.exceptions;
 
 import org.springframework.web.util.NestedServletException;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
+import com.example.mitiappbackend.domain.miti.Date;
+
 public class MitiNotFoundException extends NestedServletException {
 
     private static final String QUOTATION_MARKS = "'";
 
-    public MitiNotFoundException(Long mitiId) {
-        super(String.format("Miti with mitiId " + QUOTATION_MARKS + mitiId + QUOTATION_MARKS + " could not be found"));
+    public MitiNotFoundException(Date date, Abbreviation employeeCreator) {
+        super(String.format("Miti with this date " + QUOTATION_MARKS + date + QUOTATION_MARKS
+            + " of " + employeeCreator + " could not be found"));
     }
 }
