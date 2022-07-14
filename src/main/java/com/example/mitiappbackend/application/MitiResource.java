@@ -63,28 +63,28 @@ public class MitiResource {
         return mitiService.readMiti();
     }
 
-    @GetMapping(value = "/miti/{date}/{employeeCreator}", produces = "application/json")
+    @GetMapping(value = "/miti/{date}/{mitiCreator}", produces = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public MitiValues readMitiById(@PathVariable(value = "date") Date date,
-        @PathVariable(value = "employeeCreator") Abbreviation employeeCreator) throws MitiNotFoundException {
-        LOGGER.info("RESTful call 'GET miti by mitiId'");
-        return mitiService.readMitiById(date, employeeCreator).map(MitiValues::new).orElseThrow(() -> new MitiNotFoundException(date,
-                employeeCreator));
+    public MitiValues readMitiByDateMitiCreator(@PathVariable(value = "date") Date date,
+        @PathVariable(value = "mitiCreator") Abbreviation mitiCreator) throws MitiNotFoundException {
+        LOGGER.info("RESTful call 'GET miti by date and mitiCreator'");
+        return mitiService.readMitiByDateMitiCreator(date, mitiCreator)
+            .map(MitiValues::new).orElseThrow(() -> new MitiNotFoundException(date, mitiCreator));
     }
 
-    @PutMapping(value = "/miti/{date}/{employeeCreator}")
+    @PutMapping(value = "/miti/{date}/{mitiCreator}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void updateMitiById(@PathVariable(value = "date") Date date,
-        @PathVariable(value = "employeeCreator") Abbreviation employeeCreator, @RequestBody Miti miti) {
-        mitiService.updateMitiById(date, employeeCreator, miti);
+    public void updateMitiByDateMitiCreator(@PathVariable(value = "date") Date date,
+        @PathVariable(value = "mitiCreator") Abbreviation mitiCreator, @RequestBody Miti miti) throws MitiNotFoundException {
+        mitiService.updateMitiByDateMitiCreator(date, mitiCreator, miti);
         LOGGER.info("RESTful call 'PUT miti'");
     }
 
-    @DeleteMapping(value = "/miti/{date}/{employeeCreator}")
+    @DeleteMapping(value = "/miti/{date}/{mitiCreator}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void deleteMitiById(@PathVariable(value = "date") Date date,
-        @PathVariable(value = "employeeCreator") Abbreviation employeeCreator) throws MitiNotFoundException {
-        mitiService.deleteMitiById(date, employeeCreator);
+    public void deleteMitiByDateMitiCreator(@PathVariable(value = "date") Date date,
+        @PathVariable(value = "mitiCreator") Abbreviation mitiCreator) throws MitiNotFoundException {
+        mitiService.deleteMitiByDateMitiCreator(date, mitiCreator);
         LOGGER.info("RESTful call 'DELETE miti'");
     }
 }

@@ -17,11 +17,13 @@ package com.example.mitiappbackend.infrastructure.exceptions;
 
 import org.springframework.web.util.NestedServletException;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
+
 public class EmployeeNotFoundException extends NestedServletException {
 
     private static final String QUOTATION_MARKS = "'";
 
-    public EmployeeNotFoundException(Long employeeId) {
-        super(String.format("Employee with employeeId " + QUOTATION_MARKS + employeeId + QUOTATION_MARKS + " could not be found"));
+    public EmployeeNotFoundException(Abbreviation abbreviation) {
+        super(String.format("Employee with abbreviation " + QUOTATION_MARKS + abbreviation + QUOTATION_MARKS + " could not be found"));
     }
 }

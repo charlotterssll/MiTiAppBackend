@@ -47,14 +47,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     @UniqueConstraint(columnNames = "MITI_DATE")})
 @NamedQueries({
     @NamedQuery(name = Miti.READ_ALL, query = "SELECT m FROM Miti m ORDER BY m.mitiId"),
-    @NamedQuery(name = Miti.READ_BY_DATE_EMPLOYEE_CREATOR, query = "SELECT m FROM Miti m WHERE m.date = :date AND "
-            + "m.employeeCreator.abbreviation = :employeeCreator")
+    @NamedQuery(name = Miti.READ_BY_DATE_MITI_CREATOR, query = "SELECT m FROM Miti m WHERE m.date = :date AND "
+            + "m.mitiCreator.abbreviation = :mitiCreator")
 })
 public class Miti {
 
     public static final String READ_ALL = "Miti.readAll";
 
-    public static final String READ_BY_DATE_EMPLOYEE_CREATOR = "Miti.readByDateEmployeeCreator";
+    public static final String READ_BY_DATE_MITI_CREATOR = "Miti.readByDateMitiCreator";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,7 +67,7 @@ public class Miti {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MITI_EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
-    private Employee employeeCreator;
+    private Employee mitiCreator;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MITI_EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
@@ -82,12 +82,12 @@ public class Miti {
     private Date date;
 
     @JsonCreator
-    public Miti(@JsonProperty("place") Place place, @JsonProperty("employeeCreator") Employee employeeCreator,
+    public Miti(@JsonProperty("place") Place place, @JsonProperty("employeeCreator") Employee mitiCreator,
         @JsonProperty("employeeParticipants") List<Employee> employeeParticipants,
         @JsonProperty("time") Time time,
         @JsonProperty("date") Date date) {
         this.place = notNull(place, "null in place is disallowed");
-        this.employeeCreator = notNull(employeeCreator, "null in employee creator is disallowed");
+        this.mitiCreator = notNull(mitiCreator, "null in employee creator is disallowed");
         this.employee = notNull(employeeParticipants, "null in employee participants is disallowed");
         this.time = notNull(time, "null in time is disallowed");
         this.date = notNull(date, "null in date is disallowed");
@@ -104,8 +104,8 @@ public class Miti {
         return place;
     }
 
-    public Employee getEmployeeCreator() {
-        return employeeCreator;
+    public Employee getMitiCreator() {
+        return mitiCreator;
     }
 
     public List<Employee> getEmployeeParticipants() {
@@ -124,8 +124,8 @@ public class Miti {
         this.place = notNull(place);
     }
 
-    public void setEmployeeCreator(Employee employeeCreator) {
-        this.employeeCreator = notNull(employeeCreator);
+    public void setMitiCreator(Employee mitiCreator) {
+        this.mitiCreator = notNull(mitiCreator);
     }
 
     public void setEmployeeParticipants(List<Employee> employeeParticipants) {

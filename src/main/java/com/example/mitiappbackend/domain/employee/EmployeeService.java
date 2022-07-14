@@ -16,6 +16,7 @@
 package com.example.mitiappbackend.domain.employee;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -51,24 +52,23 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee readEmployeeById(Long employeeId) throws EmployeeNotFoundException {
-        Employee employeeRead = employeeRepository.readEmployeeById(employeeId);
+    public Optional<Employee> readEmployeeByAbbreviation(Abbreviation abbreviation) throws EmployeeNotFoundException {
+        Optional<Employee> employeeToRead = employeeRepository.readEmployeeByAbbreviation(abbreviation);
 
-        if (employeeRead == null) {
-            throw new EmployeeNotFoundException(employeeId);
+        if (!employeeToRead.isPresent()) {
+            throw new EmployeeNotFoundException(abbreviation);
         }
 
-        return employeeRepository.readEmployeeById(employeeId);
+        return employeeRepository.readEmployeeByAbbreviation(abbreviation);
     }
 
     @Transactional
-    public void deleteEmployeeById(Long employeeId) throws EmployeeNotFoundException {
-        Employee employeeDelete = employeeRepository.readEmployeeById(employeeId);
+    public void deleteEmployeeByAbbreviation(Abbreviation abbreviation) throws EmployeeNotFoundException {
+        Optional<Employee> employeeToDelete = employeeRepository.readEmployeeByAbbreviation(abbreviation);
 
-        if (employeeDelete == null) {
-            throw new EmployeeNotFoundException(employeeId);
+        if (!employeeToDelete.isPresent()) {
+            throw new EmployeeNotFoundException(abbreviation);
         }
-
-        employeeRepository.deleteEmployeeById(employeeId);
+        employeeRepository.deleteEmployeeByAbbreviation(abbreviation);
     }
 }

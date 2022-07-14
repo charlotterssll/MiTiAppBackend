@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mitiappbackend.domain.place.Place;
 import com.example.mitiappbackend.domain.place.PlaceService;
+import com.example.mitiappbackend.domain.place.PlaceValues;
+import com.example.mitiappbackend.domain.place.Street;
 import com.example.mitiappbackend.infrastructure.exceptions.PlaceAlreadyExists;
 import com.example.mitiappbackend.infrastructure.exceptions.PlaceNotFoundException;
 
@@ -56,17 +58,18 @@ public class PlaceResource {
         return placeService.readPlace();
     }
 
-    @GetMapping(value = "/place/{placeId}", produces = "application/json")
+    @GetMapping(value = "/place/{street}", produces = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public Place readPlaceById(@PathVariable Long placeId) throws PlaceNotFoundException {
-        LOGGER.info("RESTful call 'GET place by placeId'");
-        return placeService.readPlaceById(placeId);
+    public PlaceValues readPlaceByStreet(@PathVariable Street street) throws PlaceNotFoundException {
+        LOGGER.info("RESTful call 'GET place by street'");
+        return placeService.readPlaceByStreet(street)
+            .map(PlaceValues::new).orElseThrow(() -> new PlaceNotFoundException(street));
     }
 
-    @DeleteMapping(value = "/place/{placeId}")
+    @DeleteMapping(value = "/place/{street}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void deletePlaceById(@PathVariable Long placeId) throws PlaceNotFoundException {
-        placeService.deletePlaceById(placeId);
+    public void deletePlaceByStreet(@PathVariable Street street) throws PlaceNotFoundException {
+        placeService.deletePlaceByStreet(street);
         LOGGER.info("RESTful call 'DELETE place'");
     }
 }

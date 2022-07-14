@@ -16,6 +16,7 @@
 package com.example.mitiappbackend.domain.place;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -39,13 +40,17 @@ public class PlaceRepository {
     }
 
     @Transactional
-    public Place readPlaceById(Long placeId) {
-        return entityManager.find(Place.class, placeId);
+    public Optional<Place> readPlaceByStreet(Street street) {
+        return entityManager.createNamedQuery(Place.READ_BY_PLACE_STREET, Place.class)
+            .setParameter("street", street)
+            .getResultList().stream().findAny();
     }
 
     @Transactional
-    public void deletePlaceById(Long placeId) {
-        Place place = entityManager.find(Place.class, placeId);
-        entityManager.remove(place);
+    public void deletePlaceByStreet(Street street) {
+        Optional<Place> placeToDelete = this.readPlaceByStreet(street);
+        if (placeToDelete.isPresent()) {
+            entityManager.remove(placeToDelete.get());
+        }
     }
 }

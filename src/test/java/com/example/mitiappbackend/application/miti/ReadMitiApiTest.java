@@ -170,13 +170,13 @@ public class ReadMitiApiTest extends AbstractPersistenceTest {
     void testApiReadMitiByFalseIdThrowException() {
         String quotationMarks = "'";
         Date date = new Date("2022-04-01");
-        Abbreviation employeeCreator = new Abbreviation("HKR");
+        Abbreviation mitiCreator = new Abbreviation("HKR");
         MitiNotFoundException thrown = Assertions.assertThrows(MitiNotFoundException.class, () -> {
             mvc.perform(get("/miti/2022-04-01/HKR")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         });
         Assertions.assertEquals("Miti with this date " + quotationMarks + date + quotationMarks
-            + " of " + employeeCreator + " could not be found", thrown.getMessage());
+            + " of " + mitiCreator + " could not be found", thrown.getMessage());
     }
 }

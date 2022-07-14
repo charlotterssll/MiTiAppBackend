@@ -42,16 +42,16 @@ public class MitiRepository {
     }
 
     @Transactional
-    public Optional<Miti> readMitiById(Date date, Abbreviation employeeCreator) {
-        return entityManager.createNamedQuery(Miti.READ_BY_DATE_EMPLOYEE_CREATOR, Miti.class)
-                .setParameter("date", date)
-                .setParameter("employeeCreator", employeeCreator)
-                .getResultList().stream().findAny();
+    public Optional<Miti> readMitiByDateMitiCreator(Date date, Abbreviation mitiCreator) {
+        return entityManager.createNamedQuery(Miti.READ_BY_DATE_MITI_CREATOR, Miti.class)
+            .setParameter("date", date)
+            .setParameter("mitiCreator", mitiCreator)
+            .getResultList().stream().findAny();
     }
 
     @Transactional
-    public void deleteMitiById(Date date, Abbreviation employeeCreator) {
-        Optional<Miti> mitiToDelete = this.readMitiById(date, employeeCreator);
+    public void deleteMitiByDateMitiCreator(Date date, Abbreviation mitiCreator) {
+        Optional<Miti> mitiToDelete = this.readMitiByDateMitiCreator(date, mitiCreator);
         if (mitiToDelete.isPresent()) {
             entityManager.remove(mitiToDelete.get());
         }

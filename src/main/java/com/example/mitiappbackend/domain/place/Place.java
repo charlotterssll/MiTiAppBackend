@@ -24,19 +24,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.NamedQuery;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "PLACE")
-@NamedQuery(name = Place.READ_ALL, query = "SELECT p FROM Place p ORDER BY p.placeId")
+@NamedQueries({
+    @NamedQuery(name = Place.READ_ALL, query = "SELECT p FROM Place p ORDER BY p.placeId"),
+    @NamedQuery(name = Place.READ_BY_PLACE_STREET, query = "SELECT p FROM Place p"
+            + " WHERE p.street = :street")
+})
 public class Place {
 
     public static final String READ_ALL = "Place.readAll";
+
+    public static final String READ_BY_PLACE_STREET = "Place.readByPlaceStreet";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

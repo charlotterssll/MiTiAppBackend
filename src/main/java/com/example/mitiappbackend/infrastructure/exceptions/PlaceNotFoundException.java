@@ -17,11 +17,13 @@ package com.example.mitiappbackend.infrastructure.exceptions;
 
 import org.springframework.web.util.NestedServletException;
 
+import com.example.mitiappbackend.domain.place.Street;
+
 public class PlaceNotFoundException extends NestedServletException {
 
     private static final String QUOTATION_MARKS = "'";
 
-    public PlaceNotFoundException(Long placeId) {
-        super(String.format("Place with placeId " + QUOTATION_MARKS + placeId + QUOTATION_MARKS + " could not be found"));
+    public PlaceNotFoundException(Street street) {
+        super(String.format("Place with street " + QUOTATION_MARKS + street + QUOTATION_MARKS + " could not be found"));
     }
 }

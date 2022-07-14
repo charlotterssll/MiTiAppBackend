@@ -170,7 +170,7 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
     void testApiDeleteMitiByFalseIdThrowException() {
         String quotationMarks = "'";
         Date date = new Date("2022-04-01");
-        Abbreviation employeeCreator = new Abbreviation("HKR");
+        Abbreviation mitiCreator = new Abbreviation("HKR");
         MitiNotFoundException thrown = Assertions.assertThrows(MitiNotFoundException.class, () -> {
             mvc.perform(delete("/miti/2022-04-01/HKR")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -178,6 +178,6 @@ public class DeleteMitiApiTest extends AbstractPersistenceTest {
 
         });
         Assertions.assertEquals("Miti with this date " + quotationMarks + date + quotationMarks
-            + " of " + employeeCreator + " could not be found", thrown.getMessage());
+            + " of " + mitiCreator + " could not be found", thrown.getMessage());
     }
 }

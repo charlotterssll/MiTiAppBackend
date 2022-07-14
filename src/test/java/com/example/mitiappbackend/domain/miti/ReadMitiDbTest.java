@@ -60,9 +60,9 @@ public class ReadMitiDbTest extends AbstractPersistenceTest {
         assertThat(miti.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
         assertThat(miti.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
         assertThat(miti.getPlace().getStreet().getValue()).isEqualTo("Poststraße 1a");
-        assertThat(miti.getEmployeeCreator().getFirstName().getValue()).isEqualTo("Hannelore");
-        assertThat(miti.getEmployeeCreator().getLastName().getValue()).isEqualTo("Kranz");
-        assertThat(miti.getEmployeeCreator().getAbbreviation().getValue()).isEqualTo("HKR");
+        assertThat(miti.getMitiCreator().getFirstName().getValue()).isEqualTo("Hannelore");
+        assertThat(miti.getMitiCreator().getLastName().getValue()).isEqualTo("Kranz");
+        assertThat(miti.getMitiCreator().getAbbreviation().getValue()).isEqualTo("HKR");
         assertThat(miti.getEmployeeParticipants().get(0).getFirstName().getValue()).isEqualTo("Karl");
         assertThat(miti.getEmployeeParticipants().get(0).getLastName().getValue()).isEqualTo("Heinz");
         assertThat(miti.getEmployeeParticipants().get(0).getAbbreviation().getValue()).isEqualTo("KHE");

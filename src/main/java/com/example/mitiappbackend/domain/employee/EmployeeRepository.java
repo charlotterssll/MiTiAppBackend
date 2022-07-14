@@ -16,6 +16,7 @@
 package com.example.mitiappbackend.domain.employee;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -39,13 +40,18 @@ public class EmployeeRepository {
     }
 
     @Transactional
-    public Employee readEmployeeById(Long employeeId) {
-        return entityManager.find(Employee.class, employeeId);
+    public Optional<Employee> readEmployeeByAbbreviation(Abbreviation abbreviation) {
+        return entityManager.createNamedQuery(Employee.READ_BY_EMPLOYEE_ABBREVIATION, Employee.class)
+            .setParameter("abbreviation", abbreviation)
+            .getResultList().stream().findAny();
     }
 
     @Transactional
-    public void deleteEmployeeById(Long employeeId) {
-        Employee employee = entityManager.find(Employee.class, employeeId);
-        entityManager.remove(employee);
+    public void deleteEmployeeByAbbreviation(Abbreviation abbreviation) {
+        Optional<Employee> employeeToDelete = this.readEmployeeByAbbreviation(abbreviation);
+        if (employeeToDelete.isPresent()) {
+            entityManager.remove(employeeToDelete.get());
+        }
+        entityManager.remove(employeeToDelete.get());
     }
 }

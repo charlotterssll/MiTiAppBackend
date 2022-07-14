@@ -60,9 +60,9 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
         assertThat(mitiNew.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
         assertThat(mitiNew.getPlace().getStreet().getValue()).isEqualTo("Poststraße 1a");
-        assertThat(mitiNew.getEmployeeCreator().getFirstName().getValue()).isEqualTo("Hannelore");
-        assertThat(mitiNew.getEmployeeCreator().getLastName().getValue()).isEqualTo("Kranz");
-        assertThat(mitiNew.getEmployeeCreator().getAbbreviation().getValue()).isEqualTo("HKR");
+        assertThat(mitiNew.getMitiCreator().getFirstName().getValue()).isEqualTo("Hannelore");
+        assertThat(mitiNew.getMitiCreator().getLastName().getValue()).isEqualTo("Kranz");
+        assertThat(mitiNew.getMitiCreator().getAbbreviation().getValue()).isEqualTo("HKR");
         assertThat(mitiNew.getEmployeeParticipants().get(0).getFirstName().getValue()).isEqualTo("Karl");
         assertThat(mitiNew.getEmployeeParticipants().get(0).getLastName().getValue()).isEqualTo("Heinz");
         assertThat(mitiNew.getEmployeeParticipants().get(0).getAbbreviation().getValue()).isEqualTo("KHE");
@@ -90,9 +90,9 @@ public class CreateMitiDbTest extends AbstractPersistenceTest {
         assertThat(mitiNew.getPlace().getLocality().getValue()).isEqualTo("Immergrün");
         assertThat(mitiNew.getPlace().getLocation().getValue()).isEqualTo("Oldenburg");
         assertThat(mitiNew.getPlace().getStreet().getValue()).isEqualTo("Poststraße 1a");
-        assertThat(mitiNew.getEmployeeCreator().getFirstName().getValue()).isEqualTo("Hannelore");
-        assertThat(mitiNew.getEmployeeCreator().getLastName().getValue()).isEqualTo("Kranz");
-        assertThat(mitiNew.getEmployeeCreator().getAbbreviation().getValue()).isEqualTo("HKR");
+        assertThat(mitiNew.getMitiCreator().getFirstName().getValue()).isEqualTo("Hannelore");
+        assertThat(mitiNew.getMitiCreator().getLastName().getValue()).isEqualTo("Kranz");
+        assertThat(mitiNew.getMitiCreator().getAbbreviation().getValue()).isEqualTo("HKR");
         assertThat(mitiNew.getEmployeeParticipants().get(0).getFirstName().getValue()).isEqualTo("Karl");
         assertThat(mitiNew.getEmployeeParticipants().get(0).getLastName().getValue()).isEqualTo("Heinz");
         assertThat(mitiNew.getEmployeeParticipants().get(0).getAbbreviation().getValue()).isEqualTo("KHE");

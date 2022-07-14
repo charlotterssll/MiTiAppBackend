@@ -24,7 +24,7 @@ public class MitiValues {
 
     private Place place;
 
-    private Employee employeeCreator;
+    private Employee mitiCreator;
 
     private List<Employee> employee;
 
@@ -34,7 +34,7 @@ public class MitiValues {
 
     public MitiValues(Miti miti) {
         place = miti.getPlace();
-        employeeCreator = miti.getEmployeeCreator();
+        mitiCreator = miti.getMitiCreator();
         employee = miti.getEmployeeParticipants();
         time = miti.getTime();
         date = miti.getDate();
@@ -47,8 +47,8 @@ public class MitiValues {
         return place;
     }
 
-    public Employee getEmployeeCreator() {
-        return employeeCreator;
+    public Employee getMitiCreator() {
+        return mitiCreator;
     }
 
     public List<Employee> getEmployee() {

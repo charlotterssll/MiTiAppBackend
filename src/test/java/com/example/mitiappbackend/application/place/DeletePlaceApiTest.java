@@ -35,6 +35,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.mitiappbackend.domain.place.Street;
 import com.example.mitiappbackend.infrastructure.AbstractPersistenceTest;
 import com.example.mitiappbackend.infrastructure.exceptions.PlaceNotFoundException;
 
@@ -73,7 +74,7 @@ public class DeletePlaceApiTest extends AbstractPersistenceTest {
                 .content(jsonBody))
                 .andExpect(status().isOk());
 
-        mvc.perform(delete("/place/{placeId}", "1")
+        mvc.perform(delete("/place/{street}", "Poststraße 1a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -88,13 +89,13 @@ public class DeletePlaceApiTest extends AbstractPersistenceTest {
     @DisplayName("An employee wants to get an error message when trying to delete a nonexistent place via URL")
     @Test
     void testApiDeletePlaceByFalseIdThrowException() {
-        Long placeId = 1L;
+        Street street = new Street("Poststraße 1a");
         PlaceNotFoundException thrown = Assertions.assertThrows(PlaceNotFoundException.class, () -> {
-            mvc.perform(delete("/place/{placeId}", "1")
+            mvc.perform(delete("/place/{street}", "Poststraße 1a")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
         });
-        Assertions.assertEquals("Place with placeId " + "'" + placeId + "'" + " could not be found", thrown.getMessage());
+        Assertions.assertEquals("Place with street " + "'" + street + "'" + " could not be found", thrown.getMessage());
     }
 }

@@ -24,19 +24,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.NamedQuery;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "EMPLOYEE")
-@NamedQuery(name = Employee.READ_ALL, query = "SELECT e FROM Employee e ORDER BY e.employeeId")
+@NamedQueries({
+    @NamedQuery(name = Employee.READ_ALL, query = "SELECT e FROM Employee e ORDER BY e.employeeId"),
+    @NamedQuery(name = Employee.READ_BY_EMPLOYEE_ABBREVIATION, query = "SELECT e FROM Employee e"
+            + " WHERE e.abbreviation = :abbreviation")
+})
 public class Employee {
 
     public static final String READ_ALL = "Employee.readAll";
+
+    public static final String READ_BY_EMPLOYEE_ABBREVIATION = "Employee.readByEmployeeAbbreviation";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

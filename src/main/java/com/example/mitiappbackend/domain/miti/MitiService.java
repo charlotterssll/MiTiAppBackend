@@ -95,19 +95,24 @@ public class MitiService {
     }
 
     @Transactional
-    public Optional<Miti> readMitiById(Date date, Abbreviation employeeCreator) throws MitiNotFoundException {
-        Optional<Miti> mitiRead = mitiRepository.readMitiById(date, employeeCreator);
+    public Optional<Miti> readMitiByDateMitiCreator(Date date, Abbreviation mitiCreator) throws MitiNotFoundException {
+        Optional<Miti> mitiToRead = mitiRepository.readMitiByDateMitiCreator(date, mitiCreator);
 
-        if (mitiRead == null) {
-            throw new MitiNotFoundException(date, employeeCreator);
+        if (!mitiToRead.isPresent()) {
+            throw new MitiNotFoundException(date, mitiCreator);
         }
 
-        return mitiRepository.readMitiById(date, employeeCreator);
+        return mitiRepository.readMitiByDateMitiCreator(date, mitiCreator);
     }
 
     @Transactional
-    public void updateMitiById(Date date, Abbreviation employeeCreator, Miti miti) {
-        Optional<Miti> mitiToUpdate = mitiRepository.readMitiById(date, employeeCreator);
+    public void updateMitiByDateMitiCreator(Date date, Abbreviation mitiCreator, Miti miti) throws MitiNotFoundException {
+        Optional<Miti> mitiToUpdate = mitiRepository.readMitiByDateMitiCreator(date, mitiCreator);
+
+        if (!mitiToUpdate.isPresent()) {
+            throw new MitiNotFoundException(date, mitiCreator);
+        }
+
         mitiToUpdate.ifPresent(m -> m.setPlace(new Place(miti.getPlace().getLocality(),
             miti.getPlace().getLocation(), miti.getPlace().getStreet())));
         mitiToUpdate.ifPresent(m -> m.setTime(new Time(miti.getTime().getValue())));
@@ -115,12 +120,12 @@ public class MitiService {
     }
 
     @Transactional
-    public void deleteMitiById(Date date, Abbreviation employeeCreator) throws MitiNotFoundException {
-        Optional<Miti> mitiDelete = mitiRepository.readMitiById(date, employeeCreator);
+    public void deleteMitiByDateMitiCreator(Date date, Abbreviation mitiCreator) throws MitiNotFoundException {
+        Optional<Miti> mitiToDelete = mitiRepository.readMitiByDateMitiCreator(date, mitiCreator);
 
-        if (!mitiDelete.isPresent()) {
-            throw new MitiNotFoundException(date, employeeCreator);
+        if (!mitiToDelete.isPresent()) {
+            throw new MitiNotFoundException(date, mitiCreator);
         }
-        mitiRepository.deleteMitiById(date, employeeCreator);
+        mitiRepository.deleteMitiByDateMitiCreator(date, mitiCreator);
     }
 }

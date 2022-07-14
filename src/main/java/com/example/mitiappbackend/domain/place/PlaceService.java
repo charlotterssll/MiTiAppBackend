@@ -16,6 +16,7 @@
 package com.example.mitiappbackend.domain.place;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -51,24 +52,23 @@ public class PlaceService {
     }
 
     @Transactional
-    public Place readPlaceById(Long placeId) throws PlaceNotFoundException {
-        Place placeRead = placeRepository.readPlaceById(placeId);
+    public Optional<Place> readPlaceByStreet(Street street) throws PlaceNotFoundException {
+        Optional<Place> placeToRead = placeRepository.readPlaceByStreet(street);
 
-        if (placeRead == null) {
-            throw new PlaceNotFoundException(placeId);
+        if (!placeToRead.isPresent()) {
+            throw new PlaceNotFoundException(street);
         }
 
-        return placeRepository.readPlaceById(placeId);
+        return placeRepository.readPlaceByStreet(street);
     }
 
     @Transactional
-    public void deletePlaceById(Long placeId) throws PlaceNotFoundException {
-        Place placeDelete = placeRepository.readPlaceById(placeId);
+    public void deletePlaceByStreet(Street street) throws PlaceNotFoundException {
+        Optional<Place> placeToDelete = placeRepository.readPlaceByStreet(street);
 
-        if (placeDelete == null) {
-            throw new PlaceNotFoundException(placeId);
+        if (!placeToDelete.isPresent()) {
+            throw new PlaceNotFoundException(street);
         }
-
-        placeRepository.deletePlaceById(placeId);
+        placeRepository.deletePlaceByStreet(street);
     }
 }

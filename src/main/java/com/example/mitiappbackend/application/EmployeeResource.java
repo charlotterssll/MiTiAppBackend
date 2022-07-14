@@ -28,8 +28,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.mitiappbackend.domain.employee.Abbreviation;
 import com.example.mitiappbackend.domain.employee.Employee;
 import com.example.mitiappbackend.domain.employee.EmployeeService;
+import com.example.mitiappbackend.domain.employee.EmployeeValues;
 import com.example.mitiappbackend.infrastructure.exceptions.EmployeeAlreadyExists;
 import com.example.mitiappbackend.infrastructure.exceptions.EmployeeNotFoundException;
 
@@ -56,17 +58,18 @@ public class EmployeeResource {
         return employeeService.readEmployee();
     }
 
-    @GetMapping(value = "/employee/{employeeId}", produces = "application/json")
+    @GetMapping(value = "/employee/{abbreviation}", produces = "application/json")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public Employee readEmployeeById(@PathVariable Long employeeId) throws EmployeeNotFoundException {
-        LOGGER.info("RESTful call 'GET employee by employeeId'");
-        return employeeService.readEmployeeById(employeeId);
+    public EmployeeValues readEmployeeByAbbreviation(@PathVariable Abbreviation abbreviation) throws EmployeeNotFoundException {
+        LOGGER.info("RESTful call 'GET employee by abbreviation'");
+        return employeeService.readEmployeeByAbbreviation(abbreviation)
+            .map(EmployeeValues::new).orElseThrow(() -> new EmployeeNotFoundException(abbreviation));
     }
 
-    @DeleteMapping(value = "/employee/{employeeId}")
+    @DeleteMapping(value = "/employee/{abbreviation}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void deleteEmployeeById(@PathVariable Long employeeId) throws EmployeeNotFoundException {
-        employeeService.deleteEmployeeById(employeeId);
+    public void deleteEmployeeByAbbreviation(@PathVariable Abbreviation abbreviation) throws EmployeeNotFoundException {
+        employeeService.deleteEmployeeByAbbreviation(abbreviation);
         LOGGER.info("RESTful call 'DELETE employee'");
     }
 }
